@@ -1,27 +1,16 @@
 {
-  "short_name": "अधिराज story",
-  "name": "अधिराज story: कथा संग्रह",
+  "short_name": "StoryBook",
+  "name": "StoryBook - Collection of Stories",
   "icons": [
     {
-      "src": "https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f4da.png",
-      "type": "image/png",
-      "sizes": "72x72"
-    },
-    {
-      "src": "https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/192x192/1f4da.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/512x512/1f4da.png",
+      "src": "https://cdn-icons-png.flaticon.com/512/3429/3429149.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
   "start_url": "index.html",
-  "background_color": "#ffffff",
+  "background_color": "#fcfaf8",
   "display": "standalone",
-  "theme_color": "#3E2723",
-  "description": "📚 नेपाली कथाहरूको सङ्ग्रह"
+  "scope": "/",
+  "theme_color": "#1a1a1a"
 }
-
