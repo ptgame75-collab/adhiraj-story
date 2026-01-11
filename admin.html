@@ -3,32 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login</title>
+    <title>Admin Panel - अधिराज story</title>
     <style>
-        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f0f2f5; }
-        .box { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: #4e342e; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 90%; max-width: 500px; }
+        h2 { color: #4e342e; text-align: center; }
+        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        button { width: 100%; padding: 12px; background: #4e342e; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        button:hover { background: #3e2723; }
+        #admin-section { display: none; } /* सुरुमा यो लुकेको हुन्छ */
+        .error { color: red; font-size: 14px; text-align: center; margin-bottom: 10px; }
+        .success-msg { color: green; font-weight: bold; text-align: center; }
     </style>
 </head>
 <body>
-    <div class="box">
-        <h2>Admin Login 📚</h2>
-        <input type="password" id="pw" placeholder="पासवर्ड हाल्नुहोस्">
-        <button onclick="login()">Login</button>
-        <p id="err" style="color: red;"></p>
+
+    <div class="container">
+        <div id="login-section">
+            <h2>Admin Login 🔐</h2>
+            <p style="text-align:center; color:#666;">अधिराजको विशेष प्यानल</p>
+            <input type="password" id="adminPass" placeholder="तपाईँको लामो र बलियो पासवर्ड हाल्नुहोस्">
+            <p id="error-msg" class="error"></p>
+            <button onclick="handleLogin()">Login</button>
+        </div>
+
+        <div id="admin-section">
+            <h2>स्वागत छ, अधिराज! 📚</h2>
+            <p class="success-msg">लगइन सफल भयो।</p>
+            <hr>
+            <label>कथाको शीर्षक:</label>
+            <input type="text" id="storyTitle" placeholder="शीर्षक लेख्नुहोस्...">
+            
+            <label>कथाको विवरण:</label>
+            <textarea id="storyBody" rows="8" placeholder="यहाँ कथा लेख्नुहोस्..."></textarea>
+            
+            <button onclick="publishStory()" style="background: #28a745;">कथा प्रकाशित गर्नुहोस्</button>
+            <button onclick="location.href='index.html'" style="margin-top: 10px; background: #6c757d;">Home Page मा जानुहोस्</button>
+        </div>
     </div>
 
     <script>
-        function login() {
-            var p = document.getElementById("pw").value;
-            // यहाँ तपाईँको पासवर्ड 'adhiraj123' राखिएको छ
-            if (p === "adhiraj123") {
-                alert("स्वागत छ! अब ड्यासबोर्ड खुल्नेछ।");
-                window.location.href = "dashboard.html"; // पासवर्ड मिलेपछि यो पेजमा जान्छ
+        // तपाईँको नयाँ र बलियो पासवर्ड यहाँ छ
+        const SECRET_PASSWORD = "AdhirajStory@Admin#2026$Secure"; 
+
+        function handleLogin() {
+            const inputPass = document.getElementById("adminPass").value;
+            const errorMsg = document.getElementById("error-msg");
+
+            if (inputPass === SECRET_PASSWORD) {
+                document.getElementById("login-section").style.display = "none";
+                document.getElementById("admin-section").style.display = "block";
             } else {
-                document.getElementById("err").innerText = "गलत पासवर्ड!";
+                errorMsg.innerText = "गलत पासवर्ड! कृपया सही पासवर्ड हाल्नुहोस्।";
             }
+        }
+
+        function publishStory() {
+            const title = document.getElementById("storyTitle").value;
+            if(title === "") {
+                alert("कृपया शीर्षक लेख्नुहोस्।");
+                return;
+            }
+            alert("बधाई छ! '" + title + "' सुरक्षित भयो। \n(नोट: यो अहिलेलाई तपाईँको ब्राउजरमा मात्र सुरक्षित छ।)");
         }
     </script>
 </body>
