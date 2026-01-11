@@ -1,134 +1,78 @@
-<!DOCTYPE html>
-<html lang="ne">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>अधिराज Story</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#4e342e">
-    <style>
-        :root {
-            --primary-color: #4e342e;
-            --accent-color: #b71c1c;
-            --success-color: #2e7d32;
-        }
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f4f4; margin: 0; padding-bottom: 50px; }
-        header { background: var(--primary-color); color: white; text-align: center; padding: 25px 15px; }
-        
-        .main-container { max-width: 800px; margin: 20px auto; padding: 15px; }
-        
-        /* कार्ड डिजाइन */
-        .story-card { 
-            background: white; 
-            border-radius: 15px; 
-            padding: 20px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
-            border: 1px solid #eee;
-            margin-bottom: 20px;
-        }
-        
-        .story-title { color: var(--primary-color); font-size: 24px; margin-top: 0; cursor: pointer; }
-        .short-desc { color: #666; font-size: 16px; margin-bottom: 15px; }
+<style>
+    :root {
+        --bg-color: #f9f7f2; /* फोटोमा जस्तै हल्का क्रिम कलर */
+        --card-bg: #ffffff;
+        --text-main: #2d2d2d;
+        --accent-brown: #a68b6d; /* "OUR COLLECTION" को लागि ब्राउन */
+    }
 
-        /* सुरुमा लुकेको कथा */
-        .full-story-content { display: none; border-top: 1px solid #eee; margin-top: 20px; padding-top: 20px; }
-        
-        .story-text { font-size: 19px; line-height: 1.8; text-align: justify; color: #1a1a1a; }
-        
-        .read-btn { 
-            background: var(--primary-color); 
-            color: white; 
-            border: none; 
-            padding: 12px; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            font-weight: bold; 
-            width: 100%;
-            font-size: 16px;
-        }
+    body { 
+        background-color: var(--bg-color); 
+        font-family: 'Georgia', serif; /* अलि क्लासिक लुकको लागि */
+        margin: 0;
+    }
 
-        .font-controls { margin-bottom: 20px; text-align: right; }
-        .font-controls button { padding: 5px 12px; cursor: pointer; border: 1px solid #ccc; background: #fff; border-radius: 5px; }
+    /* Header Design - बायाँ साइटमा नाम */
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        background: transparent; /* ब्याकग्राउन्डसँग मिल्ने */
+    }
 
-        .quote-box { background: #fff5f5; padding: 18px; border-left: 5px solid var(--accent-color); margin: 25px 0; font-style: italic; }
-        .victory-msg { color: var(--success-color); font-weight: bold; text-align: center; font-size: 22px; margin-top: 30px; }
-        .thanks-msg { text-align: center; margin-top: 15px; font-size: 18px; color: #555; }
-    </style>
-</head>
+    .logo-area {
+        font-size: 24px;
+        font-weight: bold;
+        font-style: italic;
+        color: #2d2d2d;
+    }
+
+    /* Hero Section - "Stories Worth Reading" भाग */
+    .hero-section {
+        text-align: center;
+        padding: 60px 20px;
+    }
+
+    .collection-badge {
+        background: #efe9e1;
+        color: var(--accent-brown);
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 12px;
+        letter-spacing: 2px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .main-title {
+        font-size: 48px;
+        margin: 20px 0;
+        color: #2d2d2d;
+        line-height: 1.2;
+    }
+
+    .sub-title {
+        color: #666;
+        font-size: 18px;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+</style>
+
 <body>
-
-<header>
-    <h1>📚 अधिराज Story</h1>
-    <p>भावनाको संसार</p>
-</header>
-
-<main class="main-container">
-
-    <div class="story-card">
-        <h2 class="story-title" onclick="toggleStory()">वो लौटेगा…!</h2>
-        <p class="short-desc" id="short-info">जब सारा संसारले भन्यो ऊ आउँदैन, सुमित्राको अटल विश्वासको एक मर्मस्पर्शी कथा।</p>
+    <header>
+        <div class="logo-area">📖 अधिराज Story</div>
         
-        <button class="read-btn" id="toggle-btn" onclick="toggleStory()">पूरा कथा पढ्नुहोस्</button>
+        <button style="background:#2d2d2d; color:white; border:none; padding:10px 25px; border-radius:25px; cursor:pointer; font-weight:bold;">
+            Stories
+        </button>
+    </header>
 
-        <div id="full-content" class="full-story-content">
-            <div class="font-controls">
-                <span>FontSize: </span>
-                <button onclick="changeSize(2)">A+</button>
-                <button onclick="changeSize(-2)">A-</button>
-            </div>
-
-            <div class="story-text" id="main-text">
-                बनारस के पास एक छोटा सा गाँव था, जहाँ गंगा की लहरों का संगीत हर घर में सुनाई देता था। उसी गाँव के एक पुराने पत्थर के मकान में सुमित्रा रहती थी। सुमित्रा के हाथों में हमेशा हरी चूड़ियाँ खनकतीं और उसकी माँग में गहरा लाल सिंदूर सजा रहता था...<br><br>
-
-                <strong>वो हसीन सात दिन:</strong><br>
-                सुमित्रा की शादी गाँव के ही एक वीर और हँसमुख युवक माधव से हुई थी। जाते वक्त माधव ने कहा था, "सुमी, रोना मत। मैं अगली दीपावली पर पक्का घर आऊँगा।"<br><br>
-
-                <strong>अँधेरी दीपावली:</strong><br>
-                दीपावली आई, पर माधव तिरंगे में लिपटा हुआ आया। सुमित्रा चिल्ला उठी, "खबरदार! कोई मेरे सुहाग को हाथ न लगाए। मेरे माधव ने कहा था वो आएंगे।"<br><br>
-
-                <div class="quote-box">
-                    <strong>"वो लौटेगा…"</strong><br>
-                    जब दुनिया उसे हार मान लेने को कहती, सुमित्रा बस एक ही बात कहती— <b>"वो लौटेगा… उसने मुझसे वादा किया था। मेरा माधव अपनी सुमी का भरोसा कभी नहीं तोड़ सकता। देखना, वो एक दिन जरूर लौटेगा।"</b>
-                </div>
-
-                <strong>अंतिम मिलन:</strong><br>
-                चालीस साल बीत गए। एक ठंडी रात सुमित्रा की सांसें उखड़ने लगीं। अचानक, कमरे में तेज रौशनी हुई। माधव सामने खड़ा था। उसने कहा, "सुमी! देखो, मैं आ गया।" सुमित्रा ने मुस्कुराते हुए अपना हाथ थमा दिया र अंतिम सांस ली। शरीर वहीं रह गया, लेकिन उसकी आत्मा माधव के साथ अनंत की यात्रा पर निकल गई।<br><br>
-                अगली सुबह सबने कहा— "यह अभागी नहीं थी, यह तो वह अमर सुहागन है जिसने मौत को भी हराकर अपना सुहाग पा लिया।"
-            </div>
-
-            <div class="victory-msg">विश्वासको जीत</div>
-            <div class="thanks-msg">♡︎ Thanks For Reading ♡︎</div>
-            
-            <button class="read-btn" style="background:#666; margin-top:20px;" onclick="toggleStory()">कथा बन्द गर्नुहोस्</button>
-        </div>
+    <div class="hero-section">
+        <span class="collection-badge">Our Collection</span>
+        <h1 class="main-title">Stories<br>Worth Reading</h1>
+        <p class="sub-title">Discover a curated collection of thoughts, tales, and adventures.</p>
     </div>
-
-</main>
-
-<script>
-    function toggleStory() {
-        var content = document.getElementById('full-content');
-        var btn = document.getElementById('toggle-btn');
-        var info = document.getElementById('short-info');
-
-        if (content.style.display === "block") {
-            content.style.display = "none";
-            info.style.display = "block";
-            btn.innerText = "पूरा कथा पढ्नुहोस्";
-        } else {
-            content.style.display = "block";
-            info.style.display = "none";
-            btn.innerText = "कथा लुकाउनुहोस्";
-        }
-    }
-
-    function changeSize(delta) {
-        var el = document.getElementById('main-text');
-        var fontSize = parseFloat(window.getComputedStyle(el).fontSize);
-        el.style.fontSize = (fontSize + delta) + "px";
-    }
-</script>
-
-</body>
-</html>
+    
+    </body>
