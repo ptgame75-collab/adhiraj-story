@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - अधिराज Story</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .login-container { display: flex; justify-content: center; align-items: center; height: 80vh; }
+        .login-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 90%; max-width: 350px; }
+        input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        .login-btn { background: #1a1a1a; color: white; border: none; padding: 12px 30px; border-radius: 25px; width: 100%; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .login-btn:hover { background: #333; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">📖 अधिराज Story Admin</div>
+    </header>
+
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Admin Login</h2>
+            <p>कृपया आफ्नो बलियो पासवर्ड हाल्नुहोस्।</p>
+            <input type="password" id="adminPass" placeholder="Password यहाँ लेख्नुहोस्">
+            <button class="login-btn" onclick="login()">Login</button>
+        </div>
+    </div>
+
+    <script>
+        function login() {
+            var p = document.getElementById('adminPass').value;
+            // तपाईँको बलियो पासवर्ड यहाँ छ (यसलाई पछि फेर्न सक्नुहुन्छ)
+            if(p === "Adhiraj@2026#Secure") { 
+                alert("स्वागत छ अधिराज!");
+                // लग-इन सफल भएपछि भोलि हामी यहाँ कथा लेख्ने ठाउँ बनाउनेछौँ
+            } else {
+                alert("गलत पासवर्ड! फेरि प्रयास गर्नुहोस्।");
+            }
+        }
+    </script>
+</body>
+</html>
+
