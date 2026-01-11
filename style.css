@@ -1,25 +1,45 @@
-.thanks-section {
+body {
+    background-color: #f9f5f2;
+    font-family: 'Georgia', serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 10%;
+    align-items: center;
+}
+
+.logo { font-size: 24px; font-weight: bold; }
+.nav-btn { background: black; color: white; border-radius: 20px; padding: 8px 20px; border: none; }
+
+.hero { text-align: center; padding: 60px 10%; }
+.badge { color: #a67c52; font-weight: bold; font-size: 14px; letter-spacing: 2px; }
+.hero h1 { font-size: 48px; margin: 10px 0; }
+
+.story-card {
+    background: white;
+    margin: 20px 10%;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.story-title { font-size: 28px; cursor: pointer; }
+.read-btn { background: none; border: 1px solid #333; padding: 5px 15px; border-radius: 5px; cursor: pointer; }
+
+.full-story { display: none; margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px; }
+.font-controls { margin-bottom: 15px; }
+.font-controls button { margin-right: 10px; padding: 5px 10px; cursor: pointer; }
+
+.thanks-msg {
     text-align: center;
-    padding: 50px 20px;
-    background: linear-gradient(to bottom, transparent, #fff5f5);
-    border-radius: 0 0 20px 20px;
+    margin-top: 30px;
+    font-size: 20px;
+    color: #a67c52;
 }
 
-.floating-emojis {
-    font-size: 32px;
-    margin-top: 15px;
-    animation: bounce 2s infinite ease-in-out;
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-.full-story-content {
-    white-space: pre-wrap; /* कथाको ग्याप र लाइन मिलाउन */
-    font-size: 19px;
-    line-height: 1.9;
-    padding: 20px;
-    color: #2c3e50;
-}
+.back-btn { margin-top: 20px; color: grey; background: none; border: none; cursor: pointer; text-decoration: underline; }
