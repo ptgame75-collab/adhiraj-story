@@ -230,4 +230,16 @@
             const el = document.getElementById(textId);
             const style = window.getComputedStyle(el, null).getPropertyValue('font-size');
             const currentSize = parseFloat(style);
-            el.style.fontSize =
+            el.style.fontSize = (currentSize + delta) + 'px';
+        }
+
+        let startX;
+        document.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+        document.addEventListener('touchend', e => {
+            let endX = e.changedTouches[0].clientX;
+            if (startX - endX > 80) showProfile(1);
+            if (endX - startX > 80) showProfile(0);
+        });
+    </script>
+</body>
+</html>
