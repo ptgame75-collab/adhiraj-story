@@ -6,7 +6,7 @@
     <title>अधिराज Story</title>
     <style>
         :root {
-            --bg-color: #f9f7f2; /* */
+            --bg-color: #f9f7f2;
             --text-dark: #2d2d2d;
             --accent-brown: #a68b6d;
             --success-green: #2e7d32;
@@ -15,7 +15,6 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg-color); margin: 0; font-family: 'Georgia', serif; color: var(--text-dark); overflow-x: hidden; }
 
-        /* Header - */
         header { 
             display: flex; justify-content: space-between; align-items: center; 
             padding: 15px 5%; background: #fff; position: sticky; top: 0; z-index: 1000; 
@@ -23,22 +22,19 @@
         }
         .logo-text { font-size: 22px; font-weight: bold; font-style: italic; display: flex; align-items: center; gap: 8px; }
 
-        /* Tab Navigation - Profile Switcher */
         .tab-nav { 
             display: flex; justify-content: center; background: #fff; 
             border-bottom: 1px solid #eee; position: sticky; top: 58px; z-index: 999; 
         }
         .tab-nav div { 
             padding: 12px 25px; cursor: pointer; font-weight: bold; color: #888; 
-            border-bottom: 3px solid transparent; font-size: 14px; transition: 0.3s;
+            border-bottom: 3px solid transparent; font-size: 14px; 
         }
         .tab-nav div.active { color: var(--text-dark); border-bottom: 3px solid var(--text-dark); }
 
-        /* Swipe Wrapper */
         .main-wrapper { display: flex; width: 200vw; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
         section { width: 100vw; padding: 20px; min-height: 85vh; }
 
-        /* Story Card Layout - */
         .story-card { 
             background: #fff; border-radius: 25px; padding: 25px; 
             margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
@@ -47,30 +43,18 @@
         .badge { color: var(--accent-brown); background: #efe9e1; padding: 5px 12px; border-radius: 15px; font-size: 10px; font-weight: bold; text-transform: uppercase; }
         .story-title { font-size: 30px; margin: 15px 0; line-height: 1.3; }
 
-        /* Full Content Control */
         .full-content { display: none; margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px; }
         .story-text { font-size: 18px; line-height: 1.9; text-align: justify; white-space: pre-line; }
         
-        .quote-box { 
-            background: #fff5f5; padding: 20px; border-left: 5px solid #b71c1c; 
-            margin: 25px 0; font-style: italic; font-weight: bold; /* */
-        }
+        .font-controls { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; }
+        .font-controls button { padding: 5px 12px; cursor: pointer; border: 1px solid #ccc; background: #fff; border-radius: 5px; font-weight: bold; }
 
-        .read-btn { 
-            width: 100%; padding: 15px; background: var(--text-dark); 
-            color: white; border: none; border-radius: 15px; font-size: 16px; 
-            font-weight: bold; cursor: pointer; margin-top: 10px;
-        }
+        .quote-box { background: #fff5f5; padding: 20px; border-left: 5px solid #b71c1c; margin: 25px 0; font-style: italic; font-weight: bold; }
+        .read-btn { width: 100%; padding: 15px; background: var(--text-dark); color: white; border: none; border-radius: 15px; font-size: 16px; font-weight: bold; cursor: pointer; }
 
-        .author-name { font-size: 14px; color: #888; text-align: left; margin: 20px 0; font-style: italic; }
-        .victory-msg { color: var(--success-green); text-align: center; font-weight: bold; font-size: 24px; margin: 30px 0 10px; } /* */
-        .thanks-msg { text-align: center; color: #555; font-size: 16px; margin-bottom: 20px; } /* */
-
-        /* Close Button */
-        .close-btn { 
-            background: #666; color: white; width: 100%; padding: 12px; 
-            border: none; border-radius: 12px; cursor: pointer; margin-top: 20px; font-weight: bold;
-        }
+        .author-name { font-size: 15px; color: #777; text-align: left; margin: 20px 0; font-weight: bold; border-left: 3px solid var(--accent-brown); padding-left: 10px; }
+        .victory-msg { color: var(--success-green); text-align: center; font-weight: bold; font-size: 24px; margin: 30px 0 10px; }
+        .thanks-msg { text-align: center; color: #555; font-size: 16px; margin-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -91,11 +75,15 @@
             <div class="story-card">
                 <span class="badge">Collection: Hindi</span>
                 <h2 class="story-title">वो लौटेगा…!</h2>
-                <p style="color: #666;">अमर सुहागन सुमित्रा र उनको पागलपन जस्तै लाग्ने अटल विश्वासको गाथा।</p>
+                <p style="color: #666;">सुमित्राको अटल विश्वास र अमर सुहागको मार्मिक गाथा।</p>
                 <button class="read-btn" id="btn0" onclick="toggleStory('content0', 'btn0')">पूरा कथा पढ्नुहोस्</button>
 
                 <div id="content0" class="full-content">
-                    <div class="story-text">
+                    <div class="font-controls">
+                        <button onclick="changeFontSize('text0', 2)">A+</button>
+                        <button onclick="changeFontSize('text0', -2)">A-</button>
+                    </div>
+                    <div class="story-text" id="text0">
                         बनारस के पास एक छोटा सा गाँव था, जहाँ गंगा की लहरों का संगीत हर घर में सुनाई देता था। उसी गाँव के एक पुराने पत्थर के मकान में सुमित्रा रहती थी। सुमित्रा के हाथों में हमेशा हरी चूड़ियाँ खनकतीं और उसकी माँग में गहरा लाल सिंदूर सजा रहता था। पर उस घर की चहारदीवारी के भीतर एक ऐसा सन्नाटा था, जो चीख-चीख कर अपनी कहानी सुनाता था। गाँव के लोग उसे देख कर अपनी नजरें फेर लेते और फुसफुसाते, "देखो, अभागी सुहागन जा रही है।"
 
                         <strong>वो हसीन सात दिन:</strong>
@@ -120,11 +108,9 @@
 
                         अगली सुबह जब गाँव वालों ने दरवाजा तोड़ा, तो देखा कि सुमित्रा निर्जीव पड़ी थी, लेकिन उसके चेहरे पर कोई दुख नहीं था। उसकी बंद आँखों के कोने में खुशी का एक सूखा आँसू जम गया था। उसकी मुट्ठी में माधव की वर्दी का एक हिस्सा दबा हुआ था। सबने एक सुर में कहा— "यह अभागी नहीं थी, यह तो वह अमर सुहागन है जिसने मौत को भी हराकर अपना सुहाग पा लिया।"
                     </div>
-                    
-                    <div class="author-name">लेखक: अधिराज सुनुवार</div>
+                    <div class="author-name">लेखक: अधिराज सुनार</div>
                     <div class="victory-msg">विश्वासको जीत</div>
                     <div class="thanks-msg">♡︎ Thanks For Reading ♡︎</div>
-                    <button class="close-btn" onclick="toggleStory('content0', 'btn0')">कथा बन्द गर्नुहोस्</button>
                 </div>
             </div>
         </section>
@@ -133,24 +119,47 @@
             <div class="story-card">
                 <span class="badge" style="background:#e1f5fe; color:#0288d1;">Collection: Nepali</span>
                 <h2 class="story-title">दिदीको समर्पण</h2>
-                <p style="color: #666;">आफ्नो सपना र रहरहरू तिलाञ्जली दिएर बहिनीको भविष्य उज्ज्वल बनाउने एउटी दिदीको मार्मिक कथा।</p>
+                <p style="color: #666;">शितल र कुसुम: त्याग र प्रेमको एउटा अमर गाउँले कथा।</p>
                 <button class="read-btn" style="background:#0288d1;" id="btn1" onclick="toggleStory('content1', 'btn1')">पूरा कथा पढ्नुहोस्</button>
 
                 <div id="content1" class="full-content">
-                    <div class="story-text">
-                        पहाडको काखमा रहेको एउटा सानो गाउँमा रमा र निशा नामका दुई बहिनीहरू बस्थे। सानैमा आमाबुवा गुमाएका उनीहरूको सहारा भनेको एकअर्का मात्र थिए। दिदी रमाले निशाको पढाइ र भविष्यका लागि दिनरात मेहनत गरिन्।
-
-                        रमाको पनि धेरै पढ्ने र ठुलो मान्छे बन्ने रहर थियो। तर गरिबी र जिम्मेवारीले उनलाई थिचिदियो। उनले आफ्नो पढाइ छोडिन् र गाउँकै जमिनदारको खेतमा काम गर्न थालिन् ताकि निशालाई सहरको राम्रो कलेजमा पढाउन सकियोस्।
-
-                        वर्षौँको संघर्षपछि निशा डाक्टर बनेर गाउँ फर्किइन्। निशाले सहरमा ठुलो घर र गाडीको व्यवस्था गरिन् तर दिदी रमाले भनिन्, "निशा, मेरो संसार यहीँ छ। तिमी सफल भयौ, मेरा सबै रहरहरू तिम्रै सफलतामा पुरा भए।"
-
-                        निशाले रुँदै दिदीको पाउमा ढोगिन्। उनले बुझिन् कि रमाले दिएको समर्पण र त्यागको कुनै मूल्य छैन। रमाले आफ्नो जवानी र सपना मात्र होइन, निशाको लागि आफ्नो सारा जिन्दगी नै उपहार दिएकी थिइन्।
+                    <div class="font-controls">
+                        <button onclick="changeFontSize('text1', 2)">A+</button>
+                        <button onclick="changeFontSize('text1', -2)">A-</button>
                     </div>
+                    <div class="story-text" id="text1">
+                        पहाडको काखमा एउटा सानो गाउँ थियो, जहाँ बादलहरू घरका झ्यालबाट भित्र पस्ने गर्थे। त्यही गाउँको एउटा सानो ढुङ्गे घरमा दुईजना बहिनीहरू बस्थे— शितल र कुसुम। जेठी दिदी शितल शान्त थिइन्, सायद पहाडका पुराना देउरालीहरू जस्तै। उनको मुस्कानमा एउटा अनौठो शितलता थियो। गाउँका मानिसहरू भन्थे, "शितल मुस्कुराउँदा लाग्छ, भर्खरै पहाडको टाकुराबाट जून उदाउँदै छ।" उनी धैर्यवान् थिइन् र आफ्नो परिवारको लागि शीतल जून जस्तै संरक्षक बनेकी थिइन्।
 
-                    <div class="author-name">लेखक: अधिराज सुनुवार</div>
-                    <div class="victory-msg" style="color:#0288d1;">निस्वार्थ त्याग</div>
+                        कान्छी बहिनी कुसुम भने नाम जस्तै चञ्चल र सुन्दर थिइन्। उनी जहाँ पुग्थिन्, त्यहाँ उमङ्गको वर्षा हुन्थ्यो। उनको हाँसोमा एउटा छुट्टै तेज थियो— बिहानीको पहिलो किरणले हिमाल छुँदा देखिने सुनौलो रश्मि जस्तो। उनी फुल्न लागेको रातो गुलाफ जस्तै थिइन्, जो आफ्नो सुगन्धले पुरै बगैँचालाई सुवासित बनाउँथ्यो।
+
+                        <strong>त्यो एउटा विशेष बिहानी:</strong>
+                        एक दिन बिहान, शितलले आगनमा बसेर एउटा कापीमा केही लेख्न खोज्दै थिइन्। उनी कविता कोर्न खोज्दै थिइन्, तर शब्दहरूले साथ दिइरहेका थिएनन्। कुसुम कुद्दै आइन् र दिदीको काँधमा झुण्डिदै सोधिन्, "दिदी, के लेख्दै हुनुहुन्छ?"
+
+                        शितलले मुस्कुराउँदै भनिन्, "तिम्रो र मेरो बारेमा एउटा कविता लेख्न खोज्दै छु कुसुम, तर म सँग भएका शब्दहरू तिम्रो बयान गर्न निकै साना लागे। तिमी त मेरो लागि बिहानीको त्यो घाम हौ, जसले मेरो ओइलाएको जिन्दगीमा रङ्ग भरिदिन्छ।"
+                        कुसुमले हाँस्दै भनिन्, "अनि तपाईँ त मेरो रातको जून हुनुहुन्छ नि दिदी! म दिनभरि थाकेर फर्किँदा तपाईँकै शीतल छहारीमा त शान्ति पाउँछु।"
+
+                        <strong>सङ्घर्ष र प्रेमको कथा:</strong>
+                        बाल्यकालमै आमाबुबा गुमाएका उनीहरूको जीवन सजिलो थिएन। शितलले आफ्नो बाल्यकाललाई एकातिर पन्छाएर कुसुमलाई हुर्काउन आफ्नो सारा जवानी खर्चिइन्। कुसुमलाई पढाउनका लागि शितलले दिनभरि खेतमा काम गर्थिन्, राति ढिकी-जाँतो गर्थिन्। कहिलेकाहीँ त शितल भोकै सुत्थिन्, तर कुसुमलाई सधैँ अघाइन्जेल खुवाउँथिन्।
+
+                        एक पटक कुसुम निकै बिरामी परिन्। उनलाई बचाउन निकै गाह्रो थियो। शितलले दिनरात नभनी उनको सेवा गरिन्। उनले गाउँको देउरालीमा गएर एउटा भाकल गरिन्, "हे भगवान्, मेरो रङ्ग उडेर जाओस् तर मेरी बहिनीको अनुहारमा गुलाफको जस्तै लाली कहिल्यै नघटोस्।"
+                        नभन्दै कुसुम बिस्तारै निको भइन्। तर त्यसपछि शितल झन् झन् शान्त र गम्भीर बन्दै गइन्। उनले आफ्ना सबै खुसीहरू कुसुमको पाउमा राखिदिएकी थिइन्।
+
+                        <strong>समयको परिवर्तन:</strong>
+                        वर्षौँ बित्यो। कुसुम ठूली भइन्, उनले सहरमा गएर नाम र सम्मान कमाइन्। तर शितल भने त्यही गाउँको ढुङ्गे घरमा नै बसिन्। एकदिन कुसुम धेरै वर्षपछि सहरबाट गाउँ फर्किइन्। उनले आफ्नो साथमा धेरै उपहारहरू ल्याएकी थिइन्। तर जब उनले दिदीको अनुहार हेरिन्, उनलाई ती उपहारहरू फिक्का लागे।
+
+                        दिदीको हातमा ठेला उठेका थिए, आँखाको मुनि काला घेराहरू थिए, तर उनको मुस्कान अझै पनि त्यस्तै शीतल थियो— जून जस्तै। कुसुमले दिदीको काखमा टाउको राखेर रोइन् र भनिन्, "दिदी, मानिसहरू मेरो सफलताको कुरा गर्छन्, तर यो सबै त तपाईँको त्यागको जगमा उभिएको छ। म त केवल एउटा फूल हुँ, तर मलाई हुर्काउने माली त तपाईँ नै हो।"
+                        शितलले बिस्तारै कुसुमको कपाल सुम्सुम्याउँदै भनिन्, "बहिनी, एउटा बगैँचामा गुलाफ फुलेको देख्दा जूनलाई कहिल्यै डाहा हुँदैन। जून त झन् खुसी हुन्छ कि उसको शितलतामा त्यो गुलाफ अझै राम्ररी निदाउन सक्यो।"
+
+                        <strong>कविको असमर्थता:</strong>
+                        गाउँमा एकजना प्रख्यात कवि बस्थे। उनले यी दुई बहिनीको प्रेम र त्यागको बारेमा धेरै सुन्ने गर्थे। उनले सोचेका थिए— म यी दुईमाथि एउटा महान् महाकाव्य लेख्छु। तर जब उनले उनीहरूको सम्बन्धलाई नजिकबाट नियाले, उनले आफ्नो कलम भुइँमा राखे।
+
+                        उनले भने, "मैले हजारौँ कविता लेखेँ, तर यी दुई बहिनीको प्रेम वर्णन गर्ने शब्दहरू संसारको कुनै पनि शब्दकोशमा छैनन्। एउटी जून जस्ती छन्, अर्की गुलाफ जस्ती। सङ्गीत जस्तो मुस्कान र बिहानीको घाम जस्तो तेज भएको यो सम्बन्धलाई शब्दमा बाँध्नु भनेको सागरलाई एउटा सानो गाग्रोमा भर्नु जस्तै हो।"
+                        त्यसपछि ती कविले केवल एउटा सानो नोट लेखे:
+                        "संसारमा दुई बहिनीको वर्णन गर्न शब्द बनेकै छैनन्। एउटी परे गुलाफको फूल, अर्की भइन् जून। एउटीको मुस्कानमा बिहानीको घाम छ, अर्कीको हृदयमा परीको जस्तो प्रेम। यिनको कथा लेख्न सकिँदैन, मात्र महसुस गरिन्छ।"
+                    </div>
+                    <div class="author-name">लेखक: अधिराज सुनार</div>
+                    <div class="victory-msg">विश्वासको जीत</div>
                     <div class="thanks-msg">♡︎ Thanks For Reading ♡︎</div>
-                    <button class="close-btn" style="background:#0288d1;" onclick="toggleStory('content1', 'btn1')">कथा बन्द गर्नुहोस्</button>
                 </div>
             </div>
         </section>
@@ -158,7 +167,6 @@
     </div>
 
     <script>
-        // Swipe र Tab स्विच फङ्सन
         function showProfile(index) {
             const wrapper = document.getElementById('contentWrapper');
             wrapper.style.transform = `translateX(-${index * 100}vw)`;
@@ -168,27 +176,31 @@
             window.scrollTo(0, 0);
         }
 
-        // कथा खोल्ने र बन्द गर्ने फङ्सन
         function toggleStory(contentId, btnId) {
             const content = document.getElementById(contentId);
             const btn = document.getElementById(btnId);
             if (content.style.display === "block") {
                 content.style.display = "none";
                 btn.innerText = "पूरा कथा पढ्नुहोस्";
-                window.scrollTo(0, 50);
             } else {
                 content.style.display = "block";
                 btn.innerText = "कथा लुकाउनुहोस्";
             }
         }
 
-        // मोबाइल Swipe फिचर
+        function changeFontSize(textId, delta) {
+            const el = document.getElementById(textId);
+            const style = window.getComputedStyle(el, null).getPropertyValue('font-size');
+            const currentSize = parseFloat(style);
+            el.style.fontSize = (currentSize + delta) + 'px';
+        }
+
         let startX;
         document.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
         document.addEventListener('touchend', e => {
             let endX = e.changedTouches[0].clientX;
-            if (startX - endX > 80) showProfile(1); // Left swipe
-            if (endX - startX > 80) showProfile(0); // Right swipe
+            if (startX - endX > 80) showProfile(1);
+            if (endX - startX > 80) showProfile(0);
         });
     </script>
 </body>
