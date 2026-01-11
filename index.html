@@ -3,68 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>अधिराज story</title>
+    <title>StoryBook - Stories Worth Reading</title>
     <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1a1a1a">
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* सानाे CSS यहीँ राखिएको छ ताकि तपाईँलाई सजिलो होस् */
-        .story-content { display: none; margin-top: 15px; animation: fadeIn 0.5s ease-in; }
-        .story-card { border: 1px solid #ddd; padding: 15px; margin-bottom: 10px; cursor: pointer; border-radius: 8px; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .logo-text { font-size: 24px; font-weight: bold; text-decoration: none; color: #333; }
-    </style>
 </head>
 <body>
 
-    <header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; border-bottom: 1px solid #eee;">
-        <div class="logo-area">
-            <a href="#" class="logo-text">📚 अधिराज story</a>
-        </div>
+    <header>
+        <div class="logo">📖 StoryBook</div>
         <nav>
-            <button onclick="location.href='admin.html'">Admin Panel</button>
+            <button class="nav-btn" onclick="location.reload()">Stories</button>
+            <a href="admin.html" class="admin-link">Admin</a>
         </nav>
     </header>
 
-    <main style="padding: 20px;">
-        <h2 style="text-align: center;">Stories Worth Reading</h2>
-        
-        <div class="story-card" onclick="toggleStory('story1')">
-            <h3 id="title1">जीवनको एउटा सुन्दर यात्रा</h3>
-            <small>Jan 11, 2026 • 5 min read</small>
+    <section class="hero" id="hero-section">
+        <span class="badge">COLLECTION 2026</span>
+        <h1>Stories Worth Reading</h1>
+        <p>हृदय छुने कथाहरूको सङ्ग्रह।</p>
+    </section>
+
+    <main id="main-content">
+        <div class="story-card" id="card-story1">
+            <div class="meta">Jan 11, 2026 • 5 min read</div>
+            <h2 class="story-title" onclick="showFullStory('story1')">जीवनको एउटा सुन्दर यात्रा</h2>
+            <button class="read-btn" onclick="showFullStory('story1')">Read Story</button>
             
-            <div id="story1" class="story-content">
-                <div class="controls">
-                    <button onclick="changeFontSize('inc')">A+</button>
-                    <button onclick="changeFontSize('dec')">A-</button>
+            <div id="story1" class="full-story">
+                <div class="font-controls">
+                    <button onclick="changeSize('story1', 2)">A+</button>
+                    <button onclick="changeSize('story1', -2)">A-</button>
                 </div>
-                <p id="text-body" style="font-size: 18px;">
-                    यहाँ तपाईँको कथाको पूरा विवरण हुनेछ। तपाईँले एडमिन प्यानलबाट थप्न सक्नुहुन्छ। 
-                    यो भाग शीर्षकमा क्लिक गरेपछि मात्र एनिमेसनका साथ खुल्छ।
-                </p>
+                <div class="story-text">
+                    यहाँ तपाईँको कथाको विवरण हुनेछ। यो भाग "Read Story" थिचेपछि मात्र देखिनेछ। 
+                    हामीले यसलाई सुरक्षित र प्रोफेसनल बनाएका छौँ।
+                </div>
+                <div class="thanks-msg">♡︎ thanks for reading ♡︎</div>
+                <button class="back-btn" onclick="location.reload()">← Back to Stories</button>
             </div>
         </div>
     </main>
 
-    <script>
-        // कथा खोल्ने र बन्द गर्ने एनिमेसन सहितको फङ्सन
-        function toggleStory(id) {
-            var content = document.getElementById(id);
-            if (content.style.display === "block") {
-                content.style.display = "none";
-            } else {
-                content.style.display = "block";
-            }
-        }
-
-        // अक्षर ठूलो सानो बनाउने सिस्टम
-        function changeFontSize(type) {
-            var el = document.getElementById('text-body');
-            var style = window.getComputedStyle(el, null).getPropertyValue('font-size');
-            var fontSize = parseFloat(style);
-            if (type === 'inc') el.style.fontSize = (fontSize + 2) + 'px';
-            if (type === 'dec') el.style.fontSize = (fontSize - 2) + 'px';
-            event.stopPropagation(); // कार्ड बन्द हुनबाट रोक्न
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
