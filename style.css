@@ -1,42 +1,65 @@
-/* गुगल फन्टहरू थप्ने (प्रिमियम लुकको लागि) */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;600&display=swap');
-
 body {
-    font-family: 'Inter', sans-serif;
-    scroll-behavior: smooth;
+    background-color: #f8f9fa;
+    font-family: 'Sans-serif', Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
 }
 
-/* हेडलाइनको लागि विशेष फन्ट */
-h1, h2, h3 {
-    font-family: 'Playfair Display', serif;
+#story-container {
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-/* लुकाउनु पर्ने भागको लागि */
-.hidden {
-    display: none;
-}
-
-/* कथाको कार्डको डिजाइन */
 .story-card {
     background: white;
-    border-radius: 24px;
-    padding: 32px;
-    border: 1px solid #F0EBE3;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .story-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-    border-color: #D9D1C7;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
 }
 
-/* नयाँ कथा थप्ने फम्र्याटको लागि एनिमेसन */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+.story-title {
+    font-size: 24px;
+    color: #1a1a1a;
+    margin: 10px 0;
+    font-family: serif;
 }
 
-#add-story-form:not(.hidden) {
-    animation: fadeIn 0.5s ease forwards;
+.story-meta {
+    color: #9ca3af;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* सुरुमा कथा लुकाउनको लागि */
+.story-content {
+    display: none;
+    color: #4b5563;
+    line-height: 1.8;
+    font-size: 16px;
+    white-space: pre-wrap;
+    margin-top: 15px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+/* जब 'active' क्लास थपिन्छ, तब कथा देखिन्छ */
+.story-card.active .story-content {
+    display: block;
+}
+
+.read-more-btn {
+    display: inline-block;
+    margin-top: 10px;
+    color: #3b82f6;
+    font-weight: bold;
+    font-size: 14px;
 }
