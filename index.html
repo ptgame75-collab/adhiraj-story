@@ -1,40 +1,50 @@
-<div id="home-page">
-    <div class="header-section">
-        <span class="our-collection">OUR COLLECTION</span>
-        <h1 class="main-title">Stories Worth <br> Reading</h1>
-        <p style="color: #666;">Discover a curated collection of thoughts, tales, and adventures.</p>
-    </div>
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StoryBook - Stories Worth Reading</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    <div class="story-card" onclick="openFullStory()">
-        <div class="story-meta">📅 Jan 10, 2026 • 🕒 3 min read</div>
-        <h2>दिदीको त्याग</h2>
-        <p style="color: #555;">पहाडको काखमा एउटा सानो गाउँ थियो, जहाँ...</p>
-    </div>
-</div>
+    <header>
+        <div class="logo">
+            <span class="icon">📖</span> StoryBook
+        </div>
+        <nav>
+            <button class="nav-btn">Stories</button>
+            <a href="admin.html" class="admin-link">Admin</a>
+        </nav>
+    </header>
 
-<div id="full-story" style="display: none; max-width: 600px; margin: auto;">
-    <button onclick="goBack()" style="border:none; background:none; cursor:pointer;">← Back</button>
-    <h1 style="text-align:center;">दिदीको त्याग</h1>
-    <div style="line-height: 2; font-size: 18px; text-align: justify;">
-        यहाँ तपाईँको पूरा कथा लेख्नुहोस्... पहाडको काखमा एउटा सानो गाउँ थियो... 
-        (पूरा कथा यहाँ हुन्छ)
-    </div>
+    <section class="hero">
+        <span class="badge">OUR COLLECTION</span>
+        <h1>Stories Worth Reading</h1>
+        <p>Discover a curated collection of thoughts, tales, and adventures. Immerse yourself in words that matter.</p>
+    </section>
 
-    <div class="thanks-msg" id="thanks" style="display: block;">
-        <hr style="border: 0.5px solid #eee; margin: 30px 0;">
-        <p>Thanks for reading!</p>
-        <div style="font-size: 30px;">✨ 🌠 📖 💖 ✨</div>
-    </div>
-</div>
+    <main id="main-content">
+        <div class="story-card">
+            <div class="meta">Jan 11, 2026 • 5 min read</div>
+            <h2 class="story-title">जीवनको एउटा सुन्दर यात्रा</h2>
+            <button class="read-btn" onclick="showFullStory('story1')">Read Story</button>
+            
+            <div id="story1" class="full-story">
+                <div class="font-controls">
+                    <button onclick="changeSize(2)">A+</button>
+                    <button onclick="changeSize(-2)">A-</button>
+                </div>
+                <div class="story-text">
+                    यहाँ तपाईंको कथाको पूरा भाग हुनेछ। तपाईंले एडमिन प्यानलबाट थप्न सक्नुहुन्छ।
+                    सबै शब्दहरू यहाँ प्रस्ट देखिनेछन्।
+                </div>
+                <div class="thanks-msg">♡︎ thanks for reading ♡︎</div>
+                <button class="back-btn" onclick="hideStory('story1')">Back to List</button>
+            </div>
+        </div>
+    </main>
 
-<script>
-function openFullStory() {
-    document.getElementById('home-page').style.display = 'none';
-    document.getElementById('full-story').style.display = 'block';
-}
-
-function goBack() {
-    document.getElementById('home-page').style.display = 'block';
-    document.getElementById('full-story').style.display = 'none';
-}
-</script>
+    <script src="script.js"></script>
+</body>
+</html>
