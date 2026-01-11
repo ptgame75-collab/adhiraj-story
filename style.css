@@ -1,9 +1,10 @@
+/* General Styles */
 body {
-    background-color: #f9f5f2;
+    background-color: #fcfaf8;
     font-family: 'Georgia', serif;
-    color: #333;
     margin: 0;
-    padding: 0;
+    color: #2c2c2c;
+    line-height: 1.6;
 }
 
 header {
@@ -11,35 +12,58 @@ header {
     justify-content: space-between;
     padding: 20px 10%;
     align-items: center;
+    background: white;
+    border-bottom: 1px solid #eee;
 }
 
 .logo { font-size: 24px; font-weight: bold; }
-.nav-btn { background: black; color: white; border-radius: 20px; padding: 8px 20px; border: none; }
+.admin-link { text-decoration: none; color: #a67c52; font-weight: bold; }
 
-.hero { text-align: center; padding: 60px 10%; }
-.badge { color: #a67c52; font-weight: bold; font-size: 14px; letter-spacing: 2px; }
-.hero h1 { font-size: 48px; margin: 10px 0; }
-
+/* Story Card */
 .story-card {
-    background: white;
-    margin: 20px 10%;
+    background: #ffffff;
+    margin: 20px auto;
     padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    max-width: 650px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
 
-.story-title { font-size: 28px; cursor: pointer; }
-.read-btn { background: none; border: 1px solid #333; padding: 5px 15px; border-radius: 5px; cursor: pointer; }
+.meta { font-size: 13px; color: #888; margin-bottom: 8px; }
+.story-title { cursor: pointer; color: #1a1a1a; margin: 10px 0; }
 
-.full-story { display: none; margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px; }
-.font-controls { margin-bottom: 15px; }
-.font-controls button { margin-right: 10px; padding: 5px 10px; cursor: pointer; }
+.read-btn {
+    background: #1a1a1a; /* कालो ब्याकग्राउन्ड */
+    color: #ffffff;    /* सेतो अक्षर */
+    border: none;
+    padding: 10px 22px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.read-btn:hover { background: #a67c52; }
+
+/* सुरुमा कथा लुकाउने */
+.full-story {
+    display: none; 
+    padding-top: 25px;
+    margin-top: 20px;
+    border-top: 1px dashed #ddd;
+}
+
+.font-controls { margin-bottom: 15px; background: #f9f9f9; padding: 10px; border-radius: 5px; }
+.font-controls button {
+    background: #fff; border: 1px solid #ddd; padding: 5px 15px;
+    border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 10px;
+}
+
+.story-text { font-size: 19px; color: #333; text-align: justify; line-height: 1.8; }
 
 .thanks-msg {
-    text-align: center;
-    margin-top: 30px;
-    font-size: 20px;
-    color: #a67c52;
+    text-align: center; margin: 40px 0;
+    font-size: 22px; color: #a67c52; font-family: cursive;
 }
 
-.back-btn { margin-top: 20px; color: grey; background: none; border: none; cursor: pointer; text-decoration: underline; }
+.back-btn { background: none; border: none; color: #a67c52; cursor: pointer; text-decoration: underline; font-weight: bold; }
