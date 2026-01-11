@@ -1,32 +1,47 @@
-// १. नयाँ कथाको डाटा
-let stories = [
-    {
-        date: "Jan 11, 2026",
-        title: "अदृश्य हिमालको खोजी",
-        content: "धेरै समय पहिले एकजना साहसी यात्री एउटा यस्तो हिमालको खोजीमा निस्किए, जो केवल पूर्णिमाको रातमा मात्र देखिन्थ्यो। उनले धेरै जंगल र नदीहरू पार गरे। जब उनी पहाडको टाकुरामा पुगे, त्यहाँ एउटा चम्किलो गुफा भेट्टाए। त्यो गुफा भित्र सुनौला अक्षरमा लेखिएको थियो— 'सफलता बाटोमा होइन, आफ्नै साहस भित्र लुकेको हुन्छ।' त्यस दिनदेखि उनी कहिल्यै फर्किएनन्, तर उनको कथा गाउँलेहरूले अझै पनि सुनाउने गर्छन्।",
-        readTime: "3 min read"
-    }
-];
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StoryBook - Adhiraj</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#F9F7F2] text-[#2D2D2D]">
 
-// २. स्क्रिनमा देखाउने ठाउँ
-const container = document.getElementById('story-container');
+    <header class="p-6 flex justify-between items-center max-w-4xl mx-auto">
+        <div class="flex items-center gap-2">
+            <div class="bg-[#EFE9E1] p-2 rounded-lg border border-[#D9D1C7]">
+                <span class="text-2xl">📖</span> </div>
+            <h1 class="text-2xl font-bold italic" style="font-family: serif;">StoryBook</h1>
+        </div>
+        <button class="bg-[#1A1A1A] text-white px-6 py-2 rounded-full font-medium">Stories</button>
+    </header>
 
-// ३. कथा देखाउने सरल फङ्ग्सन
-function renderStories() {
-    if(!container) return;
-    container.innerHTML = '';
-    
-    stories.forEach((story) => {
-        // कुनै जटिल चिन्ह बिनाको सरल कोड
-        let card = "<div style='background:white; padding:30px; border-radius:24px; margin-bottom:25px; border:1px solid #f0ebe3; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);'>" +
-            "<p style='color:#9ca3af; font-size:12px; font-weight:bold;'>📅 " + story.date + " • ⏱️ " + story.readTime + "</p>" +
-            "<h2 style='font-size:26px; margin:15px 0; color:#1a1a1a; font-family:serif;'>" + story.title + "</h2>" +
-            "<p style='color:#4b5563; line-height:1.8; font-size:16px;'>" + story.content + "</p>" +
-        "</div>";
-        
-        container.innerHTML += card;
-    });
-}
+    <main class="max-w-3xl mx-auto text-center py-16 px-6">
+        <span class="bg-[#EFE9E1] text-[#8C7A66] px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">Our Collection</span>
+        <h2 class="text-5xl md:text-6xl font-bold mt-6 mb-8 leading-tight" style="font-family: serif;">Stories Worth Reading</h2>
+        <p class="text-lg text-gray-500 leading-relaxed font-light">Discover a curated collection of thoughts, tales, and adventures.</p>
+    </main>
 
-// एप चल्ने बित्तिकै कथा देखाउने
-renderStories();
+    <div id="story-container" class="max-w-2xl mx-auto px-6 space-y-8 pb-20">
+        </div>
+
+    <section class="max-w-xl mx-auto p-8 bg-white rounded-3xl shadow-xl border border-gray-100 mb-20 mx-6">
+        <div id="admin-login-area">
+            <h3 class="text-xl font-bold mb-4">Admin Access</h3>
+            <input type="password" id="admin-pass" placeholder="Password" class="w-full p-3 border rounded-xl mb-4 focus:outline-none">
+            <button onclick="checkAdmin()" class="w-full bg-black text-white p-3 rounded-xl font-bold">Login</button>
+        </div>
+
+        <div id="add-story-form" class="hidden">
+            <h3 class="text-xl font-bold mb-4">नयाँ कथा थप्नुहोस्</h3>
+            <input type="text" id="new-title" placeholder="शीर्षक" class="w-full p-3 border rounded-xl mb-3 focus:outline-none">
+            <textarea id="new-content" rows="5" placeholder="कथा लेख्नुहोस्..." class="w-full p-3 border rounded-xl mb-3 focus:outline-none"></textarea>
+            <button onclick="addNewStory()" class="w-full bg-[#1A1A1A] text-white p-3 rounded-xl font-bold">Publish</button>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
