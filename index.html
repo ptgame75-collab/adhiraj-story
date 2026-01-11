@@ -10,7 +10,6 @@
             --text-dark: #2d2d2d;
             --accent-brown: #a68b6d;
             --success-green: #2e7d32;
-            --danger-red: #b71c1c;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -50,12 +49,15 @@
         .font-controls { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; }
         .font-controls button { padding: 5px 12px; cursor: pointer; border: 1px solid #ccc; background: #fff; border-radius: 5px; font-weight: bold; }
 
-        .quote-box { background: #fff5f5; padding: 20px; border-left: 5px solid var(--danger-red); margin: 25px 0; font-style: italic; font-weight: bold; }
+        .quote-box { background: #fff5f5; padding: 20px; border-left: 5px solid #b71c1c; margin: 25px 0; font-style: italic; font-weight: bold; }
         .read-btn { width: 100%; padding: 15px; background: var(--text-dark); color: white; border: none; border-radius: 15px; font-size: 16px; font-weight: bold; cursor: pointer; }
 
         .author-name { font-size: 15px; color: #777; text-align: left; margin: 20px 0; font-weight: bold; border-left: 3px solid var(--accent-brown); padding-left: 10px; }
         .victory-msg { color: var(--success-green); text-align: center; font-weight: bold; font-size: 24px; margin: 30px 0 10px; }
         .thanks-msg { text-align: center; color: #555; font-size: 16px; margin-bottom: 20px; }
+        
+        /* New styling for requested blue text */
+        .blue-sub-title { color: #0288d1; text-align: center; font-weight: bold; font-size: 20px; margin: 10px 0; }
     </style>
 </head>
 <body>
@@ -76,30 +78,63 @@
             <div class="story-card">
                 <span class="badge">Collection: Hindi</span>
                 <h2 class="story-title">वो लौटेगा…!</h2>
+                <p style="color: #666;">सुमित्राको अटल विश्वास र अमर सुहागको मार्मिक गाथा।</p>
                 <button class="read-btn" id="btn0" onclick="toggleStory('content0', 'btn0')">पूरा कथा पढ्नुहोस्</button>
                 <div id="content0" class="full-content">
-                    <div class="story-text" id="text0">... (Hindi Story Text) ...</div>
+                    <div class="font-controls">
+                        <button onclick="changeFontSize('text0', 2)">A+</button>
+                        <button onclick="changeFontSize('text0', -2)">A-</button>
+                    </div>
+                    <div class="story-text" id="text0">
+                        बनारस के पास एक छोटा सा गाँव था, जहाँ गंगा की लहरों का संगीत हर घर में सुनाई देता था। उसी गाँव के एक पुराने पत्थर के मकान में सुमित्रा रहती थी। सुमित्रा के हाथों में हमेशा हरी चूड़ियाँ खनकतीं और उसकी माँग में गहरा लाल सिंदूर सजा रहता था। पर उस घर की चहारदीवारी के भीतर एक ऐसा सन्नाटा था, जो चीख-चीख कर अपनी कहानी सुनाता था। गाँव के लोग उसे देख कर अपनी नजरें फेर लेते और फुसफुसाते, "देखो, अभागी सुहागन जा रही है।"
+                        (Hindi story content here...)
+                    </div>
+                    <div class="author-name">लेखक: अधिराज सुनार</div>
+                    <div class="victory-msg">विश्वासको जीत</div>
+                    <div class="thanks-msg">♡︎ Thanks For Reading ♡︎</div>
                 </div>
             </div>
         </section>
 
         <section>
             <div class="story-card">
-                <span class="badge" style="background:#ffebee; color:var(--danger-red);">Collection: Social Reality</span>
+                <span class="badge" style="background:#e1f5fe; color:#0288d1;">Collection: Nepali</span>
+                <h2 class="story-title">दिदीको समर्पण</h2>
+                <button class="read-btn" style="background:#0288d1;" id="btn1" onclick="toggleStory('content1', 'btn1')">पूरा कथा पढ्नुहोस्</button>
+                <div id="content1" class="full-content">
+                    <div class="story-text" id="text1"> (Nepali story content here...) </div>
+                    <div class="author-name">लेखक: अधिराज सुनार</div>
+                    <div class="victory-msg">निस्वार्थ प्रेम</div>
+                    <div class="thanks-msg">♡︎ Thanks For Reading ♡︎</div>
+                </div>
+            </div>
+
+            <div class="story-card">
+                <span class="badge" style="background:#e1f5fe; color:#0288d1;">Collection: Nepali</span>
+                <h2 class="story-title">अधुरो किनार</h2>
+                <button class="read-btn" style="background:#0288d1;" id="btn2" onclick="toggleStory('content2', 'btn2')">पूरा कथा पढ्नुहोस्</button>
+                <div id="content2" class="full-content">
+                    <div class="story-text" id="text2"> (Nepali story content here...) </div>
+                    <div class="author-name">लेखक: अधिराज सुनार</div>
+                    <div class="victory-msg" style="color:#0288d1;">अधुरो प्रतीक्षा....!</div>
+                    <div class="thanks-msg">♡︎ Thanks For Watching ♡︎</div>
+                </div>
+            </div>
+
+            <div class="story-card">
+                <span class="badge" style="background:#ffebee; color:#b71c1c;">Collection: Nepali Social Story</span>
                 <h2 class="story-title">वैवाहिक वेश्या</h2>
-                <p style="color: #666;">समाजले दिएको 'त्यो' अनैतिक नाम र एउटी महिलाको विवशताको लडाइँ।</p>
-                <button class="read-btn" style="background:var(--danger-red);" id="btn-sunita" onclick="toggleStory('content-sunita', 'btn-sunita')">पूरा कथा पढ्नुहोस्</button>
+                <p style="color: #666;">समाजको घृणा र एउटी नारीको विवशताको कथा।</p>
+                <button class="read-btn" style="background:#b71c1c;" id="btn3" onclick="toggleStory('content3', 'btn3')">पूरा कथा पढ्नुहोस्</button>
 
-                <div id="content-sunita" class="full-content">
+                <div id="content3" class="full-content">
                     <div class="font-controls">
-                        <button onclick="changeFontSize('text-sunita', 2)">A+</button>
-                        <button onclick="changeFontSize('text-sunita', -2)">A-</button>
+                        <button onclick="changeFontSize('text3', 2)">A+</button>
+                        <button onclick="changeFontSize('text3', -2)">A-</button>
                     </div>
-                    <div class="story-text" id="text-sunita">
+                    <div class="story-text" id="text3">
                         गाउँको चौतारीमा एउटा समूह गफिँदै थियो। सुनिता टाढैबाट आउँदै गरेको देखेर गाउँकी ठूलीआमाले थुकिन्, "छि! फेरि अर्को लिएर आइछे। यो त वैवाहिक 'वेश्या' नै भई नि! कतिवटा पोइ फेर्छेस् हँ सुनिता? अलिकति त इज्जतको ख्याल गर्!"
-
                         सुनिता टक्क अडिइन्। उनको हातमा सस्तो प्लास्टिकका राता चुराहरू थिए, जुन भर्खरै आठौँ श्रीमानले किनिदिएका थिए। उनले तिरस्कारले भरिएको त्यो भीडतिर हेरिन् र मलिन स्वरमा भनिन्, "इज्जत? कुन इज्जतको कुरा गर्नुहुन्छ ठूलीआमा? के त्यो इज्जत, जो मेरो पहिलो श्रीमानले रक्सीको नशामा अर्कैलाई बेच्न खोज्दा लिलाम भएको थियो?"
-
                         चौतारी स्तब्ध भयो। तर सुनिता रोकिएकी थिइनन्।
 
                         <strong>पहिलो घाउ: एउटा सपनाको हत्या</strong>
@@ -114,28 +149,23 @@
                         <strong>छैटौँ विवाहको त्यो रात</strong>
                         छैटौँ पटक बिहे गर्दा समाजले उनलाई 'थुकिसकेको' थियो। एकदिन उनले आफ्ना श्रीमानसँग सोधिन्, "तपाईँले मलाई किन ल्याउनुभएको? के साँचो माया गर्नुहुन्छ?"
                         उनले हाँस्दै जवाफ दियो, "माया? सुनिता, तिमी त यो समाजले फालेको जुठो गाँस हौ। तिमीलाई त मैले घरको काम गर्न र रात काट्न मात्र ल्याएको हुँ। मलाई छोडेर कहाँ जान्छौ? अर्को पोइ खोज्न?"
-
-                        <div class="quote-box">
-                            "यो सिन्दूर मेरो लागि सुहाग होइन, यो त मेरो लास माथि फालिएको अबिर जस्तै हो। हरेक पटक म नयाँ सिन्दूर लगाउँछु, र हरेक पटक मेरो आत्माको एउटा टुक्रा मर्छ।"
-                        </div>
+                        सुनिताको मन छियाछिया भयो। उनले बुझिन्, उनका लागि यो संसारमा कुनै 'घर' छैन, मात्र 'आश्रयस्थल' हरू छन् जुन समयसँगै फेरिरहनुपर्छ।
 
                         <strong>अन्तिम संवाद र समाजलाई प्रश्न</strong>
                         आज आठौँ पटक सिन्दूर हालेर गाउँ पस्दै गर्दा, उनले समाजका ती 'भलादमी' हरूलाई हेरेर भनिन्:
-                        "तपाईँहरू मलाई 'वैवाहिक वेश्या' भन्नुहुन्छ, किनकि मैले बारम्बार सिन्दूर फेरेँ। तर ती पुरुषहरूलाई के भन्नुहुन्छ, जसले मलाई एउटा घर दिनुको सट्टा सधैँ अर्को ओछ्यान खोज्न बाध्य पारे? मेरो शरीरमा कतिवटा पुरुषको हात पर्यो, त्यो तपाईँहरू गन्नुहुन्छ। तर मेरो आत्मामा कतिवटा घाउ छन्, त्यो कसले गन्ने?
+                        "तपाईँहरू मलाई 'वैवाहिक वेश्या' भन्नुहुन्छ, किनकि मैले बारम्बार सिन्दूर फेरेँ। तर ती पुरुषहरूलाई के भन्नुहुन्छ, जसले मलाई एउटा घर दिनुको सट्टा सधैँ अर्को ओछ्यान खोज्न बाध्य पारे? मेरो शरीरमा कतिवटा पुरुषको हात पर्यो, त्यो तपाईँहरू गन्नुहुन्छ। तर मेरो आत्मामा कतिवटा घाउ छन्, त्यो कसले गन्ने?"
 
-                        हो, मलाई वेश्या भन्नुस्, अपराधी भन्नुस्! तर मेरो एउटा प्रश्नको जवाफ दिनुस्— जब म पहिलो पटक रगतपच्छे भएर न्याय माग्न आएकी थिएँ, तपाईँहरूले 'घर झगडा हो, सहेर बस्नुपर्छ' भनेर किन पठाउनुभयो? जब म भोकले रूँदा छिमेकीले रोटीको सट्टा मेरो अस्मिता मागे, तब तपाईँको नैतिकता कहाँ सुतेको थियो?
+                        सुनिताले आफ्नो साडीको सप्कोले आँसु पुछिन् र अगाडि थपिन्, "हो, मलाई वेश्या भन्नुस्, अपराधी भन्नुस्! तर मेरो एउटा प्रश्नको जवाव दिनुस्— जब म पहिलो पटक रगतपच्छे भएर न्याय माग्न आएकी थिएँ, तपाईँहरूले 'घर झगडा हो, सहेर बस्नुपर्छ' भनेर किन पठाउनुभयो? जब म भोकले रूँदा छिमेकीले रोटीको सट्टा मेरो अस्मिता मागे, तब तपाईँको नैतिकता कहाँ सुतेको थियो?"
 
-                        म जिउँदै छु जस्तो लाग्छ तपाईँहरूलाई? अहँ, म त सात पटक मरिसकेकी लास हुँ, जसलाई यो समाजले अझै गाड्न दिएको छैन।"
-
-                        गाउँको चोकमा सन्नाटा छायो। सुनिताको स्वर अब बिस्तारै सुक्यो, तर आँखामा एउटा भयानक शून्यता थियो। उनले बिस्तारै आफ्नो झोला उठाइन् र अन्तिम पटक भीडतिर हेरिन्। उनको पछिपछि आठौँ श्रीमान् एउटा विजयी भावमा हिँडिरहेको थियो। सुनिताको आँखाबाट खसेको अन्तिम आँसुले भन्दै थियो— "यो देशमा नारीले पाउन सक्ने सबैभन्दा ठूलो सजाय 'विवशता' नै रहेछ।"
+                        उनले काँपिरहेको हातले आफ्नो सिउँदोको आठौँ सिन्दूरतिर इशारा गरिन्, "यो सिन्दूर मेरो लागि सुहाग होइन, यो त मेरो लास माथि फालिएको अबिर जस्तै हो। हरेक पटक म नयाँ सिन्दूर लगाउँछु, र हरेक पटक मेरो आत्माको एउटा टुक्रा मर्छ। म जिउँदै छु जस्तो लाग्छ तपाईँहरूलाई? अहँ, म त सात पटक मरिसकेकी लास हुँ, जसलाई यो समाजले अझै गाड्न दिएको छैन।"
+                        गाउँको चोकमा सन्नाटा छायो। सुनिताको स्वर अब बिस्तारै सुक्यो, तर आँखामा एउटा भयानक शून्यता थियो। उनले बिस्तारै आफ्नो झोला उठाइन् र अन्तिम पटक भीडतिर हेरिन्।
                     </div>
                     <div class="author-name">लेखक: अधिराज सुनार</div>
-                    <div class="victory-msg" style="color:var(--danger-red);">सिन्दुरको चिहान</div>
+                    <div class="blue-sub-title">सिन्दुरको चिहान</div>
                     <div class="thanks-msg">♡︎ Thanks For Reading ♡︎</div>
                 </div>
             </div>
-
-            </section>
+        </section>
     </div>
 
     <script>
