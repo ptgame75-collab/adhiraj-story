@@ -1,14 +1,14 @@
-/* १. आधारभूत सेटिङ - यसले ब्राउजर क्र्यास हुन दिँदैन */
+/* १. General Reset */
 body {
     background-color: #fcfaf8;
     font-family: 'Georgia', serif;
     margin: 0;
     padding: 0;
     color: #2c2c2c;
-    overflow-x: hidden; /* मोबाइलमा दायाँ-बायाँ हल्लिन दिँदैन */
+    overflow-x: hidden;
 }
 
-/* २. Header मिलाउने - Stories र Admin लाई सिधा लाइनमा राख्न */
+/* २. Header - मोबाइलमा बटनहरू सिधा बनाउन */
 header {
     display: flex;
     justify-content: space-between;
@@ -20,67 +20,70 @@ header {
 
 header nav {
     display: flex;
-    gap: 15px; /* बटनहरू बीचको दूरी */
+    gap: 10px;
     align-items: center;
 }
 
-.logo { font-size: 20px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+.logo { font-size: 20px; font-weight: bold; }
 
-/* ३. बटनको डिजाइन - मोबाइलमा नबाझिने गरी */
 .nav-btn, .admin-link {
     text-decoration: none;
     background: #f0f0f0;
     color: #a67c52;
-    padding: 8px 15px;
+    padding: 8px 12px;
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
     border: none;
     cursor: pointer;
 }
 
-/* ४. कथाको बाकस (Card) लाई सधैं बीचमा राख्न */
+/* ३. Hero Section */
+.hero { text-align: center; padding: 40px 5%; }
+.hero h1 { font-size: 32px; margin: 10px 0; }
+
+/* ४. Story Card - यसले सबै कुरा बीचमा राख्छ */
 .story-card {
     background: #ffffff;
-    margin: 30px auto;    /* सधैं बीचमा सेटअप गर्छ */
+    margin: 20px auto; 
     padding: 25px;
     max-width: 600px;
-    width: 90%;           /* मोबाइलमा टाँसिन दिँदैन */
+    width: 90%;
     border-radius: 15px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-    box-sizing: border-box; 
+    box-sizing: border-box;
+    text-align: left; /* कार्ड भित्रको कन्टेन्ट मिलाउन */
 }
 
-/* ५. कथाको अक्षर - बीचमा र पढ्न सजिलो */
+/* ५. कथा लुकाउने मुख्य कोड (Most Important) */
+.full-story {
+    display: none; /* सुरुमा कथा लुकाउँछ */
+    padding-top: 20px;
+    margin-top: 20px;
+    border-top: 1px dashed #ddd;
+}
+
+/* ६. Text Styling - बीचमा र सफा */
 .story-text { 
     font-size: 19px; 
     line-height: 1.8; 
-    text-align: justify; /* दुवैतिर बराबर मिलाउँछ */
+    text-align: justify; 
     margin: 20px 0;
 }
 
-/* ६. Font Controls लाई बीचमा राख्न */
 .font-controls { 
     display: flex;
     justify-content: center; 
     gap: 10px;
     margin-bottom: 20px;
-    background: #f9f9f9;
-    padding: 10px;
-    border-radius: 8px;
 }
 
 .font-controls button {
     padding: 5px 15px;
     border: 1px solid #ddd;
     background: white;
-    cursor: pointer;
-    font-weight: bold;
+    border-radius: 5px;
 }
 
-.thanks-msg { text-align: center; color: #a67c52; font-style: italic; margin: 30px 0; }
+.thanks-msg { text-align: center; color: #a67c52; margin: 30px 0; font-size: 20px; }
 .back-btn { display: block; margin: 0 auto; color: #a67c52; background: none; border: none; text-decoration: underline; cursor: pointer; }
-
-/* ७. Hero Section मिलाउने */
-.hero { text-align: center; padding: 40px 5%; }
-.hero h1 { font-size: 32px; margin: 10px 0; }
