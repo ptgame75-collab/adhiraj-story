@@ -9,38 +9,36 @@
 <body>
 
     <header>
-        <div class="logo">
-            <span class="icon">📖</span> StoryBook
-        </div>
+        <div class="logo">📖 StoryBook</div>
         <nav>
-            <button class="nav-btn">Stories</button>
-            <a href="admin.html" class="admin-link">Admin</a>
+            <button class="nav-btn" onclick="location.reload()">Stories</button>
+            <a href="admin.html" class="admin-link">Admin Panel</a>
         </nav>
     </header>
 
     <section class="hero">
         <span class="badge">OUR COLLECTION</span>
         <h1>Stories Worth Reading</h1>
-        <p>Discover a curated collection of thoughts, tales, and adventures. Immerse yourself in words that matter.</p>
+        <p>विचार र भावनाहरूको सुन्दर संग्रह।</p>
     </section>
 
     <main id="main-content">
-        <div class="story-card">
+        <div class="story-card" id="card-story1">
             <div class="meta">Jan 11, 2026 • 5 min read</div>
-            <h2 class="story-title">जीवनको एउटा सुन्दर यात्रा</h2>
+            <h2 class="story-title" onclick="showFullStory('story1')">जीवनको एउटा सुन्दर यात्रा</h2>
             <button class="read-btn" onclick="showFullStory('story1')">Read Story</button>
             
             <div id="story1" class="full-story">
                 <div class="font-controls">
-                    <button onclick="changeSize(2)">A+</button>
-                    <button onclick="changeSize(-2)">A-</button>
+                    <button onclick="changeSize('story1', 2)">A+</button>
+                    <button onclick="changeSize('story1', -2)">A-</button>
                 </div>
                 <div class="story-text">
-                    यहाँ तपाईंको कथाको पूरा भाग हुनेछ। तपाईंले एडमिन प्यानलबाट थप्न सक्नुहुन्छ।
-                    सबै शब्दहरू यहाँ प्रस्ट देखिनेछन्।
+                    यहाँ तपाईंको कथाको पूरा विवरण हुनेछ। तपाईंले एडमिन प्यानलबाट थप्न सक्नुहुन्छ। 
+                    यो भाग "Read Story" थिचेपछि मात्र देखिनेछ।
                 </div>
                 <div class="thanks-msg">♡︎ thanks for reading ♡︎</div>
-                <button class="back-btn" onclick="hideStory('story1')">Back to List</button>
+                <button class="back-btn" onclick="location.reload()">← Back to Stories</button>
             </div>
         </div>
     </main>
