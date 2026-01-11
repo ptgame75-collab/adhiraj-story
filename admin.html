@@ -3,49 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - अधिराज story</title>
+    <title>Admin Login</title>
     <style>
-        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f4f4f4; }
-        .login-box { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center; width: 300px; }
-        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
-        button { width: 100%; padding: 10px; background: #4e342e; color: white; border: none; border-radius: 5px; cursor: pointer; }
-        #admin-content { display: none; padding: 20px; width: 90%; max-width: 600px; background: white; margin: 20px auto; border-radius: 10px; }
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f0f2f5; }
+        .box { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #4e342e; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
-
-    <div id="login-area" class="login-box">
-        <h3>Admin Login 🔐</h3>
-        <input type="password" id="passInput" placeholder="पासवर्ड हाल्नुहोस्">
-        <button onclick="checkLogin()">Login</button>
-        <p id="msg" style="color: red; font-size: 14px;"></p>
-    </div>
-
-    <div id="admin-content">
-        <h2>स्वागत छ, अधिराज! 📚</h2>
-        <p>यहाँबाट नयाँ कथा थप्नुहोस्:</p>
-        <input type="text" id="storyTitle" placeholder="कथाको शीर्षक">
-        <textarea id="storyBody" rows="10" style="width: 100%; margin-bottom: 10px;" placeholder="कथा यहाँ लेख्नुहोस्..."></textarea>
-        <button onclick="saveStory()">कथा प्रकाशित गर्नुहोस्</button>
-        <br><br>
-        <button onclick="location.href='index.html'" style="background: #666;">Home Page मा जानुहोस्</button>
+    <div class="box">
+        <h2>Admin Login 📚</h2>
+        <input type="password" id="pw" placeholder="पासवर्ड हाल्नुहोस्">
+        <button onclick="login()">Login</button>
+        <p id="err" style="color: red;"></p>
     </div>
 
     <script>
-        function checkLogin() {
-            var pass = document.getElementById("passInput").value;
-            // यहाँ आफ्नो गोप्य पासवर्ड राख्नुहोस् (अहिलेको लागि '1234' राखिएको छ)
-            if (pass === "1234") { 
-                document.getElementById("login-area").style.display = "none";
-                document.getElementById("admin-content").style.display = "block";
-                document.body.style.alignItems = "flex-start"; // Layout मिलाउन
+        function login() {
+            var p = document.getElementById("pw").value;
+            // यहाँ तपाईँको पासवर्ड 'adhiraj123' राखिएको छ
+            if (p === "adhiraj123") {
+                alert("स्वागत छ! अब ड्यासबोर्ड खुल्नेछ।");
+                window.location.href = "dashboard.html"; // पासवर्ड मिलेपछि यो पेजमा जान्छ
             } else {
-                document.getElementById("msg").innerText = "गलत पासवर्ड! फेरि प्रयास गर्नुहोस्।";
+                document.getElementById("err").innerText = "गलत पासवर्ड!";
             }
-        }
-
-        function saveStory() {
-            alert("कथा सुरक्षित भयो! (नोट: GitHub मा कथा सेभ गर्न अलि एडभान्स 'Backend' चाहिन्छ, अहिले यो तपाईँको स्क्रिनमा मात्र देखिनेछ।)");
         }
     </script>
 </body>
