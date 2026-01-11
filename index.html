@@ -1,47 +1,40 @@
-<!DOCTYPE html>
-<html lang="ne">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StoryBook - Adhiraj</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body class="bg-[#F9F7F2] text-[#2D2D2D]">
+<div id="home-page">
+    <div class="header-section">
+        <span class="our-collection">OUR COLLECTION</span>
+        <h1 class="main-title">Stories Worth <br> Reading</h1>
+        <p style="color: #666;">Discover a curated collection of thoughts, tales, and adventures.</p>
+    </div>
 
-    <header class="p-6 flex justify-between items-center max-w-4xl mx-auto">
-        <div class="flex items-center gap-2">
-            <div class="bg-[#EFE9E1] p-2 rounded-lg border border-[#D9D1C7]">
-                <span class="text-2xl">📖</span> </div>
-            <h1 class="text-2xl font-bold italic" style="font-family: serif;">StoryBook</h1>
-        </div>
-        <button class="bg-[#1A1A1A] text-white px-6 py-2 rounded-full font-medium">Stories</button>
-    </header>
+    <div class="story-card" onclick="openFullStory()">
+        <div class="story-meta">📅 Jan 10, 2026 • 🕒 3 min read</div>
+        <h2>दिदीको त्याग</h2>
+        <p style="color: #555;">पहाडको काखमा एउटा सानो गाउँ थियो, जहाँ...</p>
+    </div>
+</div>
 
-    <main class="max-w-3xl mx-auto text-center py-16 px-6">
-        <span class="bg-[#EFE9E1] text-[#8C7A66] px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">Our Collection</span>
-        <h2 class="text-5xl md:text-6xl font-bold mt-6 mb-8 leading-tight" style="font-family: serif;">Stories Worth Reading</h2>
-        <p class="text-lg text-gray-500 leading-relaxed font-light">Discover a curated collection of thoughts, tales, and adventures.</p>
-    </main>
+<div id="full-story" style="display: none; max-width: 600px; margin: auto;">
+    <button onclick="goBack()" style="border:none; background:none; cursor:pointer;">← Back</button>
+    <h1 style="text-align:center;">दिदीको त्याग</h1>
+    <div style="line-height: 2; font-size: 18px; text-align: justify;">
+        यहाँ तपाईँको पूरा कथा लेख्नुहोस्... पहाडको काखमा एउटा सानो गाउँ थियो... 
+        (पूरा कथा यहाँ हुन्छ)
+    </div>
 
-    <div id="story-container" class="max-w-2xl mx-auto px-6 space-y-8 pb-20">
-        </div>
+    <div class="thanks-msg" id="thanks" style="display: block;">
+        <hr style="border: 0.5px solid #eee; margin: 30px 0;">
+        <p>Thanks for reading!</p>
+        <div style="font-size: 30px;">✨ 🌠 📖 💖 ✨</div>
+    </div>
+</div>
 
-    <section class="max-w-xl mx-auto p-8 bg-white rounded-3xl shadow-xl border border-gray-100 mb-20 mx-6">
-        <div id="admin-login-area">
-            <h3 class="text-xl font-bold mb-4">Admin Access</h3>
-            <input type="password" id="admin-pass" placeholder="Password" class="w-full p-3 border rounded-xl mb-4 focus:outline-none">
-            <button onclick="checkAdmin()" class="w-full bg-black text-white p-3 rounded-xl font-bold">Login</button>
-        </div>
+<script>
+function openFullStory() {
+    document.getElementById('home-page').style.display = 'none';
+    document.getElementById('full-story').style.display = 'block';
+}
 
-        <div id="add-story-form" class="hidden">
-            <h3 class="text-xl font-bold mb-4">नयाँ कथा थप्नुहोस्</h3>
-            <input type="text" id="new-title" placeholder="शीर्षक" class="w-full p-3 border rounded-xl mb-3 focus:outline-none">
-            <textarea id="new-content" rows="5" placeholder="कथा लेख्नुहोस्..." class="w-full p-3 border rounded-xl mb-3 focus:outline-none"></textarea>
-            <button onclick="addNewStory()" class="w-full bg-[#1A1A1A] text-white p-3 rounded-xl font-bold">Publish</button>
-        </div>
-    </section>
-
-    <script src="script.js"></script>
-</body>
-</html>
+function goBack() {
+    document.getElementById('home-page').style.display = 'block';
+    document.getElementById('full-story').style.display = 'none';
+}
+</script>
