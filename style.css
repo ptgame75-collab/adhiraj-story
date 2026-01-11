@@ -1,65 +1,64 @@
+/* मुख्य कन्टेनर */
 body {
-    background-color: #f8f9fa;
-    font-family: 'Sans-serif', Arial, sans-serif;
+    background-color: #fdfaf7; /* फोटोमा जस्तै हल्का क्रिम रङ */
+    font-family: 'Georgia', serif;
     margin: 0;
     padding: 20px;
 }
 
-#story-container {
-    max-width: 800px;
-    margin: 0 auto;
+.header-section {
+    text-align: center;
+    margin-bottom: 40px;
 }
 
+.our-collection {
+    background: #e9ddd4;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: #8b5e3c;
+}
+
+.main-title {
+    font-size: 36px;
+    font-weight: bold;
+    color: #1a1a1a;
+    margin-top: 15px;
+}
+
+/* कथाको कार्ड (Home Page List) */
 .story-card {
     background: white;
+    border-radius: 20px;
     padding: 25px;
-    border-radius: 15px;
-    margin-bottom: 20px;
-    border: 1px solid #eee;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    max-width: 500px;
+    margin: 20px auto;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: 0.3s;
 }
 
 .story-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-}
-
-.story-title {
-    font-size: 24px;
-    color: #1a1a1a;
-    margin: 10px 0;
-    font-family: serif;
 }
 
 .story-meta {
-    color: #9ca3af;
     font-size: 12px;
-    font-weight: bold;
+    color: #888;
+    margin-bottom: 10px;
 }
 
-/* सुरुमा कथा लुकाउनको लागि */
-.story-content {
-    display: none;
-    color: #4b5563;
-    line-height: 1.8;
-    font-size: 16px;
-    white-space: pre-wrap;
-    margin-top: 15px;
-    border-top: 1px solid #eee;
-    padding-top: 15px;
+.story-card h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #000;
 }
 
-/* जब 'active' क्लास थपिन्छ, तब कथा देखिन्छ */
-.story-card.active .story-content {
-    display: block;
-}
-
-.read-more-btn {
-    display: inline-block;
-    margin-top: 10px;
-    color: #3b82f6;
-    font-weight: bold;
-    font-size: 14px;
+/* अन्त्यको सन्देश (Emoji) */
+.thanks-msg {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    display: none; /* सुरुमा लुकाउने */
 }
