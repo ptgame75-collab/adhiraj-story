@@ -1,38 +1,42 @@
-/* पूरै पेजको लागि डिजाइन */
+/* गुगल फन्टहरू थप्ने (प्रिमियम लुकको लागि) */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;600&display=swap');
+
 body {
-    background-color: #f0f4f8; /* हल्का निलो रङ्गको ब्याकग्राउन्ड */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
+    font-family: 'Inter', sans-serif;
+    scroll-behavior: smooth;
 }
 
-/* हेडलाइनको लागि डिजाइन */
-header {
-    background-color: #4f46e5; /* गाढा बैजनी रङ्ग */
-    color: white;
-    padding: 40px;
-    text-align: center;
+/* हेडलाइनको लागि विशेष फन्ट */
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
 }
 
-/* कथाको कार्डको लागि डिजाइन */
-.bg-white {
-    border-radius: 15px; /* कुनाहरू गोलो बनाउने */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* हल्का छायाँ दिने */
-    padding: 20px;
-    margin: 10px;
+/* लुकाउनु पर्ने भागको लागि */
+.hidden {
+    display: none;
 }
 
-/* बटनको लागि डिजाइन */
-button {
-    background-color: #4f46e5;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
+/* कथाको कार्डको डिजाइन */
+.story-card {
+    background: white;
+    border-radius: 24px;
+    padding: 32px;
+    border: 1px solid #F0EBE3;
+    transition: all 0.3s ease;
 }
 
-button:hover {
-    background-color: #4338ca; /* माउस लैजाँदा रङ्ग अलि गाढा हुने */
+.story-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+    border-color: #D9D1C7;
 }
 
+/* नयाँ कथा थप्ने फम्र्याटको लागि एनिमेसन */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#add-story-form:not(.hidden) {
+    animation: fadeIn 0.5s ease forwards;
+}
