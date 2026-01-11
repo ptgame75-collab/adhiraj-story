@@ -33,5 +33,19 @@
 
     <script src="script.js"></script>
 </body>
-</html>
+</html><div class="max-w-5xl mx-auto p-4 mt-10 border-t">
+    <h2 class="text-xl font-bold mb-4">Admin Login</h2>
+    <div id="admin-login">
+        <input type="password" id="admin-pass" placeholder="Password हाल्नुहोस्" class="border p-2 rounded">
+        <button onclick="checkAdmin()" class="bg-indigo-600 text-white px-4 py-2 rounded">Login</button>
+    </div>
+
+    <div id="add-story-form" class="hidden mt-4 bg-gray-100 p-6 rounded-lg">
+        <h3 class="font-bold mb-2">नयाँ कथा थप्नुहोस्</h3>
+        <input type="text" id="new-title" placeholder="शीर्षक" class="w-full mb-2 p-2 border">
+        <textarea id="new-content" placeholder="कथाको विवरण" class="w-full mb-2 p-2 border"></textarea>
+        <button onclick="addNewStory()" class="bg-green-600 text-white px-4 py-2 rounded">कथा सेभ गर्नुहोस्</button>
+    </div>
+</div>
+
 
