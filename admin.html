@@ -3,42 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - अधिराज Story</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Admin Login - अधिराज story</title>
     <style>
-        .login-container { display: flex; justify-content: center; align-items: center; height: 80vh; }
-        .login-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 90%; max-width: 350px; }
-        input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-        .login-btn { background: #1a1a1a; color: white; border: none; padding: 12px 30px; border-radius: 25px; width: 100%; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .login-btn:hover { background: #333; }
+        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f4f4f4; }
+        .login-box { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center; width: 300px; }
+        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
+        button { width: 100%; padding: 10px; background: #4e342e; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        #admin-content { display: none; padding: 20px; width: 90%; max-width: 600px; background: white; margin: 20px auto; border-radius: 10px; }
     </style>
 </head>
 <body>
-    <header>
-        <div class="logo">📖 अधिराज Story Admin</div>
-    </header>
 
-    <div class="login-container">
-        <div class="login-box">
-            <h2>Admin Login</h2>
-            <p>कृपया आफ्नो बलियो पासवर्ड हाल्नुहोस्।</p>
-            <input type="password" id="adminPass" placeholder="Password यहाँ लेख्नुहोस्">
-            <button class="login-btn" onclick="login()">Login</button>
-        </div>
+    <div id="login-area" class="login-box">
+        <h3>Admin Login 🔐</h3>
+        <input type="password" id="passInput" placeholder="पासवर्ड हाल्नुहोस्">
+        <button onclick="checkLogin()">Login</button>
+        <p id="msg" style="color: red; font-size: 14px;"></p>
+    </div>
+
+    <div id="admin-content">
+        <h2>स्वागत छ, अधिराज! 📚</h2>
+        <p>यहाँबाट नयाँ कथा थप्नुहोस्:</p>
+        <input type="text" id="storyTitle" placeholder="कथाको शीर्षक">
+        <textarea id="storyBody" rows="10" style="width: 100%; margin-bottom: 10px;" placeholder="कथा यहाँ लेख्नुहोस्..."></textarea>
+        <button onclick="saveStory()">कथा प्रकाशित गर्नुहोस्</button>
+        <br><br>
+        <button onclick="location.href='index.html'" style="background: #666;">Home Page मा जानुहोस्</button>
     </div>
 
     <script>
-        function login() {
-            var p = document.getElementById('adminPass').value;
-            // तपाईँको बलियो पासवर्ड यहाँ छ (यसलाई पछि फेर्न सक्नुहुन्छ)
-            if(p === "Adhiraj@2026#Secure") { 
-                alert("स्वागत छ अधिराज!");
-                // लग-इन सफल भएपछि भोलि हामी यहाँ कथा लेख्ने ठाउँ बनाउनेछौँ
+        function checkLogin() {
+            var pass = document.getElementById("passInput").value;
+            // यहाँ आफ्नो गोप्य पासवर्ड राख्नुहोस् (अहिलेको लागि '1234' राखिएको छ)
+            if (pass === "1234") { 
+                document.getElementById("login-area").style.display = "none";
+                document.getElementById("admin-content").style.display = "block";
+                document.body.style.alignItems = "flex-start"; // Layout मिलाउन
             } else {
-                alert("गलत पासवर्ड! फेरि प्रयास गर्नुहोस्।");
+                document.getElementById("msg").innerText = "गलत पासवर्ड! फेरि प्रयास गर्नुहोस्।";
             }
+        }
+
+        function saveStory() {
+            alert("कथा सुरक्षित भयो! (नोट: GitHub मा कथा सेभ गर्न अलि एडभान्स 'Backend' चाहिन्छ, अहिले यो तपाईँको स्क्रिनमा मात्र देखिनेछ।)");
         }
     </script>
 </body>
 </html>
-
