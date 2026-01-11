@@ -1,102 +1,86 @@
-/* General Styles */
+/* १. आधारभूत सेटिङ - यसले ब्राउजर क्र्यास हुन दिँदैन */
 body {
     background-color: #fcfaf8;
     font-family: 'Georgia', serif;
     margin: 0;
     padding: 0;
     color: #2c2c2c;
-    line-height: 1.6;
-    overflow-x: hidden; /* मोबाइलमा दायाँ-बायाँ हल्लिन दिँदैन, क्र्यास हुनबाट जोगाउँछ */
+    overflow-x: hidden; /* मोबाइलमा दायाँ-बायाँ हल्लिन दिँदैन */
 }
 
+/* २. Header मिलाउने - Stories र Admin लाई सिधा लाइनमा राख्न */
 header {
     display: flex;
     justify-content: space-between;
-    padding: 15px 5%; /* मोबाइलका लागि प्याडिङ कम गरिएको */
     align-items: center;
+    padding: 15px 5%;
     background: white;
     border-bottom: 1px solid #eee;
 }
 
-.logo { font-size: 22px; font-weight: bold; }
-.admin-link { text-decoration: none; color: #a67c52; font-weight: bold; font-size: 14px; }
+header nav {
+    display: flex;
+    gap: 15px; /* बटनहरू बीचको दूरी */
+    align-items: center;
+}
 
-/* Story Card - यसले कथालाई सधैं बीचमा राख्छ */
+.logo { font-size: 20px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+
+/* ३. बटनको डिजाइन - मोबाइलमा नबाझिने गरी */
+.nav-btn, .admin-link {
+    text-decoration: none;
+    background: #f0f0f0;
+    color: #a67c52;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+/* ४. कथाको बाकस (Card) लाई सधैं बीचमा राख्न */
 .story-card {
     background: #ffffff;
-    margin: 20px auto;    /* बीचमा सेटअप गर्छ */
-    padding: 25px;       /* भित्रपट्टि बराबर ठाउँ */
-    max-width: 650px;    /* ठूलो स्क्रिनका लागि */
-    width: 90%;          /* मोबाइल स्क्रिनको ९०% भाग ओगट्छ, टाँसिन दिँदैन */
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    box-sizing: border-box; /* प्याडिङले कार्डको चौडाइ नबढाउने सुनिश्चित गर्छ */
+    margin: 30px auto;    /* सधैं बीचमा सेटअप गर्छ */
+    padding: 25px;
+    max-width: 600px;
+    width: 90%;           /* मोबाइलमा टाँसिन दिँदैन */
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    box-sizing: border-box; 
 }
 
-.meta { font-size: 12px; color: #888; margin-bottom: 8px; }
-.story-title { cursor: pointer; color: #1a1a1a; margin: 10px 0; font-size: 24px; }
-
-.read-btn {
-    background: #1a1a1a;
-    color: #ffffff;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 25px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
+/* ५. कथाको अक्षर - बीचमा र पढ्न सजिलो */
+.story-text { 
+    font-size: 19px; 
+    line-height: 1.8; 
+    text-align: justify; /* दुवैतिर बराबर मिलाउँछ */
+    margin: 20px 0;
 }
 
-.read-btn:hover { background: #a67c52; }
-
-/* सुरुमा कथा लुकाउने */
-.full-story {
-    display: none; 
-    padding-top: 20px;
-    margin-top: 20px;
-    border-top: 1px dashed #ddd;
-}
-
-/* बटनहरू बीचमा राख्न */
+/* ६. Font Controls लाई बीचमा राख्न */
 .font-controls { 
-    margin-bottom: 20px; 
-    background: #f9f9f9; 
-    padding: 10px; 
-    border-radius: 8px; 
     display: flex;
-    justify-content: center; /* बटनलाई बीचमा लैजान्छ */
+    justify-content: center; 
     gap: 10px;
+    margin-bottom: 20px;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
 }
 
 .font-controls button {
-    background: #fff; border: 1px solid #ddd; padding: 6px 16px;
-    border-radius: 5px; cursor: pointer; font-weight: bold;
+    padding: 5px 15px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+    font-weight: bold;
 }
 
-/* कथाको टेक्स्टलाई दुवैतिर बराबर मिलाउने */
-.story-text { 
-    font-size: 19px; 
-    color: #333; 
-    text-align: justify; /* देब्रे र दाहिने दुवैतिर बराबर मिलाउँछ */
-    line-height: 1.8; 
-    word-wrap: break-word; /* लामो शब्दले स्क्रिन नफाटोस् भन्नका लागि */
-}
+.thanks-msg { text-align: center; color: #a67c52; font-style: italic; margin: 30px 0; }
+.back-btn { display: block; margin: 0 auto; color: #a67c52; background: none; border: none; text-decoration: underline; cursor: pointer; }
 
-.thanks-msg {
-    text-align: center; 
-    margin: 40px 0;
-    font-size: 20px; 
-    color: #a67c52; 
-    font-style: italic;
-}
-
-.back-btn { 
-    display: block;
-    margin: 20px auto; 
-    background: none; 
-    border: none; 
-    color: #a67c52; 
-    cursor: pointer; 
-    text-decoration: underline; 
-    font-weight: bold; 
-}
+/* ७. Hero Section मिलाउने */
+.hero { text-align: center; padding: 40px 5%; }
+.hero h1 { font-size: 32px; margin: 10px 0; }
