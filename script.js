@@ -25,4 +25,15 @@ stories.forEach((story, index) => {
         </div>
     `;
     container.innerHTML += card;
-});
+});// Admin Login System
+function checkAdmin() {
+    const pass = document.getElementById('admin-pass').value;
+    if (pass === "adhiraj123") { 
+        document.getElementById('add-story-form').style.display = 'block';
+        document.getElementById('admin-login').style.display = 'none';
+        alert("तपाईँ लगइन हुनुभयो!");
+    } else {
+        alert("गलत पासवर्ड!");
+    }
+}
+
