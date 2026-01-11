@@ -3,40 +3,44 @@ body {
     background-color: #fcfaf8;
     font-family: 'Georgia', serif;
     margin: 0;
+    padding: 0;
     color: #2c2c2c;
     line-height: 1.6;
+    overflow-x: hidden; /* मोबाइलमा दायाँ-बायाँ हल्लिन दिँदैन, क्र्यास हुनबाट जोगाउँछ */
 }
 
 header {
     display: flex;
     justify-content: space-between;
-    padding: 20px 10%;
+    padding: 15px 5%; /* मोबाइलका लागि प्याडिङ कम गरिएको */
     align-items: center;
     background: white;
     border-bottom: 1px solid #eee;
 }
 
-.logo { font-size: 24px; font-weight: bold; }
-.admin-link { text-decoration: none; color: #a67c52; font-weight: bold; }
+.logo { font-size: 22px; font-weight: bold; }
+.admin-link { text-decoration: none; color: #a67c52; font-weight: bold; font-size: 14px; }
 
-/* Story Card */
+/* Story Card - यसले कथालाई सधैं बीचमा राख्छ */
 .story-card {
     background: #ffffff;
-    margin: 20px auto;
-    padding: 30px;
-    max-width: 650px;
+    margin: 20px auto;    /* बीचमा सेटअप गर्छ */
+    padding: 25px;       /* भित्रपट्टि बराबर ठाउँ */
+    max-width: 650px;    /* ठूलो स्क्रिनका लागि */
+    width: 90%;          /* मोबाइल स्क्रिनको ९०% भाग ओगट्छ, टाँसिन दिँदैन */
     border-radius: 12px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    box-sizing: border-box; /* प्याडिङले कार्डको चौडाइ नबढाउने सुनिश्चित गर्छ */
 }
 
-.meta { font-size: 13px; color: #888; margin-bottom: 8px; }
-.story-title { cursor: pointer; color: #1a1a1a; margin: 10px 0; }
+.meta { font-size: 12px; color: #888; margin-bottom: 8px; }
+.story-title { cursor: pointer; color: #1a1a1a; margin: 10px 0; font-size: 24px; }
 
 .read-btn {
-    background: #1a1a1a; /* कालो ब्याकग्राउन्ड */
-    color: #ffffff;    /* सेतो अक्षर */
+    background: #1a1a1a;
+    color: #ffffff;
     border: none;
-    padding: 10px 22px;
+    padding: 12px 24px;
     border-radius: 25px;
     cursor: pointer;
     font-weight: bold;
@@ -48,22 +52,51 @@ header {
 /* सुरुमा कथा लुकाउने */
 .full-story {
     display: none; 
-    padding-top: 25px;
+    padding-top: 20px;
     margin-top: 20px;
     border-top: 1px dashed #ddd;
 }
 
-.font-controls { margin-bottom: 15px; background: #f9f9f9; padding: 10px; border-radius: 5px; }
-.font-controls button {
-    background: #fff; border: 1px solid #ddd; padding: 5px 15px;
-    border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 10px;
+/* बटनहरू बीचमा राख्न */
+.font-controls { 
+    margin-bottom: 20px; 
+    background: #f9f9f9; 
+    padding: 10px; 
+    border-radius: 8px; 
+    display: flex;
+    justify-content: center; /* बटनलाई बीचमा लैजान्छ */
+    gap: 10px;
 }
 
-.story-text { font-size: 19px; color: #333; text-align: justify; line-height: 1.8; }
+.font-controls button {
+    background: #fff; border: 1px solid #ddd; padding: 6px 16px;
+    border-radius: 5px; cursor: pointer; font-weight: bold;
+}
+
+/* कथाको टेक्स्टलाई दुवैतिर बराबर मिलाउने */
+.story-text { 
+    font-size: 19px; 
+    color: #333; 
+    text-align: justify; /* देब्रे र दाहिने दुवैतिर बराबर मिलाउँछ */
+    line-height: 1.8; 
+    word-wrap: break-word; /* लामो शब्दले स्क्रिन नफाटोस् भन्नका लागि */
+}
 
 .thanks-msg {
-    text-align: center; margin: 40px 0;
-    font-size: 22px; color: #a67c52; font-family: cursive;
+    text-align: center; 
+    margin: 40px 0;
+    font-size: 20px; 
+    color: #a67c52; 
+    font-style: italic;
 }
 
-.back-btn { background: none; border: none; color: #a67c52; cursor: pointer; text-decoration: underline; font-weight: bold; }
+.back-btn { 
+    display: block;
+    margin: 20px auto; 
+    background: none; 
+    border: none; 
+    color: #a67c52; 
+    cursor: pointer; 
+    text-decoration: underline; 
+    font-weight: bold; 
+}
