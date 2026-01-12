@@ -60,7 +60,7 @@
 <body>
 
     <header>
-        <div class="logo-text">📖 अधिराज Story</div>
+        <div class="logo-text">🅰️ अधिराज Story</div>
         <button style="background:var(--text-dark); color:#fff; border:none; padding:8px 18px; border-radius:20px; font-size:12px;">Stories</button>
     </header>
 
@@ -76,7 +76,7 @@
                 <span class="badge">Collection: Hindi</span>
                 <h2 class="story-title">स्वार्थी भाई</h2>
                 <p style="color: #666;">एक भाई का बलिदान और दूसरे का स्वार्थ।</p>
-                <button class="read-btn" id="btnS1" onclick="toggleStory('contentS1', 'btnS1')">पूरा कथा पढ्नुहोस्</button>
+                <button class="read-btn" id="btnS1" onclick="toggleStory('contentS1', 'btnS1')">Read</button>
 
                 <div id="contentS1" class="full-content">
                     <div class="font-controls">
@@ -121,7 +121,7 @@
                 <span class="badge">Collection: Hindi</span>
                 <h2 class="story-title">वियोग का सिंदूर…!</h2>
                 <p style="color: #666;">सुमित्राको अटल विश्वास र अमर सुहागको मार्मिक गाथा।</p>
-                <button class="read-btn" id="btn0" onclick="toggleStory('content0', 'btn0')">पूरा कथा पढ्नुहोस्</button>
+                <button class="read-btn" id="btn0" onclick="toggleStory('content0', 'btn0')">Read</button>
 
                 <div id="content0" class="full-content">
                     <div class="font-controls">
@@ -165,7 +165,7 @@
                 <span class="badge" style="background:#e1f5fe; color:#0288d1;">Collection: Nepali</span>
                 <h2 class="story-title">दिदीको समर्पण</h2>
                 <p style="color: #666;">शितल र कुसुम: त्याग र प्रेमको एउटा अमर गाउँले कथा।</p>
-                <button class="read-btn" style="background:#0288d1;" id="btn1" onclick="toggleStory('content1', 'btn1')">पूरा कथा पढ्नुहोस्</button>
+                <button class="read-btn" style="background:#0288d1;" id="btn1" onclick="toggleStory('content1', 'btn1')">Read</button>
 
                 <div id="content1" class="full-content">
                     <div class="font-controls">
@@ -212,7 +212,7 @@
                 <span class="badge" style="background:#e1f5fe; color:#0288d1;">Collection: Nepali</span>
                 <h2 class="story-title">अधुरो किनार</h2>
                 <p style="color: #666;">अधिराज र सुमेघा: एकतर्फी माया र समयको निर्मम खेल।</p>
-                <button class="read-btn" style="background:#0288d1;" id="btn2" onclick="toggleStory('content2', 'btn2')">पूरा कथा पढ्नुहोस्</button>
+                <button class="read-btn" style="background:#0288d1;" id="btn2" onclick="toggleStory('content2', 'btn2')">Read</button>
 
                 <div id="content2" class="full-content">
                     <div class="font-controls">
@@ -255,7 +255,7 @@
                 <span class="badge" style="background:#fce4ec; color:#d81b60;">Collection: Nepali</span>
                 <h2 class="story-title">वैवाहिक वेश्या</h2>
                 <p style="color: #666;">समाजको ढोंग र सुनिताको हृदयविदारक विद्रोहको कथा।</p>
-                <button class="read-btn" style="background:#0288d1;" id="btn3" onclick="toggleStory('content3', 'btn3')">पूरा कथा पढ्नुहोस्</button>
+                <button class="read-btn" style="background:#0288d1;" id="btn3" onclick="toggleStory('content3', 'btn3')">Read</button>
 
                 <div id="content3" class="full-content">
                     <div class="font-controls">
@@ -320,7 +320,7 @@
             const btn = document.getElementById(btnId);
             if (content.style.display === "block") {
                 content.style.display = "none";
-                btn.innerText = "पूरा कथा पढ्नुहोस्";
+                btn.innerText = "Read";
             } else {
                 content.style.display = "block";
                 btn.innerText = "कथा लुकाउनुहोस्";
