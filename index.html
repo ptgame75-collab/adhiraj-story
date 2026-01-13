@@ -2,6 +2,7 @@
 <html lang="ne">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>अधिराज Story</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -11,40 +12,43 @@
         <div class="wavy-text">
             <span>अ</span><span>धि</span><span>रा</span><span>ज</span>&nbsp;<span>S</span><span>t</span><span>o</span><span>r</span><span>y</span>
         </div>
-        <p style="color:#888;">loading.......</p>
+        <p style="color:#666; margin-top:15px;">loading.......</p>
     </div>
 
     <div id="reading-page">
-        <div class="nav-bar" style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #ddd;">
+        <div class="story-header">
             <div>
-                <button onclick="togglePencil()" id="pencil-btn">✏️</button>
-                <button onclick="clearCanvas()">🔙 Clear</button>
+                <button onclick="togglePencil()" id="pen-icon">✏️</button>
+                <button onclick="clearCanvas()">🔙</button>
             </div>
-            <div style="display:flex; gap:10px;">
+            <div>
                 <button onclick="changeFontSize(2)">A+</button>
                 <button onclick="changeFontSize(-2)">A-</button>
                 <button onclick="toggleNightMode()">🌙</button>
                 <button onclick="closeStory()">✕</button>
             </div>
         </div>
-        <div id="story-container" style="position:relative;">
+        <div style="position:relative;">
             <canvas id="pencil-canvas"></canvas>
-            <div id="story-content" class="story-body"></div>
+            <div id="story-display" class="story-content"></div>
         </div>
     </div>
 
-    <header style="text-align:center; padding:20px;">
-        <h2>अधिराज Story</h2>
-        <div class="tabs" style="display:flex; justify-content:center; gap:20px;">
-            <button onclick="showTab('hindi')">हिन्दी कथाहरू</button>
-            <button onclick="showTab('nepali')">नेपाली कथाहरू</button>
+    <div class="container">
+        <h2 style="text-align:center;">अधिराज Story</h2>
+        <div class="tabs">
+            <button class="tab-btn active" id="t-hindi" onclick="showTab('hindi')">हिन्दी</button>
+            <button class="tab-btn" id="t-nepali" onclick="showTab('nepali')">नेपाली</button>
         </div>
-    </header>
 
-    <div id="hindi-list" class="tab-content">
-        </div>
-    <div id="nepali-list" class="tab-content" style="display:none;">
-        </div>
+        <div id="hindi-list">
+            <div class="story-card" onclick="loadStory('S3')"><div><b>बियोग सिन्दुर</b><br><small>माया र विश्वासको जित</small></div><span>📖</span></div>
+            </div>
+
+        <div id="nepali-list" style="display:none;">
+            <div class="story-card" onclick="loadStory('N3')"><div><b>वैवाहिक ‌वेश्या</b><br><small>सिन्दुरको चिहाल</small></div><span>📖</span></div>
+            </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
