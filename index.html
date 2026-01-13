@@ -4,106 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>अधिराज Story</title>
-    <style>
-        :root {
-            --bg-color: #f9f7f2;
-            --text-dark: #2d2d2d;
-            --accent-brown: #a68b6d;
-            --success-green: #2e7d32;
-        }
-
-        /* --- SPLASH SCREEN --- */
-        #splash-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #fff;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            z-index: 10000;
-            transition: opacity 0.8s ease;
-        }
-        .blob {
-            width: 150px; height: 150px;
-            background: linear-gradient(45deg, #a68b6d, #2d2d2d);
-            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-            animation: wavy 3s infinite alternate;
-            display: flex; justify-content: center; align-items: center;
-        }
-        .blob span { color: white; font-weight: bold; font-size: 18px; text-align: center; font-style: italic; }
-        
-        @keyframes wavy {
-            0% { border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%; transform: scale(1); }
-            100% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; transform: scale(1.1); }
-        }
-
-        /* --- BASIC STYLES --- */
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-color); margin: 0; font-family: 'Georgia', serif; color: var(--text-dark); overflow: hidden; }
-
-        header { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 15px 5%; background: #fff; border-bottom: 1px solid #eee;
-        }
-        .logo-text { font-size: 22px; font-weight: bold; font-style: italic; }
-
-        .tab-nav { 
-            display: flex; justify-content: center; background: #fff; 
-            border-bottom: 1px solid #eee; 
-        }
-        .tab-nav div { 
-            padding: 12px 25px; cursor: pointer; font-weight: bold; color: #888; 
-            border-bottom: 3px solid transparent; font-size: 14px; 
-        }
-        .tab-nav div.active { color: var(--text-dark); border-bottom: 3px solid var(--text-dark); }
-
-        /* --- HOME LIST VIEW --- */
-        .main-wrapper { display: flex; width: 200vw; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
-        section { width: 100vw; padding: 15px; height: calc(100vh - 110px); overflow-y: auto; }
-
-        .list-item {
-            background: #fff; margin-bottom: 12px; padding: 22px;
-            border-radius: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-            display: flex; justify-content: space-between; align-items: center;
-            cursor: pointer; transition: 0.3s;
-            max-width: 600px; margin-left: auto; margin-right: auto;
-        }
-        .list-item:active { transform: scale(0.97); background: #fdfaf5; }
-        .list-item h3 { margin: 0; font-size: 19px; font-weight: 500; }
-        .list-item .arrow { color: var(--accent-brown); font-size: 20px; }
-
-        /* --- READING PAGE (OVERLAY) --- */
-        #reading-page {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-color); z-index: 2000;
-            display: none; transform: translateY(100%);
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow-y: auto;
-        }
-        #reading-page.active { display: block; transform: translateY(0); }
-
-        .read-header {
-            position: sticky; top: 0; background: #fff; padding: 15px;
-            display: flex; align-items: center; gap: 15px; border-bottom: 1px solid #eee;
-            z-index: 2001; box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-        }
-        .back-btn { font-size: 28px; cursor: pointer; border: none; background: none; padding: 0 10px; }
-
-        .content-container { padding: 25px; max-width: 750px; margin: auto; }
-        .story-text { font-size: 18px; line-height: 1.9; text-align: justify; white-space: pre-line; }
-
-        .font-controls { 
-            display: flex; justify-content: space-between; align-items: center; 
-            margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #eee;
-        }
-        .font-controls button { padding: 8px 15px; border: 1px solid #ddd; background: #fff; border-radius: 8px; font-weight: bold; }
-
-        /* --- PRESERVING YOUR STORY STRUCTURE --- */
-        .quote-box { background: #fff5f5; padding: 20px; border-left: 5px solid #b71c1c; margin: 25px 0; font-style: italic; font-weight: bold; }
-        .author-name { font-size: 15px; color: #777; text-align: left; margin: 25px 0; font-weight: bold; border-left: 3px solid var(--accent-brown); padding-left: 10px; }
-        .victory-msg { color: var(--success-green); text-align: center; font-weight: bold; font-size: 24px; margin: 35px 0 10px; }
-        .thanks-msg { text-align: center; color: #555; font-size: 16px; margin-bottom: 50px; }
-        .badge { color: var(--accent-brown); background: #efe9e1; padding: 5px 12px; border-radius: 15px; font-size: 10px; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; display: inline-block; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -125,8 +26,7 @@
                     <button onclick="changeFontSize(-2)">A-</button>
                 </div>
             </div>
-            <div id="story-content-area">
-                </div>
+            <div id="story-content-area"></div>
         </div>
     </div>
 
@@ -173,7 +73,6 @@
     </div>
 
     <div id="story-data" style="display:none;">
-        
         <div id="data_S1">
             <span class="badge">Collection: Hindi</span>
             <div class="story-text">
@@ -207,124 +106,9 @@
             <div class="victory-msg">बलिदान</div>
             <div class="thanks-msg">♡︎ Thanks For Reading ♡︎</div>
         </div>
-
-        <div id="data_S4">
-            <span class="badge">Collection: Hindi</span>
-            <div class="story-text">
-                गंगापुर एक छोटा-सा शांत गाँव था, जो हरे-भरे खेतों और घने आम के बागों से घिरा हुआ था। इसी गाँव में रहता था बूढ़ा किसान, हरि। हरि अपनी उम्र के आखिरी पड़ाव पर था, लेकिन उसकी आँखों में अभी भी जवानी जैसी चमक बाकी थी। वह अकेला रहता था, उसकी पत्नी का कई साल पहले निधन हो गया था और उसका एकलौता बेटा शहर में नौकरी करता था।
-
-                हरि का एक छोटा-सा खेत था, जिस पर वह सब्जियाँ उगाकर अपना गुजारा करता था। उसके खेत तक जाने के लिए एक संकरा, पथरीला रास्ता था। उस रास्ते के बीचों-बीच एक विशालकाय पत्थर पड़ा हुआ था। कोई नहीं जानता था कि वह पत्थर वहाँ कब से पड़ा है। सभी उससे परेशान थे, लेकिन उसे हटाने की कोशिश कोई नहीं करता था।
-
-                <strong>संकल्प की शक्ति:</strong>
-                एक दिन, हरि ने ठान लिया। उसने अपना हथौड़ा उठाया और पत्थर पर वार करना शुरू किया। पड़ोसी किसान, मोहन, ने उसे देखा और हँसते हुए कहा, “अरे हरि काका! इतने सालों से ये पत्थर यहाँ पड़ा है। तुम्हारे जैसे बूढ़े आदमी से यह कैसे हटेगा? व्यर्थ की मेहनत कर रहे हो।”
-                हरि ने मुस्कुराते हुए कहा, “बेटा, कोशिश करने में क्या हर्ज है? अगर आज नहीं हटा, तो कल हट जाएगा। कल नहीं तो परसों।”
-
-                हफ्तों तक यही सिलसिला चला। हरि सुबह उठता, अपने खेत का काम निपटाता और फिर घंटों उस पत्थर पर हथौड़े से वार करता। गाँव वाले उसका मजाक उड़ाते, कुछ उसे पागल समझने लगे। लेकिन हरि अपने संकल्प पर अडिग था।
-
-                <strong>चमत्कारिक मोड़:</strong>
-                एक महीना बीत गया। एक शाम, जब हरि ने पूरी ताकत से एक जोरदार वार किया, तो पत्थर दो टुकड़ों में बंट गया। पत्थर के नीचे से एक मिट्टी से सना हुआ पुराना लोटा निकला। जब उसने उसे साफ किया, तो अंदर से चमकती हुई सोने की अशर्फियाँ निकलीं।
-
-                <div class="quote-box">
-                    “देखा बच्चों! यही है ‘पत्थर का दिल’। जिसे तुम एक रुकावट समझते थे, उसी के अंदर से खजाना निकल आया। मेहनत और हिम्मत कभी व्यर्थ नहीं जाती।”
-                </div>
-
-                हरि ने उन अशर्फियों से गाँव में एक नया कुआँ और स्कूल बनवाया। उस दिन के बाद से गाँव वालों ने कभी किसी काम को असंभव नहीं समझा।
-
-                <strong>शिक्षा:</strong> कड़ी मेहनत, लगन और धैर्य कभी भी व्यर्थ नहीं जाता। जीवन की सबसे बड़ी बाधाएं ही अक्सर सबसे बड़े अवसरों को छिपाए होती हैं।
-            </div>
-            <div class="author-name">लेखक: अधिराज सुनार</div>
-            <div class="victory-msg">धैर्यको फल</div>
-            <div class="thanks-msg">♡︎ Thanks For Reading ♡︎</div>
         </div>
-
-        <div id="data_0">
-            <span class="badge">Collection: Hindi</span>
-            <div class="story-text">
-                बनारस के पास एक छोटा सा गाँव था, जहाँ गंगा की लहरों का संगीत हर घर में सुनाई देता था। सुमित्रा के हाथों में हमेशा हरी चूड़ियाँ खनकतीं और उसकी माँग में गहरा लाल सिंदूर सजा रहता था।
-
-                <strong>वो हसीन सात दिन:</strong>
-                सुमित्रा की शादी गाँव के ही एक वीर और हँसमुख युवक माधव से हुई थी। माधव फौज में था। शादी के बाद सिर्फ सात दिन ही बीते थे कि सीमा पर तनाव बढ़ गया और माधव को तुरंत ड्यूटी पर लौटने का आदेश मिला।
-
-                <strong>अँधेरी दीपावली:</strong>
-                दीपावली का त्योहार आया। सुमित्रा ने घर को दियों से सजाया। लेकिन उस रात माधव नहीं आया। आई तो बस एक सरकारी जीप और तिरंगे में लिपटा हुआ माधव का पार्थिव शरीर।
-
-                <div class="quote-box">
-                    "वो लौटेगा… उसने मुझसे वादा किया था कि वो रेशमी साड़ी लेकर आएगा। मेरा माधव अपनी सुमी का भरोसा कभी नहीं तोड़ सकता।"
-                </div>
-
-                <strong>अंतिम मिलन:</strong>
-                एक कडाके की ठंड वाली रात, सुमित्रा की सांसें उखड़ने लगीं। अचानक, उसे अंधेरे कमरे में एक तेज रौशनी दिखाई दी। दरवाजे पर कोई खड़ा था—वही चौड़ी छाती, वही फौजी वर्दी। वह माधव था। माधव ने कहा, "सुमी! देखो, मैं आ गया।" सुमित्रा के चेहरे पर एक अलौकिक चमक दौड़ गई।
-
-                अगली सुबह जब गाँव वालों ने देखा, सुमित्रा निर्जीव पड़ी थी, लेकिन उसके चेहरे पर कोई दुख नहीं था।
-            </div>
-            <div class="author-name">लेखक: अधिराज सुनार</div>
-            <div class="victory-msg">विश्वासको जीत</div>
-            <div class="thanks-msg">♡︎ Thanks For Reading ♡︎</div>
-        </div>
-
-        <div id="data_1">
-            <span class="badge" style="background:#e1f5fe; color:#0288d1;">Collection: Nepali</span>
-            <div class="story-text">
-                पहाडको काखमा एउटा सानो गाउँ थियो, जहाँ बादलहरू घरका झ्यालबाट भित्र पस्ने गर्थे। त्यही गाउँको एउटा सानो ढुङ्गे घरमा दुईजना बहिनीहरू बस्थे— शितल र कुसुम।
-
-                <strong>सङ्घर्ष र प्रेमको कथा:</strong>
-                बाल्यकालमै आमाबुबा गुमाएका उनीहरूको जीवन सजिलो थिएन। शितलले आफ्नो बाल्यकाललाई एकातिर पन्छाएर कुसुमलाई हुर्काउन आफ्नो सारा जवानी खर्चिइन्।
-
-                एक पटक कुसुम निकै बिरामी परिन्। शितलले दिनरात नभनी उनको सेवा गरिन्। उनले गाउँको देउरालीमा गएर एउटा भाकल गरिन्, "हे भगवान्, मेरो रङ्ग उडेर जाओस् तर मेरी बहिनीको अनुहारमा गुलाफको जस्तै लाली कहिल्यै नघटोस्।"
-
-                <strong>समयको परिवर्तन:</strong>
-                वर्षौँ बित्यो। कुसुमले सहरमा गएर नाम र सम्मान कमाइन्। एकदिन कुसुम धेरै वर्षपछि सहरबाट गाउँ फर्किइन्। दिदीको हातमा ठेला उठेका थिए, तर उनको मुस्कान अभै पनि त्यस्तै शीतल थियो।
-
-                कुसुमले दिदीको काखमा टाउको राखेर रोइन् र भनिन्, "दिदी, मानिसहरू मेरो सफलताको कुरा गर्छन्, तर यो सबै त तपाईँको त्यागको जगमा उभिएको छ।"
-
-                <strong>कविको असमर्थता:</strong>
-                गाउँमा एकजना प्रख्यात कवि बस्थे। उनले भने, "मैले हजारौँ कविता लेखेँ, तर यी दुई बहिनीको प्रेम वर्णन गर्ने शब्दहरू संसारको कुनै भी शब्दकोशमा छैनन्।"
-            </div>
-            <div class="author-name">लेखक: अधिराज सुनार</div>
-            <div class="victory-msg">निस्वार्थ प्रेम</div>
-            <div class="thanks-msg">♡︎ Thanks For Reading ♡︎</div>
-        </div>
-
-        <div id="data_2">
-            <span class="badge" style="background:#e1f5fe; color:#0288d1;">Collection: Nepali</span>
-            <div class="story-text">
-                <strong>स्कुलका ती स्वर्ण दिनहरू</strong>
-                यो कथा तब सुरु हुन्छ जब अधिराज र सुमेघा एउटै स्कुलमा पढ्थे। अधिराज स्वभावले अलि शान्त र एकान्तप्रेमी थिए, जबकि सुमेघा कक्षाकी सबैभन्दा चञ्चल थिइन्।
-
-                <strong>भावनाको विस्फोट र तीतो सत्य</strong>
-                एक साँझ, अधिराजले आफ्नो सारा हिम्मत बटुले। उनले सुमेघालाई एउटा लामो मेसेज लेखे। सुमेघाको रिप्लाई आयो— "अधिराज, मलाई माफ गरिदेऊ। अर्को महिना मेरो इन्गेजमेन्ट हुँदैछ।"
-
-                अधिराजको संसार एकैछिनमा भत्कियो। तर उनले सुमेघालाई जवाव दिए— "म तिम्रो निर्णयको सम्मान गर्छु। मेरो माया तिमीलाई पाउनका लागि मात्र थिएन, तिमी सधैँ हाँसिरहेको देख्नका लागि हो।"
-
-                <strong>निष्कर्ष: प्रतीक्षा र पवित्रता</strong>
-                मानिसहरू भन्छन्, "ऊ पागल हो।" तर अधिराज मुस्कुराउँदै भन्छन्— "पागल त ती हुन् जसले मायामा व्यापार खोज्छन्।"
-            </div>
-            <div class="author-name">लेखक: अधिराज सुनार</div>
-            <div class="victory-msg" style="color:#0288d1;">अधुरो प्रतीक्षा....!</div>
-            <div class="thanks-msg">♡︎ Thanks For Watching ♡︎</div>
-        </div>
-
-        <div id="data_3">
-            <span class="badge" style="background:#fce4ec; color:#d81b60;">Collection: Nepali</span>
-            <div class="story-text">
-                गाउँको चौतारीमा एउटा समूह गफिँदै थियो। सुनिता टाढैबाट आउँदै गरेको देखेर गाउँकी ठूलीआमाले थुकिन्, "छि! कतिवटा पोइ फेर्छेस् हँ सुनिता?"
-
-                <strong>पहिलो घाउ: एउटा सपनाको हत्या</strong>
-                उनको पहिलो विवाह हुँदा उनी मात्र उन्नाइस वर्षकी थिइन्। तर बिहेको ६ महिनामै श्रीमानले उनलाई बेच्न खोज्यो। जवाफमा उनले गालामा निलडाम र घरबाट निष्कासन पाइन्।
-
-                <strong>अन्तिम संवाद र समाजलाई प्रश्न</strong>
-                आज आठौँ पटक सिन्दूर हालेर गाउँ पस्दै गर्दा, उनले भनिन्— "तपाईँहरू मलाई 'वेश्या' भन्नुहुन्छ, तर ती पुरुषहरूलाई के भन्नुहुन्छ, जसले मलाई एउटा घर दिनुको सट्टा सधैँ अर्को ओछ्यान खोज्न बाध्य पारे?"
-
-                "यो सिन्दूर मेरो लागि सुहाग होइन, यो त मेरो लास माथि फालिएको अबिर जस्तै हो।" सुनिताको छाया बिस्तारै गाउँको गोरेटोबाट ओझेल हुँदै गयो।
-            </div>
-            <div class="author-name">लेखक: अधिराज सुनार</div>
-            <div class="victory-msg" style="color:#e53935; font-size: 20px;">सिन्दुरको चिहान</div>
-            <div class="thanks-msg">♡︎ Thanks For Reading ♡︎</div>
-        </div>
-    </div>
 
     <script>
-        // Splash Screen
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('splash-screen').style.opacity = '0';
@@ -345,15 +129,11 @@
             currentStoryId = id;
             const data = document.getElementById('data_' + id).innerHTML;
             const title = document.querySelector(`[onclick="openStory('${id}')"] h3`).innerText;
-            
             document.getElementById('story-content-area').innerHTML = data;
             document.getElementById('current-title').innerText = title;
-            
             const page = document.getElementById('reading-page');
             page.style.display = 'block';
             setTimeout(() => { page.classList.add('active'); }, 50);
-            
-            // Save as last read
             localStorage.setItem('last_read_id', id);
         }
 
@@ -371,23 +151,17 @@
 
         function saveProgress() {
             localStorage.setItem('bookmark_id', currentStoryId);
-            alert("यो कथा बुकमार्क गरियो! अर्को पटक 'Continue Reading' मा क्लिक गरेर यहाँ आउन सक्नुहुन्छ।");
+            alert("बुकमार्क गरियो!");
         }
 
         function checkLastRead() {
             const id = localStorage.getItem('bookmark_id') || localStorage.getItem('last_read_id');
             if (id) {
-                // Determine tab
-                if (['1', '2', '3'].includes(id)) showTab(1);
-                else showTab(0);
-                
+                if (['1', '2', '3'].includes(id)) showTab(1); else showTab(0);
                 openStory(id);
-            } else {
-                alert("अझै कुनै कथा पढिएको छैन।");
-            }
+            } else { alert("अझै कुनै कथा पढिएको छैन।"); }
         }
 
-        // Swipe
         let startX;
         document.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
         document.addEventListener('touchend', e => {
