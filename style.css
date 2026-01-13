@@ -1,32 +1,30 @@
 <style>
-    /* Premium Color Palette & Fonts */
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
-
+    /* Premium Look for अधिराज Story */
     :root {
-        --header-bg: linear-gradient(135deg, #1a1a1a 0%, #3d3d3d 100%);
-        --accent-gold: #a68b6d;
-        --bg-body: #fdfaf7;
-        --text-white: #ffffff;
-        --text-dark: #2d2d2d;
-        --card-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        --primary-dark: #1a1a1a;
+        --secondary-dark: #333333;
+        --accent-gold: #a68b6d; /* प्रिमियम सुनौलो रङ */
+        --bg-soft: #fdfaf7;
+        --card-white: #ffffff;
+        --text-main: #2d2d2d;
+        --shadow-light: 0 10px 30px rgba(0,0,0,0.06);
     }
 
     * { 
         box-sizing: border-box; 
-        -webkit-tap-highlight-color: transparent;
+        -webkit-tap-highlight-color: transparent; 
     }
 
     body { 
-        background-color: var(--bg-body); 
+        background-color: var(--bg-soft); 
         margin: 0; 
-        font-family: 'Poppins', 'Georgia', serif; 
-        color: var(--text-dark);
-        overflow-x: hidden;
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+        color: var(--text-main);
     }
 
-    /* --- Premium Header Design --- */
+    /* Header Design */
     header { 
-        background: var(--header-bg);
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
         padding: 20px 6%;
         display: flex;
         justify-content: space-between;
@@ -35,178 +33,90 @@
         top: 0;
         z-index: 1000;
         border-bottom: 3px solid var(--accent-gold);
-        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
     }
 
     .logo-text { 
         font-size: 24px; 
         font-weight: 800; 
-        color: var(--text-white);
+        color: #ffffff; 
         letter-spacing: 1px;
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
     }
 
-    /* "अधिराज" शब्दलाई सुनौलो बनाउन */
-    .logo-text span {
-        color: var(--accent-gold);
-        font-style: italic;
-    }
+    .logo-text span { color: var(--accent-gold); font-style: italic; }
 
-    .continue-btn {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        color: white;
-        padding: 8px 18px;
-        border-radius: 30px;
-        font-size: 12px;
-        font-weight: 600;
-        cursor: pointer;
-    }
-
-    /* --- Navigation Tabs --- */
+    /* Navigation Tabs */
     .tab-nav { 
         display: flex; 
-        justify-content: center; 
-        background: #fff;
+        background: var(--card-white);
         margin: 15px 20px;
         border-radius: 15px;
         padding: 5px;
-        box-shadow: var(--card-shadow);
-        position: sticky;
-        top: 75px;
-        z-index: 999;
+        box-shadow: var(--shadow-light);
     }
 
     .tab-nav div { 
         flex: 1;
         text-align: center;
-        padding: 12px; 
+        padding: 14px; 
         cursor: pointer; 
         font-weight: 600; 
         color: #888; 
-        border-radius: 12px;
         transition: 0.3s;
+        border-radius: 12px;
         font-size: 14px;
     }
 
     .tab-nav div.active { 
-        background: var(--header-bg);
+        background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
         color: white; 
     }
 
-    /* --- Story Cards Premium Layout --- */
+    /* Story Card Design */
     .story-card { 
-        background: #ffffff; 
+        background: var(--card-white); 
         border-radius: 20px; 
-        padding: 25px; 
-        margin: 20px auto;
-        width: 90%;
-        max-width: 600px;
-        box-shadow: var(--card-shadow);
+        padding: 22px; 
+        margin: 15px 20px;
+        box-shadow: var(--shadow-light);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         border: 1px solid rgba(0,0,0,0.02);
-        transition: transform 0.2s;
+        transition: transform 0.2s ease;
     }
 
-    .story-card:active { transform: scale(0.98); }
-
-    .badge { 
-        display: inline-block;
-        color: var(--accent-gold); 
-        background: #efe9e1; 
-        padding: 4px 12px; 
-        border-radius: 10px; 
-        font-size: 10px; 
-        font-weight: bold; 
-        text-transform: uppercase;
-        margin-bottom: 10px;
-    }
+    .story-card:active { transform: scale(0.97); }
 
     .story-title { 
-        font-size: 22px; 
-        margin: 10px 0; 
-        line-height: 1.3; 
-        color: #1a1a1a;
-        font-weight: 800;
+        font-size: 19px; 
+        font-weight: 700; 
+        color: var(--text-main);
+        margin: 0;
     }
 
-    /* --- Content Inside Card --- */
+    .arrow-icon { 
+        color: var(--accent-gold); 
+        font-size: 22px; 
+        font-weight: bold; 
+    }
+
+    /* Content Styling (कथा भित्रको सजावट) */
     .full-content { 
-        display: none; 
-        margin-top: 20px; 
-        border-top: 1px solid #eee; 
-        padding-top: 20px; 
+        background: #fff;
+        margin: -10px 20px 20px;
+        padding: 20px;
+        border-radius: 0 0 20px 20px;
+        border-top: 1px solid #eee;
     }
 
     .story-text { 
         font-size: 18px; 
-        line-height: 1.9; 
+        line-height: 1.8; 
         text-align: justify; 
-        white-space: pre-line; 
+        color: #333;
     }
-
-    .font-controls { 
-        display: flex; 
-        justify-content: flex-end; 
-        gap: 8px; 
-        margin-bottom: 15px; 
-    }
-
-    .font-controls button { 
-        padding: 5px 12px; 
-        border: 1px solid #ddd; 
-        background: #fff; 
-        border-radius: 8px; 
-        font-weight: bold; 
-    }
-
-    .read-btn { 
-        width: 100%; 
-        padding: 14px; 
-        background: var(--header-bg); 
-        color: white; 
-        border: none; 
-        border-radius: 15px; 
-        font-size: 15px; 
-        font-weight: bold; 
-        cursor: pointer;
-        margin-top: 15px;
-    }
-
-    .quote-box { 
-        background: #fff5f5; 
-        padding: 20px; 
-        border-left: 5px solid #b71c1c; 
-        margin: 25px 0; 
-        font-style: italic; 
-    }
-
-    .author-name { 
-        font-size: 14px; 
-        color: #777; 
-        margin: 20px 0; 
-        border-left: 3px solid var(--accent-gold); 
-        padding-left: 10px; 
-    }
-
-    .victory-msg { 
-        color: #2e7d32; 
-        text-align: center; 
-        font-weight: bold; 
-        font-size: 22px; 
-        margin-top: 20px; 
-    }
-
-    .thanks-msg { 
-        text-align: center; 
-        color: var(--accent-gold); 
-        font-size: 16px; 
-        margin: 20px 0;
-        font-weight: bold;
-    }
-
-    .main-wrapper { display: flex; width: 200vw; transition: transform 0.4s ease; }
-    section { width: 100vw; padding: 10px; }
 </style>
