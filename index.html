@@ -6,130 +6,148 @@
     <title>अधिराज Story</title>
     <link rel="manifest" href="manifest.json">
     <style>
-        /* लोडिङ स्क्रिनको डिजाइन (Splash Screen) */
+        /* १. Splash Screen (Loading) */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; color: #fff; display: flex; flex-direction: column;
             justify-content: center; align-items: center; z-index: 9999;
         }
-        .splash-logo { font-size: 28px; font-weight: bold; margin-bottom: 20px; font-style: italic; }
-        .loading-bar-bg { width: 200px; height: 4px; background: #333; border-radius: 10px; overflow: hidden; }
-        .loading-bar-fill { width: 0%; height: 100%; background: #0288d1; transition: width 0.1s; }
+        .splash-logo { font-size: 30px; font-weight: bold; margin-bottom: 25px; letter-spacing: 2px; }
+        .loading-container { width: 60%; max-width: 250px; height: 4px; background: #333; border-radius: 10px; overflow: hidden; }
+        .loading-bar { width: 0%; height: 100%; background: #0288d1; transition: width 0.2s; }
 
-        /* पुरानो डिजाइन र शीर्षक मात्र देखिने स्टाइल */
-        :root { --bg-color: #f9f7f2; --text-dark: #2d2d2d; --accent-brown: #a68b6d; --success-green: #2e7d32; }
+        /* २. Main UI */
+        :root { --bg: #f9f7f2; --text: #2d2d2d; --accent: #a68b6d; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-color); margin: 0; font-family: 'Georgia', serif; color: var(--text-dark); }
-        
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .tab-nav { display: flex; justify-content: center; background: #fff; border-bottom: 1px solid #eee; }
-        .tab-nav div { padding: 12px 25px; cursor: pointer; font-weight: bold; color: #888; }
-        .tab-nav div.active { color: var(--text-dark); border-bottom: 3px solid var(--text-dark); }
+        body { background-color: var(--bg); margin: 0; font-family: 'Georgia', serif; color: var(--text); }
 
-        .main-wrapper { display: flex; width: 200vw; transition: transform 0.4s; }
-        section { width: 100vw; padding: 20px; height: calc(100vh - 110px); overflow-y: auto; }
-
-        /* शीर्षक मात्र देखिने कार्ड */
-        .story-card { 
-            background: #fff; border-radius: 20px; padding: 20px; 
-            margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
-            cursor: pointer; transition: 0.3s;
+        header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 15px 5%; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky; top: 0; z-index: 100;
         }
-        .story-card:hover { transform: translateY(-3px); }
-        .story-title { font-size: 22px; margin: 0; }
-        .short-desc { color: #666; font-size: 14px; margin-top: 8px; }
+        .logo-text { font-size: 20px; font-weight: bold; }
 
-        /* पूर्ण सामग्री सुरुमा लुकाउने */
-        .full-content { display: none; margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px; }
-        .story-text { font-size: 18px; line-height: 1.9; text-align: justify; white-space: pre-line; }
-        .quote-box { background: #fff5f5; padding: 20px; border-left: 5px solid #b71c1c; margin: 25px 0; }
-        .read-btn { width: 100%; padding: 12px; background: var(--text-dark); color: white; border: none; border-radius: 10px; margin-top: 15px; cursor: pointer; }
+        /* Home Page - Title Only List */
+        .container { padding: 20px; max-width: 600px; margin: 0 auto; }
+        .story-list-card {
+            background: #fff; border-radius: 15px; padding: 20px;
+            margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            cursor: pointer; border-left: 5px solid var(--text);
+            transition: transform 0.2s;
+        }
+        .story-list-card:active { transform: scale(0.98); }
+        .story-title-main { font-size: 1.2rem; font-weight: bold; margin: 0; }
+        .story-meta { font-size: 0.8rem; color: #888; margin-top: 5px; text-transform: uppercase; }
+
+        /* ३. Full Story View (Modal) */
+        .story-view {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg); z-index: 1001; overflow-y: auto; padding: 25px;
+        }
+        .close-btn { 
+            position: fixed; top: 20px; right: 20px; background: var(--text); 
+            color: #fff; border: none; padding: 10px 15px; border-radius: 50%; 
+            font-size: 20px; cursor: pointer; z-index: 1002;
+        }
+        .full-story-title { font-size: 2rem; margin-top: 40px; line-height: 1.2; }
+        .story-content { font-size: 1.15rem; line-height: 1.9; text-align: justify; margin-top: 25px; white-space: pre-line; }
+        .quote-box { background: #fff5f5; padding: 20px; border-left: 5px solid #b71c1c; margin: 25px 0; font-style: italic; }
+        .victory-msg { color: #2e7d32; text-align: center; font-weight: bold; font-size: 22px; margin-top: 40px; }
     </style>
 </head>
 <body>
 
     <div id="splash-screen">
         <div class="splash-logo">Aadhiraj Story</div>
-        <div class="loading-bar-bg">
-            <div class="loading-bar-fill" id="progress"></div>
-        </div>
+        <div class="loading-container"><div class="loading-bar" id="load-progress"></div></div>
     </div>
 
     <header>
         <div class="logo-text">📚 अधिराज Story</div>
-        <button id="installBtn" style="display:none; background:var(--text-dark); color:#fff; border:none; padding:8px 18px; border-radius:20px; font-size:12px;">Install App</button>
+        <button id="install-btn" style="display:none; background:var(--text); color:#fff; border:none; padding:8px 15px; border-radius:20px;">Install</button>
     </header>
 
-    <nav class="tab-nav">
-        <div id="tab0" class="active" onclick="showProfile(0)">हिन्दी कथाहरू</div>
-        <div id="tab1" onclick="showProfile(1)">नेपाली कथाहरू</div>
-    </nav>
+    <div class="container">
+        <div class="story-list-card" onclick="openStory('story1')">
+            <h2 class="story-title-main">१. दिदीको समर्पण</h2>
+            <div class="story-meta">नेपाली संग्रह • २ मिनेट पढाइ</div>
+        </div>
 
-    <div class="main-wrapper" id="contentWrapper">
-        <section id="hindiSection">
-            <div class="story-card" onclick="toggleStory('contentS1', 'btnS1')">
-                <span class="badge">Hindi</span>
-                <h2 class="story-title">स्वार्थी भाई</h2>
-                <p class="short-desc">एक भाई का बलिदान और दूसरे का स्वार्थ। (Read More...)</p>
-                
-                <div id="contentS1" class="full-content">
-                    <div class="story-text">...पुरै कथा यहाँ राख्नुहोस्...</div>
-                    <button class="read-btn" id="btnS1">Close Story</button>
-                </div>
-            </div>
-            </section>
+        <div class="story-list-card" onclick="openStory('story2')">
+            <h2 class="story-title-main">२. अधुरो प्रतिज्ञा..!</h2>
+            <div class="story-meta">नेपाली संग्रह • ३ मिनेट पढाइ</div>
+        </div>
+    </div>
 
-        <section id="nepaliSection">
-             </section>
+    <div id="story1" class="story-view">
+        <button class="close-btn" onclick="closeStory('story1')">×</button>
+        <h1 class="full-story-title">दिदीको समर्पण</h1>
+        <div class="story-content">
+            पहाडको काखमा एउटा सानो गाउँ थियो...
+            (तपाईंको दिदीको समर्पण कथा यहाँ पेस्ट गर्नुहोस्)
+        </div>
+        <div class="victory-msg">निस्वार्थ प्रेम</div>
+    </div>
+
+    <div id="story2" class="story-view">
+        <button class="close-btn" onclick="closeStory('story2')">×</button>
+        <h1 class="full-story-title">अधुरो प्रतिज्ञा..!</h1>
+        <div class="story-content">
+            यो कथा तब सुरु हुन्छ जब अधिराज र सुमेघा एउटै स्कुलमा पढ्थे...
+            (तपाईंको अधुरो प्रतिज्ञा कथा यहाँ पेस्ट गर्नुहोस्)
+        </div>
+        <div class="victory-msg">अधुरो प्रतीक्षा....!</div>
     </div>
 
     <script>
-        // लोडिङ एनिमेसन
-        let width = 0;
-        const bar = document.getElementById('progress');
+        // Splash Screen Logic
+        let progress = 0;
+        const progressBar = document.getElementById('load-progress');
         const interval = setInterval(() => {
-            width += 5;
-            bar.style.width = width + '%';
-            if (width >= 100) {
+            progress += 5;
+            progressBar.style.width = progress + '%';
+            if (progress >= 100) {
                 clearInterval(interval);
-                document.getElementById('splash-screen').style.display = 'none';
+                setTimeout(() => {
+                    document.getElementById('splash-screen').style.opacity = '0';
+                    setTimeout(() => document.getElementById('splash-screen').style.display = 'none', 500);
+                }, 200);
             }
         }, 100);
 
-        // ट्याब र स्टोरी खोल्ने फसनहरू (तपाईंको पुरानै)
-        function showProfile(index) {
-            document.getElementById('contentWrapper').style.transform = `translateX(-${index * 100}vw)`;
-            document.querySelectorAll('.tab-nav div').forEach((tab, i) => tab.classList.toggle('active', i === index));
+        // Story Functions
+        function openStory(id) {
+            document.getElementById(id).style.display = 'block';
+            document.body.style.overflow = 'hidden';
         }
 
-        function toggleStory(contentId, btnId) {
-            const content = document.getElementById(contentId);
-            if (content.style.display === "block") {
-                content.style.display = "none";
-            } else {
-                content.style.display = "block";
-            }
+        function closeStory(id) {
+            document.getElementById(id).style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
 
-        // २. Install Feature (PWA)
+        // PWA Install Logic
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            document.getElementById('installBtn').style.display = 'block';
+            document.getElementById('install-btn').style.display = 'block';
         });
 
-        document.getElementById('installBtn').addEventListener('click', async () => {
+        document.getElementById('install-btn').addEventListener('click', () => {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
                 deferredPrompt = null;
-                document.getElementById('installBtn').style.display = 'none';
+                document.getElementById('install-btn').style.display = 'none';
             }
         });
 
+        // Service Worker (Update-Friendly)
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').then(reg => reg.update());
+            });
         }
     </script>
 </body>
