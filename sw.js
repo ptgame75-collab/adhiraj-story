@@ -1,3 +1,19 @@
-self.addEventListener('install', (e) => { self.skipWaiting(); });
-self.addEventListener('fetch', (e) => { e.respondWith(fetch(e.request)); });
+// sw.js फाइलमा यो कोड हाल्नुहोस्
+const cacheName = 'aadhiraj-v1';
+const assets = ['./', './index.html', './manifest.json', './logo.png'];
 
+self.addEventListener('install', (e) => {
+    e.waitUntil(
+        caches.open(cacheName).then((cache) => {
+            cache.addAll(assets);
+        })
+    );
+});
+
+self.addEventListener('fetch', (e) => {
+    e.respondWith(
+        caches.match(e.request).then((res) => {
+            return res || fetch(e.request);
+        })
+    );
+});
