@@ -23,12 +23,13 @@
             min-height: 100vh; 
             -webkit-user-select: none; 
             user-select: none; 
-            animation: fadeInPage 0.8s ease-in; 
+            /* एनीमेशन राम्रोसँग अडियोस् भनेर forwards थपियो */
+            animation: fadeInPage 0.8s ease-in forwards; 
         }
 
         @keyframes fadeInPage {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            0% { opacity: 0; }
+            100% { opacity: 1; }
         }
 
         .header { 
@@ -158,18 +159,23 @@
 
     <div class="footer">2026 अधिराज | सुजना श्रेष्ठको लागि</div>
 
-    <!-- अपडेट हराउने सुदृढ Script -->
     <script>
+        // १. Service Worker Register गर्ने (ताकि क्यास र लोडिङ स्मूथ होस्)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('SW Registered'))
+            .catch(err => console.log('SW Failed', err));
+        }
+
+        // २. अपडेट अटोमेटिक हराउने Script
         document.addEventListener('DOMContentLoaded', () => {
             const card = document.getElementById('monthiversaryCard');
             const badge = document.getElementById('updateBadge');
 
-            // पहिले नै क्लिक गरिसकेको भए ब्याज लुकाउने
             if (localStorage.getItem('monthiversaryViewed') === 'true') {
                 if (badge) badge.style.display = 'none';
             }
 
-            // क्लिक गर्दा 'true' सेभ गर्ने र ट्याग तुरुन्त लुकाउने
             if (card) {
                 card.addEventListener('click', () => {
                     localStorage.setItem('monthiversaryViewed', 'true');
