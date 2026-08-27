@@ -8,7 +8,7 @@
     <!-- Manifest setup -->
     <link rel="manifest" href="manifest.json">
 
-    <!-- Mobile App Home Screen Icon -->
+    <!-- Mobile App Home Screen Icon (एपको बाहिर देखिने नयाँ लोगो) -->
     <link rel="icon" type="image/png" sizes="192x192" href="app-logo.png">
     <link rel="apple-touch-icon" href="app-logo.png">
 
@@ -23,15 +23,15 @@
             min-height: 100vh; 
             -webkit-user-select: none; 
             user-select: none; 
-            /* एनीमेशन राम्रोसँग अडियोस् भनेर forwards थपियो */
-            animation: fadeInPage 0.8s ease-in forwards; 
+            animation: fadeInPage 0.8s ease-in; 
         }
 
         @keyframes fadeInPage {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
+        /* Header लाई Sticky बनाउन थपिएको CSS */
         .header { 
             position: sticky;
             top: 0;
@@ -41,7 +41,7 @@
             padding-top: 20px;
             padding-bottom: 15px;
             text-align: center; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03); 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03); /* Scroll गर्दा हल्का छाया देखिन */
         }
         
         .header img { 
@@ -80,12 +80,13 @@
             box-shadow: 0 5px 12px rgba(0,0,0,0.05); 
             text-align: center; 
             transition: 0.2s; 
-            position: relative;
+            position: relative; /* Badge align गर्न थपिएको */
         }
         .diary-card:active { transform: scale(0.98); }
         .diary-card h2 { color: #2c3e50; font-size: 16px; margin: 0; } 
         .diary-card p { color: #d32f2f; font-size: 11px; margin-top: 5px; font-weight: bold; }
 
+        /* भिडियो र फोटो बटनको लागि छुट्टै बोर्डर कलर */
         .video-btn {
             border-left: 4px solid #4a3728;
         }
@@ -109,6 +110,7 @@
 <body oncontextmenu="return false;">
 
     <div class="header">
+        <!-- एप भित्र देखिने प्रोफाइल फोटो (4870.png) -->
         <img src="4870.png" alt="Logo">
         <h1>मनको भावना</h1>
     </div>
@@ -130,7 +132,7 @@
         </a>
 
         <!-- UPDATE badge रहने folder कार्ड -->
-        <a href="yui.html" class="diary-card" id="monthiversaryCard">
+        <a href="yui.html" class="diary-card" id="monthiversaryCard" onclick="markAsRead()">
             <span class="update-badge" id="updateBadge">.UPDATE</span>
             <h2>folders</h2>
             <p>Sorry suzu </p>
@@ -159,30 +161,25 @@
 
     <div class="footer">2026 अधिराज | सुजना श्रेष्ठको लागि</div>
 
+    <!-- अटोमेटिक अपडेट हराउने सानो Script -->
     <script>
-        // १. Service Worker Register गर्ने (ताकि क्यास र लोडिङ स्मूथ होस्)
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js')
-            .then(reg => console.log('SW Registered'))
-            .catch(err => console.log('SW Failed', err));
-        }
-
-        // २. अपडेट अटोमेटिक हराउने Script
-        document.addEventListener('DOMContentLoaded', () => {
-            const card = document.getElementById('monthiversaryCard');
-            const badge = document.getElementById('updateBadge');
-
+        // पेज लोड हुँदा जाँच गर्ने (पहिले नै हेरिसकेको भए अपडेट लुकाउने)
+        window.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('monthiversaryViewed') === 'true') {
-                if (badge) badge.style.display = 'none';
-            }
-
-            if (card) {
-                card.addEventListener('click', () => {
-                    localStorage.setItem('monthiversaryViewed', 'true');
-                    if (badge) badge.style.display = 'none';
-                });
+                const badge = document.getElementById('updateBadge');
+                if (badge) {
+                    badge.style.display = 'none';
+                }
             }
         });
+
+        // क्लिक गरेपछि LocalStorage मा सेभ गर्ने र अटोमेटिक हराउने
+        function markAsRead() {
+            localStorage.setItem('monthiversaryViewed', 'true');
+        }
     </script>
 </body>
 </html>
+
+
+ मैले यसमा त्यसको कोडिंग त गरे तर किन हो देखाएन कि मिलेन के मिलाउनु पर्छ मिलाएर के मिलेन पहिला भन त
