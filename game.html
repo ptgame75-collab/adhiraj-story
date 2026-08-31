@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Knife Throw Game</title>
+  <title>Battle Axe Throw Game</title>
   <style>
     * {
       box-sizing: border-box;
@@ -67,55 +67,63 @@
       -webkit-user-drag: none;
     }
 
-    /* ठूलो हतियार र एनिमेसन */
+    /* ठूलो ब्याटल-एक्स हतियार */
     .stuck-knife {
       position: absolute;
-      width: 110px; /* हतियारको साइज ठूलो पारिएको */
+      width: 140px; /* पर्याप्त ठूलो साइज */
       height: auto;
       pointer-events: none;
-      filter: drop-shadow(3px 5px 8px rgba(0,0,0,0.8));
-      z-index: 2;
+      filter: drop-shadow(4px 6px 10px rgba(0,0,0,0.85));
+      z-index: 3;
       animation: knifeImpact 0.15s ease-out forwards, knifeShake 0.1s 0.15s ease-in-out;
     }
 
     /* हावाबाट उडेर गाडिने एनिमेसन */
     @keyframes knifeImpact {
       0% {
-        transform: scale(2) rotate(-45deg);
-        opacity: 0.5;
+        transform: scale(1.8) rotate(-35deg);
+        opacity: 0.6;
       }
       100% {
-        transform: scale(1) rotate(-45deg);
+        transform: scale(1) rotate(-35deg);
         opacity: 1;
-        clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+        /* ब्लेडको अघिल्लो भाग मात्र गाडिएको देखाउन क्लिप-पाथ */
+        clip-path: polygon(0 0, 100% 0, 100% 75%, 0 75%);
       }
     }
 
     /* गाडिएपछि थर्कने (Shake) एनिमेसन */
     @keyframes knifeShake {
-      0% { transform: rotate(-45deg) translateY(0); }
-      50% { transform: rotate(-42deg) translateY(-2px); }
-      100% { transform: rotate(-45deg) translateY(0); }
+      0% { transform: rotate(-35deg) translateY(0); }
+      50% { transform: rotate(-32deg) translateY(-3px); }
+      100% { transform: rotate(-35deg) translateY(0); }
     }
 
-    /* रगतको छिटा */
+    /* रियलिस्टिक छरिएको रगतको छिटा (Splatter) */
     .blood-splatter {
       position: absolute;
-      width: 48px;
-      height: 48px;
-      background: radial-gradient(circle, rgba(180,0,0,1) 0%, rgba(110,0,0,0.9) 60%, transparent 80%);
-      border-radius: 50%;
+      width: 65px;
+      height: 65px;
+      background: #7a0000;
+      opacity: 0.85;
       pointer-events: none;
       transform: translate(-50%, -50%);
-      z-index: 3;
+      z-index: 2;
+      /* अनियमित आकार (Irregular Splatter Shape) */
+      clip-path: polygon(
+        50% 0%, 65% 20%, 85% 15%, 75% 40%, 100% 50%, 
+        80% 65%, 90% 90%, 60% 75%, 45% 100%, 35% 70%, 
+        10% 85%, 20% 55%, 0% 40%, 25% 25%, 15% 5%
+      );
     }
 
     .blood-drop {
       position: absolute;
-      background-color: #8b0000;
-      border-radius: 50%;
+      background-color: #5c0000;
+      border-radius: 40% 60% 70% 30% / 50% 60% 40% 50%;
+      opacity: 0.8;
       pointer-events: none;
-      z-index: 3;
+      z-index: 2;
     }
 
     .reset-btn {
@@ -153,6 +161,10 @@
     const hitSound = document.getElementById('hitSound');
     const resetBtn = document.getElementById('resetBtn');
 
+    // अधिकतम ३ वटा सेट ट्रयाक गर्न एरे
+    let attacks = [];
+    const MAX_ATTACKS = 3;
+
     gameArea.addEventListener('click', function(event) {
       const rect = gameArea.getBoundingClientRect();
       const x = event.clientX - rect.left;
@@ -161,43 +173,60 @@
       hitSound.currentTime = 0;
       hitSound.play().catch(err => console.log("Audio play error:", err));
 
-      // १. ठूलो हतियार थप्ने (एनिमेसन र शेकसहित)
+      // यदि ३ वटा भन्दा बढी भएमा पहिलो (पुरानो) अट्याक हटाउने
+      if (attacks.length >= MAX_ATTACKS) {
+        const oldestAttack = attacks.shift();
+        oldestAttack.elements.forEach(el => el.remove());
+      }
+
+      const currentAttackElements = [];
+
+      // १. ब्याटल-एक्स हतियार
       const knife = document.createElement('img');
       knife.src = 'knife.png';
-      knife.className = 'stuck-knife knife-item';
-      knife.style.left = (x - 38) + 'px';
-      knife.style.top = (y - 50) + 'px';
+      knife.className = 'stuck-knife';
+      knife.style.left = (x - 45) + 'px';
+      knife.style.top = (y - 65) + 'px';
       gameArea.appendChild(knife);
+      currentAttackElements.push(knife);
 
-      // २. रगतको छिटा
+      // २. रियलिस्टिक रगत छिटा
       const blood = document.createElement('div');
-      blood.className = 'blood-splatter blood-item';
+      blood.className = 'blood-splatter';
       blood.style.left = x + 'px';
       blood.style.top = y + 'px';
-      const randomScale = 0.9 + Math.random() * 0.5;
-      blood.style.transform = `translate(-50%, -50%) scale(${randomScale})`;
+      const randomScale = 0.8 + Math.random() * 0.5;
+      const randomRotation = Math.floor(Math.random() * 360);
+      blood.style.transform = `translate(-50%, -50%) rotate(${randomRotation}deg) scale(${randomScale})`;
       gameArea.appendChild(blood);
+      currentAttackElements.push(blood);
 
-      // ३. रगतका थोपाहरू
-      for (let i = 0; i < 6; i++) {
+      // ३. रगतका साना छरिएका थोपाहरू
+      for (let i = 0; i < 7; i++) {
         const drop = document.createElement('div');
-        drop.className = 'blood-drop blood-item';
-        const size = Math.random() * 8 + 4;
+        drop.className = 'blood-drop';
+        const size = Math.random() * 7 + 3;
         drop.style.width = size + 'px';
         drop.style.height = size + 'px';
         
-        const offsetX = (Math.random() - 0.5) * 45;
-        const offsetY = (Math.random() - 0.5) * 45;
+        const offsetX = (Math.random() - 0.5) * 60;
+        const offsetY = (Math.random() - 0.5) * 60;
         
         drop.style.left = (x + offsetX) + 'px';
         drop.style.top = (y + offsetY) + 'px';
         gameArea.appendChild(drop);
+        currentAttackElements.push(drop);
       }
+
+      // नयाँ अट्याक रेकर्ड गर्ने
+      attacks.push({ elements: currentAttackElements });
     });
 
     resetBtn.addEventListener('click', function() {
-      document.querySelectorAll('.knife-item').forEach(item => item.remove());
-      document.querySelectorAll('.blood-item').forEach(item => item.remove());
+      attacks.forEach(attack => {
+        attack.elements.forEach(el => el.remove());
+      });
+      attacks = [];
     });
   </script>
 
