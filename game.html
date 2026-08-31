@@ -36,7 +36,7 @@
       cursor: pointer;
     }
 
-    /* मुख्य फोटो (Target) */
+    /* मुख्य फोटो */
     .target-img {
       width: 100%;
       height: 100%;
@@ -45,28 +45,29 @@
       -webkit-user-drag: none;
     }
 
-    /* गाडिने चक्कुको स्टाइल */
+    /* आधा गाडिएको चक्कुको स्टाइल */
     .stuck-knife {
       position: absolute;
-      width: 40px;
+      width: 45px;
       height: auto;
       pointer-events: none;
-      transform-origin: top center;
-      filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.6));
+      /* चक्कुलाई ४५ डिग्रीमा घुमाउने र आधा मात्र देखाउने (clip-path) */
+      transform: rotate(-45deg);
+      clip-path: polygon(0 0, 100% 0, 100% 65%, 0 65%);
+      filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.7));
       z-index: 2;
     }
 
-    /* रगतको छिटा (Blood Splatter) */
+    /* रगतको छिटा */
     .blood-splatter {
       position: absolute;
-      width: 30px;
-      height: 30px;
-      background: radial-gradient(circle, rgba(180,0,0,0.9) 0%, rgba(120,0,0,0.7) 50%, transparent 70%);
+      width: 32px;
+      height: 32px;
+      background: radial-gradient(circle, rgba(180,0,0,0.95) 0%, rgba(120,0,0,0.75) 50%, transparent 75%);
       border-radius: 50%;
       pointer-events: none;
       transform: translate(-50%, -50%);
       z-index: 1;
-      opacity: 0.9;
     }
 
     /* रगतका साना थोपाहरू */
@@ -102,26 +103,24 @@
       hitSound.currentTime = 0;
       hitSound.play().catch(err => console.log("Audio play error:", err));
 
-      // १. रगतको मुख्य छिटा (Blood Splatter) थप्ने
+      // १. रगतको छिटा (Blood Splatter)
       const blood = document.createElement('div');
       blood.className = 'blood-splatter';
       blood.style.left = x + 'px';
       blood.style.top = y + 'px';
       
-      // अलि र्‍यान्डम आकार दिन
       const randomScale = 0.8 + Math.random() * 0.6;
       blood.style.transform = `translate(-50%, -50%) scale(${randomScale})`;
       gameArea.appendChild(blood);
 
-      // २. वरिपरी रगतका साना थोपाहरू थप्ने
+      // २. रगतका साना थोपाहरू
       for (let i = 0; i < 5; i++) {
         const drop = document.createElement('div');
         drop.className = 'blood-drop';
-        const size = Math.random() * 6 + 3; // ३ देखि ९px को आकार
+        const size = Math.random() * 6 + 3;
         drop.style.width = size + 'px';
         drop.style.height = size + 'px';
         
-        // चक्कु गाडिएको वरिपरि र्‍यान्डम पोजिसन
         const offsetX = (Math.random() - 0.5) * 35;
         const offsetY = (Math.random() - 0.5) * 35;
         
@@ -130,12 +129,14 @@
         gameArea.appendChild(drop);
       }
 
-      // ३. नयाँ चक्कु थप्ने
+      // ३. आधा गाडिएको चक्कु थप्ने
       const knife = document.createElement('img');
       knife.src = 'knife.png';
       knife.className = 'stuck-knife';
-      knife.style.left = (x - 20) + 'px';
-      knife.style.top = y + 'px';
+      
+      // चक्कुको अघिल्लो आधा भाग फोटोभित्र गाडिएको देखाउन पोजिसन मिलाइएको
+      knife.style.left = (x - 15) + 'px';
+      knife.style.top = (y - 25) + 'px';
 
       gameArea.appendChild(knife);
     });
