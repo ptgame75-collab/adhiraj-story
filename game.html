@@ -23,7 +23,6 @@
       padding: 15px;
     }
 
-    /* मुख्य गेम कार्ड */
     .game-card {
       width: 100%;
       max-width: 340px;
@@ -37,7 +36,6 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.7);
     }
 
-    /* माथि म्यासेज लेख्ने ठाउँ */
     .message-box {
       width: 100%;
       padding: 10px;
@@ -54,14 +52,13 @@
     .game-container {
       position: relative;
       width: 100%;
-      aspect-ratio: 1 / 1; /* exact 1:1 ratio */
+      aspect-ratio: 1 / 1;
       border-radius: 8px;
       overflow: hidden;
       cursor: pointer;
       background-color: #000;
     }
 
-    /* मुख्य फोटो */
     .target-img {
       width: 100%;
       height: 100%;
@@ -70,31 +67,49 @@
       -webkit-user-drag: none;
     }
 
-    /* चक्कुको स्टाइल */
+    /* ठूलो हतियार र एनिमेसन */
     .stuck-knife {
       position: absolute;
-      width: 65px;
+      width: 110px; /* हतियारको साइज ठूलो पारिएको */
       height: auto;
       pointer-events: none;
-      transform: rotate(-45deg);
-      clip-path: polygon(0 0, 100% 0, 100% 55%, 0 55%);
-      filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.7));
+      filter: drop-shadow(3px 5px 8px rgba(0,0,0,0.8));
       z-index: 2;
+      animation: knifeImpact 0.15s ease-out forwards, knifeShake 0.1s 0.15s ease-in-out;
+    }
+
+    /* हावाबाट उडेर गाडिने एनिमेसन */
+    @keyframes knifeImpact {
+      0% {
+        transform: scale(2) rotate(-45deg);
+        opacity: 0.5;
+      }
+      100% {
+        transform: scale(1) rotate(-45deg);
+        opacity: 1;
+        clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+      }
+    }
+
+    /* गाडिएपछि थर्कने (Shake) एनिमेसन */
+    @keyframes knifeShake {
+      0% { transform: rotate(-45deg) translateY(0); }
+      50% { transform: rotate(-42deg) translateY(-2px); }
+      100% { transform: rotate(-45deg) translateY(0); }
     }
 
     /* रगतको छिटा */
     .blood-splatter {
       position: absolute;
-      width: 42px;
-      height: 42px;
-      background: radial-gradient(circle, rgba(190,0,0,1) 0%, rgba(130,0,0,0.85) 55%, transparent 75%);
+      width: 48px;
+      height: 48px;
+      background: radial-gradient(circle, rgba(180,0,0,1) 0%, rgba(110,0,0,0.9) 60%, transparent 80%);
       border-radius: 50%;
       pointer-events: none;
       transform: translate(-50%, -50%);
       z-index: 3;
     }
 
-    /* रगतका थोपाहरू */
     .blood-drop {
       position: absolute;
       background-color: #8b0000;
@@ -103,7 +118,6 @@
       z-index: 3;
     }
 
-    /* तलको रिसिभ / रिसेट बटन */
     .reset-btn {
       margin-top: 12px;
       width: 100%;
@@ -115,32 +129,23 @@
       font-weight: bold;
       font-size: 14px;
       cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .reset-btn:active {
-      background-color: #ff6b81;
     }
   </style>
 </head>
 <body>
 
   <div class="game-card">
-    <!-- १. म्यासेज एरिया -->
     <div class="message-box" id="messageArea">
       म्यासेज लेख्न बाँकी छ...
     </div>
 
-    <!-- २. १:१ फोटो र गेम एरिया -->
     <div class="game-container" id="gameArea">
       <img src="238.Png" alt="Target Photo" class="target-img">
     </div>
 
-    <!-- ३. रिसिभ / रिसेट बटन -->
     <button class="reset-btn" id="resetBtn">रिसेट गर्नुहोस् (Receive)</button>
   </div>
 
-  <!-- साउन्ड इफेक्ट -->
   <audio id="hitSound" src="knife-hit.mp3" preload="auto"></audio>
 
   <script>
@@ -148,7 +153,6 @@
     const hitSound = document.getElementById('hitSound');
     const resetBtn = document.getElementById('resetBtn');
 
-    // फोटोमा थिच्दा चक्कु र रगत गाडिने
     gameArea.addEventListener('click', function(event) {
       const rect = gameArea.getBoundingClientRect();
       const x = event.clientX - rect.left;
@@ -157,33 +161,33 @@
       hitSound.currentTime = 0;
       hitSound.play().catch(err => console.log("Audio play error:", err));
 
-      // चक्कु थप्ने
+      // १. ठूलो हतियार थप्ने (एनिमेसन र शेकसहित)
       const knife = document.createElement('img');
       knife.src = 'knife.png';
       knife.className = 'stuck-knife knife-item';
-      knife.style.left = (x - 22) + 'px';
-      knife.style.top = (y - 30) + 'px';
+      knife.style.left = (x - 38) + 'px';
+      knife.style.top = (y - 50) + 'px';
       gameArea.appendChild(knife);
 
-      // रगतको छिटा थप्ने
+      // २. रगतको छिटा
       const blood = document.createElement('div');
       blood.className = 'blood-splatter blood-item';
       blood.style.left = x + 'px';
       blood.style.top = y + 'px';
-      const randomScale = 0.85 + Math.random() * 0.5;
+      const randomScale = 0.9 + Math.random() * 0.5;
       blood.style.transform = `translate(-50%, -50%) scale(${randomScale})`;
       gameArea.appendChild(blood);
 
-      // रगतका थोपाहरू थप्ने
+      // ३. रगतका थोपाहरू
       for (let i = 0; i < 6; i++) {
         const drop = document.createElement('div');
         drop.className = 'blood-drop blood-item';
-        const size = Math.random() * 7 + 3;
+        const size = Math.random() * 8 + 4;
         drop.style.width = size + 'px';
         drop.style.height = size + 'px';
         
-        const offsetX = (Math.random() - 0.5) * 40;
-        const offsetY = (Math.random() - 0.5) * 40;
+        const offsetX = (Math.random() - 0.5) * 45;
+        const offsetY = (Math.random() - 0.5) * 45;
         
         drop.style.left = (x + offsetX) + 'px';
         drop.style.top = (y + offsetY) + 'px';
@@ -191,13 +195,9 @@
       }
     });
 
-    // रिसिभ/रिसेट बटन थिच्दा सबै चक्कु र रगत हटाउने
     resetBtn.addEventListener('click', function() {
-      const knives = document.querySelectorAll('.knife-item');
-      const bloods = document.querySelectorAll('.blood-item');
-      
-      knives.forEach(item => item.remove());
-      bloods.forEach(item => item.remove());
+      document.querySelectorAll('.knife-item').forEach(item => item.remove());
+      document.querySelectorAll('.blood-item').forEach(item => item.remove());
     });
   </script>
 
