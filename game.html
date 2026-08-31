@@ -42,7 +42,6 @@
       color: #ffda79;
     }
 
-    /* १:१ (Square) फ्रेम */
     .game-container {
       position: relative;
       width: 100%;
@@ -59,7 +58,6 @@
       cursor: pointer;
     }
 
-    /* ब्याटल-एक्स हतियार */
     .stuck-knife {
       position: absolute;
       width: 130px;
@@ -87,7 +85,6 @@
       100% { transform: rotate(-35deg) translateY(0); }
     }
 
-    /* रगत अझै ढिला सुस्तरी फैलिने (३ सेकेन्ड एनिमेसन) */
     .blood-splatter {
       position: absolute;
       width: 65px;
@@ -176,33 +173,57 @@
     let attacks = [];
     const MAX_ATTACKS = 3;
 
-    // फोटोको नाम मिलाइयो
-    const img = new Image();
-    img.src = '239.Png';
+    // दुवै फोटोहरू लोड गर्ने (२३८ = ब्याकग्राउन्ड, २३९ = मान्छेको पारदर्शी cut-out)
+    const bgImg = new Image();
+    bgImg.src = '238.Png';
 
-    img.onload = () => {
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
-      ctx.drawImage(img, 0, 0);
+    const personImg = new Image();
+    personImg.src = '239.Png';
+
+    let imagesLoaded = 0;
+    function checkLoaded() {
+      imagesLoaded++;
+      if (imagesLoaded === 2) {
+        canvas.width = bgImg.naturalWidth || 500;
+        canvas.height = bgImg.naturalHeight || 500;
+
+        // १. पहिले पछाडिको ब्याकग्राउन्ड फोटो तान्ने
+        ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+        // २. त्यसको माथि मान्छेको फोटो तान्ने
+        ctx.drawImage(personImg, 0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    bgImg.onload = checkLoaded;
+    personImg.onload = checkLoaded;
+
+    // अगाडिको मान्छेको फोटोको पिक्सेल मात्र जाँच्नको लागि छुट्टै hidden canvas
+    const offCanvas = document.createElement('canvas');
+    const offCtx = offCanvas.getContext('2d', { willReadFrequently: true });
+
+    personImg.onload = () => {
+      offCanvas.width = personImg.naturalWidth;
+      offCanvas.height = personImg.naturalHeight;
+      offCtx.drawImage(personImg, 0, 0);
+      checkLoaded();
     };
 
     canvas.addEventListener('click', function(event) {
       const rect = canvas.getBoundingClientRect();
       
-      const scaleX = canvas.width / rect.width;
-      const scaleY = canvas.height / rect.height;
+      const scaleX = offCanvas.width / rect.width;
+      const scaleY = offCanvas.height / rect.height;
       
       const canvasX = Math.floor((event.clientX - rect.left) * scaleX);
       const canvasY = Math.floor((event.clientY - rect.top) * scaleY);
 
-      const pixel = ctx.getImageData(canvasX, canvasY, 1, 1).data;
-      const alpha = pixel[3];
-      const red = pixel[0], green = pixel[1], blue = pixel[2];
+      // मान्छेको PNG फोटोबाट मात्र पारदर्शी भाग चेकिङ
+      const pixel = offCtx.getImageData(canvasX, canvasY, 1, 1).data;
+      const alpha = pixel[3]; 
 
-      const isBlackBackground = (red < 15 && green < 15 && blue < 15);
-
-      if (alpha === 0 || isBlackBackground) {
-        return;
+      // पारदर्शी (खाली) भागमा थिच्दा बन्चरो नलाग्ने
+      if (alpha < 20) {
+        return; 
       }
 
       const displayX = event.clientX - rect.left;
@@ -218,7 +239,6 @@
 
       const currentAttackElements = [];
 
-      // १. बन्चरो
       const knife = document.createElement('img');
       knife.src = 'knife.png';
       knife.className = 'stuck-knife';
@@ -227,7 +247,6 @@
       gameArea.appendChild(knife);
       currentAttackElements.push(knife);
 
-      // २. मुख्य रगत (सुस्तरी फैलिने)
       const blood = document.createElement('div');
       blood.className = 'blood-splatter';
       blood.style.left = displayX + 'px';
@@ -237,7 +256,6 @@
       gameArea.appendChild(blood);
       currentAttackElements.push(blood);
 
-      // ३. रगतका साना थोपाहरू
       for (let i = 0; i < 7; i++) {
         const drop = document.createElement('div');
         drop.className = 'blood-drop';
