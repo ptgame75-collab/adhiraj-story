@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Knife Throw Game</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #121212;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* मुख्य गेम कन्टेनर */
+    .game-container {
+      position: relative;
+      width: 320px;
+      height: 480px;
+      border: 3px solid #ff4757;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+      background-color: #1e1e1e;
+      cursor: pointer;
+    }
+
+    /* मुख्य फोटो (Target) */
+    .target-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    /* गाडिने चक्कुको स्टाइल */
+    .stuck-knife {
+      position: absolute;
+      width: 40px;
+      height: auto;
+      pointer-events: none;
+      transform-origin: top center;
+      filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.6));
+    }
+  </style>
+</head>
+<body>
+
+  <div class="game-container" id="gameArea">
+    <!-- मुख्य फोटो -->
+    <img src="238.Png" alt="Target Photo" class="target-img">
+  </div>
+
+  <!-- साउन्ड इफेक्ट -->
+  <audio id="hitSound" src="knife-hit.mp3" preload="auto"></audio>
+
+  <script>
+    const gameArea = document.getElementById('gameArea');
+    const hitSound = document.getElementById('hitSound');
+
+    gameArea.addEventListener('click', function(event) {
+      // क्लिक गरिएको ठाउँको पोजिसन लिने
+      const rect = gameArea.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+
+      // साउन्ड प्ले गर्ने
+      hitSound.currentTime = 0;
+      hitSound.play().catch(err => console.log("Audio play error:", err));
+
+      // नयाँ चक्कुको एलिमेन्ट बनाउने
+      const knife = document.createElement('img');
+      knife.src = 'knife.png';
+      knife.className = 'stuck-knife';
+
+      // चक्कुको तिखो भाग ठ्याक्कै क्लिक गरेको ठाउँमा पार्न मिलाइएको पोजिसन
+      knife.style.left = (x - 20) + 'px'; // चक्कुको चौडाइको आधा घटाएर सेन्टर गरिएको
+      knife.style.top = y + 'px';
+
+      // चक्कुलाई फोटोमा थप्ने
+      gameArea.appendChild(knife);
+    });
+  </script>
+
+</body>
+</html>
+
