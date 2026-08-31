@@ -11,7 +11,6 @@
       padding: 0;
     }
 
-    /* स्क्रिनको पृष्ठभूमि पूर्ण रूपमा कालो */
     body {
       background-color: #000000;
       color: #ffffff;
@@ -24,47 +23,40 @@
       padding: 15px;
     }
 
-    /* मुख्य कन्टेनर - ग्रे भाग हटाई पूर्ण कालो बनाइएको */
     .game-card {
       width: 100%;
       max-width: 340px;
       background-color: #000000;
-      border-radius: 0px;
-      padding: 10px 0;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
-    /* माथिको कालो भागमा म्यासेज हेडर */
     .message-box {
       width: 100%;
       padding: 10px;
       margin-bottom: 15px;
-      background-color: transparent;
       text-align: center;
       font-size: 14px;
       font-weight: 500;
       color: #ffda79;
     }
 
-    /* १:१ (Square) फोटो फ्रेम */
+    /* १:१ (Square) फ्रेम */
     .game-container {
       position: relative;
       width: 100%;
       aspect-ratio: 1 / 1;
       border-radius: 8px;
-      overflow: hidden; /* १:१ फ्रेमभित्र मात्र सीमित राख्न */
-      cursor: pointer;
+      overflow: hidden;
       background-color: #000000;
     }
 
-    .target-img {
+    canvas {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      user-select: none;
-      -webkit-user-drag: none;
+      display: block;
+      cursor: pointer;
     }
 
     /* ब्याटल-एक्स हतियार */
@@ -95,7 +87,7 @@
       100% { transform: rotate(-35deg) translateY(0); }
     }
 
-    /* बिस्तारै फैलिने रगत */
+    /* रगत अझै ढिला सुस्तरी फैलिने (३ सेकेन्ड एनिमेसन) */
     .blood-splatter {
       position: absolute;
       width: 65px;
@@ -109,13 +101,13 @@
         80% 65%, 90% 90%, 60% 75%, 45% 100%, 35% 70%, 
         10% 85%, 20% 55%, 0% 40%, 25% 25%, 15% 5%
       );
-      animation: bloodSpread 0.6s ease-out forwards;
+      animation: bloodSpread 3s ease-out forwards;
     }
 
     @keyframes bloodSpread {
       0% {
-        transform: translate(-50%, -50%) scale(0.2);
-        opacity: 0.2;
+        transform: translate(-50%, -50%) scale(0.1);
+        opacity: 0.1;
       }
       100% {
         transform: translate(-50%, -50%) scale(var(--final-scale, 1));
@@ -130,7 +122,7 @@
       opacity: 0;
       pointer-events: none;
       z-index: 2;
-      animation: dropSpread 0.5s ease-out forwards;
+      animation: dropSpread 2.5s ease-out forwards;
     }
 
     @keyframes dropSpread {
@@ -144,7 +136,6 @@
       }
     }
 
-    /* तल कालो भागमा रिसेट बटन */
     .reset-btn {
       margin-top: 15px;
       width: 100%;
@@ -162,23 +153,22 @@
 <body>
 
   <div class="game-card">
-    <!-- माथिको कालो भागमा म्यासेज -->
     <div class="message-box" id="messageArea">
       म्यासेज लेख्न बाँकी छ...
     </div>
 
-    <!-- बिचको १:१ फोटो फ्रेम -->
     <div class="game-container" id="gameArea">
-      <img src="238.Png" alt="Target Photo" class="target-img">
+      <canvas id="photoCanvas"></canvas>
     </div>
 
-    <!-- तलको कालो भागमा रिसेट बटन -->
     <button class="reset-btn" id="resetBtn">रिसेट गर्नुहोस् (Receive)</button>
   </div>
 
   <audio id="hitSound" src="knife-hit.mp3" preload="auto"></audio>
 
   <script>
+    const canvas = document.getElementById('photoCanvas');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
     const gameArea = document.getElementById('gameArea');
     const hitSound = document.getElementById('hitSound');
     const resetBtn = document.getElementById('resetBtn');
@@ -186,10 +176,37 @@
     let attacks = [];
     const MAX_ATTACKS = 3;
 
-    gameArea.addEventListener('click', function(event) {
-      const rect = gameArea.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
+    // फोटोको नाम मिलाइयो
+    const img = new Image();
+    img.src = '239.Png';
+
+    img.onload = () => {
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      ctx.drawImage(img, 0, 0);
+    };
+
+    canvas.addEventListener('click', function(event) {
+      const rect = canvas.getBoundingClientRect();
+      
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+      
+      const canvasX = Math.floor((event.clientX - rect.left) * scaleX);
+      const canvasY = Math.floor((event.clientY - rect.top) * scaleY);
+
+      const pixel = ctx.getImageData(canvasX, canvasY, 1, 1).data;
+      const alpha = pixel[3];
+      const red = pixel[0], green = pixel[1], blue = pixel[2];
+
+      const isBlackBackground = (red < 15 && green < 15 && blue < 15);
+
+      if (alpha === 0 || isBlackBackground) {
+        return;
+      }
+
+      const displayX = event.clientX - rect.left;
+      const displayY = event.clientY - rect.top;
 
       hitSound.currentTime = 0;
       hitSound.play().catch(err => console.log("Audio play error:", err));
@@ -201,23 +218,26 @@
 
       const currentAttackElements = [];
 
+      // १. बन्चरो
       const knife = document.createElement('img');
       knife.src = 'knife.png';
       knife.className = 'stuck-knife';
-      knife.style.left = (x - 45) + 'px';
-      knife.style.top = (y - 65) + 'px';
+      knife.style.left = (displayX - 45) + 'px';
+      knife.style.top = (displayY - 65) + 'px';
       gameArea.appendChild(knife);
       currentAttackElements.push(knife);
 
+      // २. मुख्य रगत (सुस्तरी फैलिने)
       const blood = document.createElement('div');
       blood.className = 'blood-splatter';
-      blood.style.left = x + 'px';
-      blood.style.top = y + 'px';
+      blood.style.left = displayX + 'px';
+      blood.style.top = displayY + 'px';
       const randomScale = 0.8 + Math.random() * 0.5;
       blood.style.setProperty('--final-scale', randomScale);
       gameArea.appendChild(blood);
       currentAttackElements.push(blood);
 
+      // ३. रगतका साना थोपाहरू
       for (let i = 0; i < 7; i++) {
         const drop = document.createElement('div');
         drop.className = 'blood-drop';
@@ -228,9 +248,9 @@
         const offsetX = (Math.random() - 0.5) * 60;
         const offsetY = (Math.random() - 0.5) * 60;
         
-        drop.style.left = (x + offsetX) + 'px';
-        drop.style.top = (y + offsetY) + 'px';
-        drop.style.animationDelay = (Math.random() * 0.2) + 's';
+        drop.style.left = (displayX + offsetX) + 'px';
+        drop.style.top = (displayY + offsetY) + 'px';
+        drop.style.animationDelay = (Math.random() * 0.6) + 's';
         gameArea.appendChild(drop);
         currentAttackElements.push(drop);
       }
