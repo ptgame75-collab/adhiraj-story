@@ -53,6 +53,29 @@
       pointer-events: none;
       transform-origin: top center;
       filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.6));
+      z-index: 2;
+    }
+
+    /* रगतको छिटा (Blood Splatter) */
+    .blood-splatter {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: radial-gradient(circle, rgba(180,0,0,0.9) 0%, rgba(120,0,0,0.7) 50%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      opacity: 0.9;
+    }
+
+    /* रगतका साना थोपाहरू */
+    .blood-drop {
+      position: absolute;
+      background-color: #8b0000;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
     }
   </style>
 </head>
@@ -71,7 +94,6 @@
     const hitSound = document.getElementById('hitSound');
 
     gameArea.addEventListener('click', function(event) {
-      // क्लिक गरिएको ठाउँको पोजिसन लिने
       const rect = gameArea.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
@@ -80,20 +102,44 @@
       hitSound.currentTime = 0;
       hitSound.play().catch(err => console.log("Audio play error:", err));
 
-      // नयाँ चक्कुको एलिमेन्ट बनाउने
+      // १. रगतको मुख्य छिटा (Blood Splatter) थप्ने
+      const blood = document.createElement('div');
+      blood.className = 'blood-splatter';
+      blood.style.left = x + 'px';
+      blood.style.top = y + 'px';
+      
+      // अलि र्‍यान्डम आकार दिन
+      const randomScale = 0.8 + Math.random() * 0.6;
+      blood.style.transform = `translate(-50%, -50%) scale(${randomScale})`;
+      gameArea.appendChild(blood);
+
+      // २. वरिपरी रगतका साना थोपाहरू थप्ने
+      for (let i = 0; i < 5; i++) {
+        const drop = document.createElement('div');
+        drop.className = 'blood-drop';
+        const size = Math.random() * 6 + 3; // ३ देखि ९px को आकार
+        drop.style.width = size + 'px';
+        drop.style.height = size + 'px';
+        
+        // चक्कु गाडिएको वरिपरि र्‍यान्डम पोजिसन
+        const offsetX = (Math.random() - 0.5) * 35;
+        const offsetY = (Math.random() - 0.5) * 35;
+        
+        drop.style.left = (x + offsetX) + 'px';
+        drop.style.top = (y + offsetY) + 'px';
+        gameArea.appendChild(drop);
+      }
+
+      // ३. नयाँ चक्कु थप्ने
       const knife = document.createElement('img');
       knife.src = 'knife.png';
       knife.className = 'stuck-knife';
-
-      // चक्कुको तिखो भाग ठ्याक्कै क्लिक गरेको ठाउँमा पार्न मिलाइएको पोजिसन
-      knife.style.left = (x - 20) + 'px'; // चक्कुको चौडाइको आधा घटाएर सेन्टर गरिएको
+      knife.style.left = (x - 20) + 'px';
       knife.style.top = y + 'px';
 
-      // चक्कुलाई फोटोमा थप्ने
       gameArea.appendChild(knife);
     });
   </script>
 
 </body>
 </html>
-
