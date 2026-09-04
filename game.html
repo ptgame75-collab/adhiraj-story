@@ -48,7 +48,6 @@
       width: 100%;
       aspect-ratio: 1 / 1;
       border-radius: 8px;
-      /* रगत फ्रेम काटेर बाहिर बग्नका लागि overflow: visible */
       overflow: visible; 
       background-color: #000000;
     }
@@ -61,7 +60,7 @@
       border-radius: 8px;
     }
 
-    /* बन्चरोको साइज र धारको ठ्याक्कै घाउसँग एलाइनमेन्ट */
+    /* बन्चरोको धारलाई घाउमा ठ्याक्कै मिलाउन परिमार्जित CSS */
     .stuck-knife {
       position: absolute;
       width: 260px;
@@ -69,29 +68,31 @@
       pointer-events: none;
       filter: drop-shadow(6px 10px 12px rgba(0,0,0,0.9));
       z-index: 5;
-      /* transform-origin लाई बन्चरोको धार (Blade Edge) मा सेट गरिएको छ */
-      transform-origin: 5% 95%; 
+      /* बन्चरोको धार रहने ठाउँलाई पिभोट (Pivot Point) मानिएको छ */
+      transform-origin: 12% 88%; 
+      left: var(--hit-x);
+      top: var(--hit-y);
       animation: knifeImpact 0.12s ease-out forwards, knifeShake 0.1s 0.12s ease-in-out;
     }
 
     @keyframes knifeImpact {
       0% {
-        transform: scale(1.5) rotate(-35deg);
-        opacity: 0.5;
+        transform: translate(-12%, -88%) rotate(-35deg) scale(1.3);
+        opacity: 0.6;
       }
       100% {
-        transform: scale(1) rotate(-35deg);
+        transform: translate(-12%, -88%) rotate(-35deg) scale(1);
         opacity: 1;
       }
     }
 
     @keyframes knifeShake {
-      0% { transform: rotate(-35deg) translateY(0); }
-      50% { transform: rotate(-33deg) translateY(-2px); }
-      100% { transform: rotate(-35deg) translateY(0); }
+      0% { transform: translate(-12%, -88%) rotate(-35deg); }
+      50% { transform: translate(-12%, -88%) rotate(-32deg); }
+      100% { transform: translate(-12%, -88%) rotate(-35deg); }
     }
 
-    /* १. अझै ठुलो र गहिरो घाउ (Wound Mark) */
+    /* १. घाउको खत (Wound Mark) */
     .wound-mark {
       position: absolute;
       width: 50px;
@@ -100,6 +101,7 @@
       border-radius: 50%;
       box-shadow: 0 0 8px rgba(0,0,0,0.9), inset 0 0 5px #000;
       z-index: 2;
+      transform: translate(-50%, -50%) rotate(-20deg);
       animation: woundAppear 0.1s ease-out forwards;
     }
 
@@ -108,10 +110,10 @@
       100% { transform: translate(-50%, -50%) scale(1) rotate(-20deg); opacity: 1; }
     }
 
-    /* २. मसिनो/पातलो ५-६ वटा सररर बग्ने रगतका धाराहरू (Thin Drips) */
+    /* २. मसिनो ५-६ वटा सररर बग्ने रगतका धाराहरू */
     .blood-drip {
       position: absolute;
-      width: 2.5px; /* मोटोबाट घटाएर मसिनो (2.5px) बनाइएको */
+      width: 2.5px;
       background: linear-gradient(180deg, #990000 0%, #660000 70%, #330000 100%);
       border-radius: 2px 2px 4px 4px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.6);
@@ -243,7 +245,7 @@
 
       const currentAttackElements = [];
 
-      // १. घाउको खत (Wound Mark) - ५०px लामो गहिरो चोट
+      // १. घाउको खत (Wound Mark) - घाउ ठ्याक्कै क्लिक गरेको (displayX, displayY) मा बन्नेछ
       const wound = document.createElement('div');
       wound.className = 'wound-mark';
       wound.style.left = displayX + 'px';
@@ -251,27 +253,24 @@
       gameArea.appendChild(wound);
       currentAttackElements.push(wound);
 
-      // २. मसिनो ५ देखि ६ वटा सररर बग्ने रगतका धाराहरू (5 to 6 Thin Drips)
-      const dripCount = Math.floor(Math.random() * 2) + 5; // ५ देखि ६ वटा सम्म धारा
+      // २. मसिनो ५ देखि ६ वटा सररर बग्ने रगतका धाराहरू
+      const dripCount = Math.floor(Math.random() * 2) + 5;
       for (let i = 0; i < dripCount; i++) {
         const drip = document.createElement('div');
         drip.className = 'blood-drip';
         
-        // ५०px घाउको लम्बाइभरि फैलाएर राख्ने
         const offsetLeft = (Math.random() - 0.5) * 40; 
-        
-        // फ्रेमभन्दा बाहिर जाने उचाइ (१४०px देखि २४०px)
         const dripHeight = Math.random() * 100 + 140; 
         
         drip.style.left = (displayX + offsetLeft) + 'px';
         drip.style.top = displayY + 'px';
         drip.style.setProperty('--drip-height', dripHeight + 'px');
-        drip.style.animationDelay = (i * 0.08) + 's'; // एकपछि अर्को सररर बग्ने
+        drip.style.animationDelay = (i * 0.08) + 's';
         gameArea.appendChild(drip);
         currentAttackElements.push(drip);
       }
 
-      // ३. घाउ नजिकका अर्गानिक थोपाहरू
+      // ३. घाउ नजिकका अर्गानिक छिटाहरू
       for (let i = 0; i < 6; i++) {
         const dot = document.createElement('div');
         dot.className = 'blood-splatter-dot';
@@ -289,14 +288,14 @@
         currentAttackElements.push(dot);
       }
 
-      // ४. बन्चरो - धार ठ्याक्कै घाउको बिन्दुमा पस्ने गरी पोजिसन मिलाइएको
+      // ४. बन्चरो - ठ्याक्कै (displayX, displayY) मा घाउ र धार एलाइन गरिएको
       const knife = document.createElement('img');
       knife.src = 'knife.png';
       knife.className = 'stuck-knife';
       
-      // ठ्याक्कै धार र चोट मिलाइएको गणित:
-      knife.style.left = (displayX - 12) + 'px'; 
-      knife.style.top = (displayY - 247) + 'px'; 
+      // CSS Variable मार्फत क्लिक बिन्दु (displayX, displayY) पठाएको
+      knife.style.setProperty('--hit-x', displayX + 'px');
+      knife.style.setProperty('--hit-y', displayY + 'px');
       
       gameArea.appendChild(knife);
       currentAttackElements.push(knife);
