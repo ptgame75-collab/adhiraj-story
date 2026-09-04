@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Battle Axe Throw Game</title>
+  <title>Battle Axe Game</title>
   <style>
     * {
       box-sizing: border-box;
@@ -48,7 +48,7 @@
       width: 100%;
       aspect-ratio: 1 / 1;
       border-radius: 8px;
-      overflow: visible;
+      overflow: hidden;
       background-color: #000000;
     }
 
@@ -60,17 +60,19 @@
       border-radius: 8px;
     }
 
-    /* बन्चरो २६०px ठुलो बनाउँदा धार नमिल्ने समस्या समाधान गरिएको CSS */
+    /* ==========================================
+       तपाईंको पुरानै स्टाइल (२६०px साइज मिलाइएको)
+       ========================================== */
     .stuck-knife {
       position: absolute;
-      width: 260px; /* ठुलो बन्चरो */
+      width: 260px; /* बन्चरोको २६०px ठुलो साइज */
       height: auto;
       pointer-events: none;
-      filter: drop-shadow(8px 12px 14px rgba(0,0,0,0.95));
+      filter: drop-shadow(5px 8px 10px rgba(0, 0, 0, 0.8));
       z-index: 5;
 
-      /* ठुलो बन्चरोको धार रहने वास्तविक बिन्दु */
-      transform-origin: 32% 65%;
+      /* बन्चरोको मुख्य धारको कुना (Blade Edge Origin) */
+      transform-origin: 12% 48%;
 
       left: var(--hit-x);
       top: var(--hit-y);
@@ -81,89 +83,79 @@
 
     @keyframes knifeImpact {
       0% {
-        transform: translate(-32%, -65%) rotate(-35deg) scale(1.35);
+        /* translate पहिले राख्दा बन्चरो जति ठुलो भए पनि धार ठ्याक्कै क्लिक पोइन्टमै रहन्छ */
+        transform: translate(-12%, -48%) rotate(-35deg) scale(1.35);
         opacity: 0.5;
       }
       100% {
-        transform: translate(-32%, -65%) rotate(-35deg) scale(1);
+        transform: translate(-12%, -48%) rotate(-35deg) scale(1);
         opacity: 1;
       }
     }
 
     @keyframes knifeShake {
-      0% { transform: translate(-32%, -65%) rotate(-35deg); }
-      50% { transform: translate(-32%, -65%) rotate(-32deg); }
-      100% { transform: translate(-32%, -65%) rotate(-35deg); }
+      0% {
+        transform: translate(-12%, -48%) rotate(-35deg);
+      }
+      50% {
+        transform: translate(-12%, -48%) rotate(-32deg);
+      }
+      100% {
+        transform: translate(-12%, -48%) rotate(-35deg);
+      }
     }
 
-    /* १. गहिरो घाउ (Deep Flesh Wound) */
+    /* पुरानै घाउको स्टाइल */
     .wound-mark {
       position: absolute;
-      width: 55px;
-      height: 16px;
-      background: radial-gradient(ellipse at center, #110000 0%, #4a0000 45%, #8b0000 70%, transparent 100%);
+      width: 40px;
+      height: 12px;
+      background: radial-gradient(ellipse at center, #3a0000 0%, #8b0000 60%, transparent 100%);
       border-radius: 50%;
-      box-shadow: inset 0 0 8px #000000, 0 0 6px rgba(139, 0, 0, 0.8);
+      box-shadow: inset 0 0 5px #000;
       z-index: 2;
-      mix-blend-mode: multiply;
-      transform: translate(-50%, -50%) rotate(-18deg);
+      transform: translate(-50%, -50%) rotate(-20deg);
       animation: woundAppear 0.1s ease-out forwards;
     }
 
     @keyframes woundAppear {
-      0% { transform: translate(-50%, -50%) scale(0.1) rotate(-18deg); opacity: 0; }
-      100% { transform: translate(-50%, -50%) scale(1) rotate(-18deg); opacity: 1; }
+      0% { transform: translate(-50%, -50%) scale(0.2) rotate(-20deg); opacity: 0; }
+      100% { transform: translate(-50%, -50%) scale(1) rotate(-20deg); opacity: 1; }
     }
 
-    /* २. अर्गानिक रगतको धारा */
-    .blood-drip-stream {
+    /* पुरानै रगतको धारा */
+    .blood-drip {
       position: absolute;
-      width: 3px;
-      background: linear-gradient(180deg, #b30000 0%, #660000 50%, #330000 85%, #1a0000 100%);
-      border-radius: 3px;
-      box-shadow: 1px 0 2px rgba(0,0,0,0.8), inset -1px 0 1px rgba(255,255,255,0.3);
+      width: 4px;
+      background: linear-gradient(to bottom, #8b0000, #4a0000, transparent);
+      border-radius: 2px;
       z-index: 3;
       transform-origin: top center;
-      animation: dripFlow 2.5s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+      animation: dripAnim 2s ease-out forwards;
     }
 
-    /* रगतको धाराको फेदमा जम्ने थोपा */
-    .blood-node {
-      position: absolute;
-      background: radial-gradient(circle at 35% 35%, #ff3333 0%, #800000 60%, #330000 100%);
-      border-radius: 50%;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.7);
-      z-index: 4;
-      animation: nodeAppear 0.4s ease-out forwards;
-    }
-
-    @keyframes dripFlow {
+    @keyframes dripAnim {
       0% { height: 0px; opacity: 1; }
-      100% { height: var(--drip-height, 170px); opacity: 0.9; }
+      100% { height: var(--drip-height, 120px); opacity: 0.85; }
     }
 
-    @keyframes nodeAppear {
-      0% { transform: scale(0); }
-      100% { transform: scale(1); }
-    }
-
-    /* ३. रगतका छिटाहरू */
-    .blood-splatter-dot {
+    /* पुरानै रगतका छिटाहरू */
+    .blood-splatter {
       position: absolute;
-      background: radial-gradient(circle, #a00000 30%, #4a0000 80%, transparent 100%);
-      border-radius: 40% 60% 70% 30% / 50% 60% 40% 50%;
+      background-color: #8b0000;
+      border-radius: 50%;
       pointer-events: none;
       z-index: 2;
-      animation: dotSpread 0.25s ease-out forwards;
+      animation: splatterAnim 0.2s ease-out forwards;
     }
 
-    @keyframes dotSpread {
-      0% { transform: scale(0) rotate(0deg); opacity: 0; }
-      100% { transform: scale(1) rotate(45deg); opacity: 0.9; }
+    @keyframes splatterAnim {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 0.9; }
     }
 
     .reset-btn {
-      margin-top: 35px;
+      margin-top: 25px;
       width: 100%;
       padding: 10px;
       background-color: #ff4757;
@@ -272,55 +264,39 @@
       currentAttackElements.push(wound);
 
       // २. रगतका धाराहरू
-      const streamCount = Math.floor(Math.random() * 2) + 5;
-      for (let i = 0; i < streamCount; i++) {
-        const stream = document.createElement('div');
-        stream.className = 'blood-drip-stream';
+      const dripCount = Math.floor(Math.random() * 3) + 2; 
+      for (let i = 0; i < dripCount; i++) {
+        const drip = document.createElement('div');
+        drip.className = 'blood-drip';
+        const offsetX = (Math.random() - 0.5) * 20; 
+        const dripHeight = Math.random() * 80 + 60; 
         
-        const offsetX = (Math.random() - 0.5) * 40; 
-        const dripHeight = Math.random() * 120 + 140; 
-        const streamWidth = Math.random() * 2 + 2; 
-        
-        stream.style.width = streamWidth + 'px';
-        stream.style.left = (displayX + offsetX) + 'px';
-        stream.style.top = displayY + 'px';
-        stream.style.setProperty('--drip-height', dripHeight + 'px');
-        stream.style.animationDelay = (i * 0.06) + 's';
-        gameArea.appendChild(stream);
-        currentAttackElements.push(stream);
-
-        // थोपा (Node)
-        const node = document.createElement('div');
-        node.className = 'blood-node';
-        const nodeSize = streamWidth * 2.2;
-        node.style.width = nodeSize + 'px';
-        node.style.height = nodeSize + 'px';
-        node.style.left = (displayX + offsetX - (nodeSize / 2) + (streamWidth / 2)) + 'px';
-        node.style.top = (displayY + dripHeight) + 'px';
-        node.style.animationDelay = (2.2 + (i * 0.05)) + 's';
-        gameArea.appendChild(node);
-        currentAttackElements.push(node);
+        drip.style.left = (displayX + offsetX) + 'px';
+        drip.style.top = displayY + 'px';
+        drip.style.setProperty('--drip-height', dripHeight + 'px');
+        drip.style.animationDelay = (i * 0.1) + 's';
+        gameArea.appendChild(drip);
+        currentAttackElements.push(drip);
       }
 
       // ३. रगतका छिटाहरू
-      for (let i = 0; i < 8; i++) {
-        const dot = document.createElement('div');
-        dot.className = 'blood-splatter-dot';
+      for (let i = 0; i < 6; i++) {
+        const splatter = document.createElement('div');
+        splatter.className = 'blood-splatter';
         const size = Math.random() * 6 + 3;
-        dot.style.width = size + 'px';
-        dot.style.height = size + 'px';
+        splatter.style.width = size + 'px';
+        splatter.style.height = size + 'px';
         
-        const offsetX = (Math.random() - 0.5) * 50;
-        const offsetY = (Math.random() - 0.5) * 20;
+        const offsetX = (Math.random() - 0.5) * 40;
+        const offsetY = (Math.random() - 0.5) * 30;
         
-        dot.style.left = (displayX + offsetX) + 'px';
-        dot.style.top = (displayY + offsetY) + 'px';
-        dot.style.animationDelay = (Math.random() * 0.1) + 's';
-        gameArea.appendChild(dot);
-        currentAttackElements.push(dot);
+        splatter.style.left = (displayX + offsetX) + 'px';
+        splatter.style.top = (displayY + offsetY) + 'px';
+        gameArea.appendChild(splatter);
+        currentAttackElements.push(splatter);
       }
 
-      // ४. २६०px बन्चरो - घाउको ठ्याक्कै बीचमा
+      // ४. बन्चरो (२६०px मा पनि ठ्याक्कै घाउमा अड्किने गरी)
       const knife = document.createElement('img');
       knife.src = 'knife.png';
       knife.className = 'stuck-knife';
