@@ -58,20 +58,21 @@
       cursor: pointer;
     }
 
+    /* बन्चरोको साइज २ गुना ठुलो बनाइयो (130px -> 260px) */
     .stuck-knife {
       position: absolute;
-      width: 130px;
+      width: 260px;
       height: auto;
       pointer-events: none;
-      filter: drop-shadow(4px 6px 10px rgba(0,0,0,0.85));
-      z-index: 3;
-      animation: knifeImpact 0.15s ease-out forwards, knifeShake 0.1s 0.15s ease-in-out;
+      filter: drop-shadow(6px 10px 12px rgba(0,0,0,0.9));
+      z-index: 4;
+      animation: knifeImpact 0.12s ease-out forwards, knifeShake 0.1s 0.12s ease-in-out;
     }
 
     @keyframes knifeImpact {
       0% {
-        transform: scale(1.8) rotate(-35deg);
-        opacity: 0.6;
+        transform: scale(1.6) rotate(-35deg);
+        opacity: 0.5;
       }
       100% {
         transform: scale(1) rotate(-35deg);
@@ -81,56 +82,60 @@
 
     @keyframes knifeShake {
       0% { transform: rotate(-35deg) translateY(0); }
-      50% { transform: rotate(-32deg) translateY(-3px); }
+      50% { transform: rotate(-32deg) translateY(-4px); }
       100% { transform: rotate(-35deg) translateY(0); }
     }
 
-    .blood-splatter {
+    /* १. गहिरो घाउ (Cut/Wound Effect) */
+    .wound-mark {
       position: absolute;
-      width: 65px;
-      height: 65px;
-      background: #7a0000;
+      width: 30px;
+      height: 6px;
+      background: linear-gradient(90deg, #300000 0%, #800000 50%, #300000 100%);
+      border-radius: 50%;
+      box-shadow: 0 0 6px rgba(0,0,0,0.9), inset 0 0 4px #000;
+      z-index: 2;
+      transform-origin: center;
+      animation: woundAppear 0.1s ease-out forwards;
+    }
+
+    @keyframes woundAppear {
+      0% { transform: translate(-50%, -50%) scale(0.2) rotate(-20deg); opacity: 0; }
+      100% { transform: translate(-50%, -50%) scale(1) rotate(-20deg); opacity: 1; }
+    }
+
+    /* २. बग्ने रगत (Organic Dripping Blood) */
+    .blood-drip {
+      position: absolute;
+      width: 6px;
+      background: linear-gradient(180deg, #a00000 0%, #600000 70%, #3a0000 100%);
+      border-radius: 3px 3px 6px 6px;
+      box-shadow: inset -1px 0 2px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.4);
+      z-index: 3;
+      transform-origin: top center;
+      animation: dripFlow 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    @keyframes dripFlow {
+      0% { height: 0px; opacity: 0.9; }
+      70% { height: var(--drip-height, 45px); opacity: 0.95; }
+      100% { height: var(--drip-height, 45px); opacity: 0.85; }
+    }
+
+    /* ३. घाउ वरपरका साना अर्गानिक छिटाहरू (Organic Splatter Dots) */
+    .blood-splatter-dot {
+      position: absolute;
+      background: radial-gradient(circle, #8b0000 30%, #4a0000 100%);
+      border-radius: 50%;
       opacity: 0;
       pointer-events: none;
       z-index: 2;
-      clip-path: polygon(
-        50% 0%, 65% 20%, 85% 15%, 75% 40%, 100% 50%, 
-        80% 65%, 90% 90%, 60% 75%, 45% 100%, 35% 70%, 
-        10% 85%, 20% 55%, 0% 40%, 25% 25%, 15% 5%
-      );
-      animation: bloodSpread 3s ease-out forwards;
+      animation: dotSpread 0.4s ease-out forwards;
     }
 
-    @keyframes bloodSpread {
-      0% {
-        transform: translate(-50%, -50%) scale(0.1);
-        opacity: 0.1;
-      }
-      100% {
-        transform: translate(-50%, -50%) scale(var(--final-scale, 1));
-        opacity: 0.85;
-      }
-    }
-
-    .blood-drop {
-      position: absolute;
-      background-color: #5c0000;
-      border-radius: 40% 60% 70% 30% / 50% 60% 40% 50%;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 2;
-      animation: dropSpread 2.5s ease-out forwards;
-    }
-
-    @keyframes dropSpread {
-      0% {
-        transform: scale(0);
-        opacity: 0;
-      }
-      100% {
-        transform: scale(1);
-        opacity: 0.8;
-      }
+    @keyframes dotSpread {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 0.85; }
     }
 
     .reset-btn {
@@ -173,7 +178,6 @@
     let attacks = [];
     const MAX_ATTACKS = 3;
 
-    // दुवै फोटोहरू लोड गर्ने (२३८ = ब्याकग्राउन्ड, २३९ = मान्छेको पारदर्शी cut-out)
     const bgImg = new Image();
     bgImg.src = '238.Png';
 
@@ -187,9 +191,7 @@
         canvas.width = bgImg.naturalWidth || 500;
         canvas.height = bgImg.naturalHeight || 500;
 
-        // १. पहिले पछाडिको ब्याकग्राउन्ड फोटो तान्ने
         ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
-        // २. त्यसको माथि मान्छेको फोटो तान्ने
         ctx.drawImage(personImg, 0, 0, canvas.width, canvas.height);
       }
     }
@@ -197,7 +199,6 @@
     bgImg.onload = checkLoaded;
     personImg.onload = checkLoaded;
 
-    // अगाडिको मान्छेको फोटोको पिक्सेल मात्र जाँच्नको लागि छुट्टै hidden canvas
     const offCanvas = document.createElement('canvas');
     const offCtx = offCanvas.getContext('2d', { willReadFrequently: true });
 
@@ -217,11 +218,9 @@
       const canvasX = Math.floor((event.clientX - rect.left) * scaleX);
       const canvasY = Math.floor((event.clientY - rect.top) * scaleY);
 
-      // मान्छेको PNG फोटोबाट मात्र पारदर्शी भाग चेकिङ
       const pixel = offCtx.getImageData(canvasX, canvasY, 1, 1).data;
       const alpha = pixel[3]; 
 
-      // पारदर्शी (खाली) भागमा थिच्दा बन्चरो नलाग्ने
       if (alpha < 20) {
         return; 
       }
@@ -239,39 +238,55 @@
 
       const currentAttackElements = [];
 
+      // १. घाउको खत (Wound Mark)
+      const wound = document.createElement('div');
+      wound.className = 'wound-mark';
+      wound.style.left = displayX + 'px';
+      wound.style.top = displayY + 'px';
+      gameArea.appendChild(wound);
+      currentAttackElements.push(wound);
+
+      // २. बग्ने रगत (Dripping Blood)
+      const dripCount = Math.floor(Math.random() * 2) + 2; // २ देखि ३ वटा बग्ने लाइन
+      for (let i = 0; i < dripCount; i++) {
+        const drip = document.createElement('div');
+        drip.className = 'blood-drip';
+        const offsetLeft = (Math.random() - 0.5) * 12;
+        const dripHeight = Math.random() * 35 + 25; // २५px देखि ६०px सम्म बग्ने
+        drip.style.left = (displayX + offsetLeft) + 'px';
+        drip.style.top = displayY + 'px';
+        drip.style.setProperty('--drip-height', dripHeight + 'px');
+        drip.style.animationDelay = (i * 0.15) + 's';
+        gameArea.appendChild(drip);
+        currentAttackElements.push(drip);
+      }
+
+      // ३. साना अर्गानिक रगतका थोपाहरू
+      for (let i = 0; i < 6; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'blood-splatter-dot';
+        const size = Math.random() * 6 + 3;
+        dot.style.width = size + 'px';
+        dot.style.height = size + 'px';
+        
+        const offsetX = (Math.random() - 0.5) * 24;
+        const offsetY = (Math.random() - 0.5) * 24;
+        
+        dot.style.left = (displayX + offsetX) + 'px';
+        dot.style.top = (displayY + offsetY) + 'px';
+        dot.style.animationDelay = (Math.random() * 0.2) + 's';
+        gameArea.appendChild(dot);
+        currentAttackElements.push(dot);
+      }
+
+      // ४. ठुलो बन्चरो (260px)
       const knife = document.createElement('img');
       knife.src = 'knife.png';
       knife.className = 'stuck-knife';
-      knife.style.left = (displayX - 45) + 'px';
-      knife.style.top = (displayY - 65) + 'px';
+      knife.style.left = (displayX - 90) + 'px'; // पोजिसन ठुलो बन्चरो अनुसार मिलाइएको
+      knife.style.top = (displayY - 130) + 'px';
       gameArea.appendChild(knife);
       currentAttackElements.push(knife);
-
-      const blood = document.createElement('div');
-      blood.className = 'blood-splatter';
-      blood.style.left = displayX + 'px';
-      blood.style.top = displayY + 'px';
-      const randomScale = 0.8 + Math.random() * 0.5;
-      blood.style.setProperty('--final-scale', randomScale);
-      gameArea.appendChild(blood);
-      currentAttackElements.push(blood);
-
-      for (let i = 0; i < 7; i++) {
-        const drop = document.createElement('div');
-        drop.className = 'blood-drop';
-        const size = Math.random() * 7 + 3;
-        drop.style.width = size + 'px';
-        drop.style.height = size + 'px';
-        
-        const offsetX = (Math.random() - 0.5) * 60;
-        const offsetY = (Math.random() - 0.5) * 60;
-        
-        drop.style.left = (displayX + offsetX) + 'px';
-        drop.style.top = (displayY + offsetY) + 'px';
-        drop.style.animationDelay = (Math.random() * 0.6) + 's';
-        gameArea.appendChild(drop);
-        currentAttackElements.push(drop);
-      }
 
       attacks.push({ elements: currentAttackElements });
     });
