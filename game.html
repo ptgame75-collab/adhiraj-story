@@ -48,7 +48,7 @@
       width: 100%;
       aspect-ratio: 1 / 1;
       border-radius: 8px;
-      overflow: visible; /* रगत फ्रेम काटेर तलसम्म बग्नका लागि */
+      overflow: visible;
       background-color: #000000;
     }
 
@@ -60,17 +60,17 @@
       border-radius: 8px;
     }
 
-    /* तपाईंले मिलाउनुभएको बन्चरोको सटीक CSS */
+    /* बन्चरो २६०px ठुलो बनाउँदा धार नमिल्ने समस्या समाधान गरिएको CSS */
     .stuck-knife {
       position: absolute;
-      width: 260px;
+      width: 260px; /* ठुलो बन्चरो */
       height: auto;
       pointer-events: none;
       filter: drop-shadow(8px 12px 14px rgba(0,0,0,0.95));
       z-index: 5;
 
-      /* बन्चरोको धार जहाँ छ, त्यही point बाट rotate */
-      transform-origin: 12% 48%;
+      /* ठुलो बन्चरोको धार रहने वास्तविक बिन्दु */
+      transform-origin: 32% 65%;
 
       left: var(--hit-x);
       top: var(--hit-y);
@@ -81,31 +81,22 @@
 
     @keyframes knifeImpact {
       0% {
-        transform: translate(-12%, -48%) rotate(-35deg) scale(1.35);
+        transform: translate(-32%, -65%) rotate(-35deg) scale(1.35);
         opacity: 0.5;
       }
-
       100% {
-        transform: translate(-12%, -48%) rotate(-35deg) scale(1);
+        transform: translate(-32%, -65%) rotate(-35deg) scale(1);
         opacity: 1;
       }
     }
 
     @keyframes knifeShake {
-      0% {
-        transform: translate(-12%, -48%) rotate(-35deg);
-      }
-
-      50% {
-        transform: translate(-12%, -48%) rotate(-32deg);
-      }
-
-      100% {
-        transform: translate(-12%, -48%) rotate(-35deg);
-      }
+      0% { transform: translate(-32%, -65%) rotate(-35deg); }
+      50% { transform: translate(-32%, -65%) rotate(-32deg); }
+      100% { transform: translate(-32%, -65%) rotate(-35deg); }
     }
 
-    /* १. यथार्थपरक गहिरो घाउ (Deep Flesh Wound) */
+    /* १. गहिरो घाउ (Deep Flesh Wound) */
     .wound-mark {
       position: absolute;
       width: 55px;
@@ -114,7 +105,7 @@
       border-radius: 50%;
       box-shadow: inset 0 0 8px #000000, 0 0 6px rgba(139, 0, 0, 0.8);
       z-index: 2;
-      mix-blend-mode: multiply; /* छालाको फोटोसँग प्राकृतिक रूपमा मिसिनका लागि */
+      mix-blend-mode: multiply;
       transform: translate(-50%, -50%) rotate(-18deg);
       animation: woundAppear 0.1s ease-out forwards;
     }
@@ -124,7 +115,7 @@
       100% { transform: translate(-50%, -50%) scale(1) rotate(-18deg); opacity: 1; }
     }
 
-    /* २. अर्गानिक रगतको धारा (Realistic Blood Drips with Depth) */
+    /* २. अर्गानिक रगतको धारा */
     .blood-drip-stream {
       position: absolute;
       width: 3px;
@@ -136,7 +127,7 @@
       animation: dripFlow 2.5s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
     }
 
-    /* रगतको धाराको फेदमा बन्ने वास्तविक थोपा (Droplets) */
+    /* रगतको धाराको फेदमा जम्ने थोपा */
     .blood-node {
       position: absolute;
       background: radial-gradient(circle at 35% 35%, #ff3333 0%, #800000 60%, #330000 100%);
@@ -156,7 +147,7 @@
       100% { transform: scale(1); }
     }
 
-    /* ३. असम्मित र प्राकृतिक रगतका छिटाहरू (Organic Splatters) */
+    /* ३. रगतका छिटाहरू */
     .blood-splatter-dot {
       position: absolute;
       background: radial-gradient(circle, #a00000 30%, #4a0000 80%, transparent 100%);
@@ -272,7 +263,7 @@
 
       const currentAttackElements = [];
 
-      // १. गहिरो घाउ (Mix-blend-mode Flesh Wound)
+      // १. घाउ
       const wound = document.createElement('div');
       wound.className = 'wound-mark';
       wound.style.left = displayX + 'px';
@@ -280,8 +271,8 @@
       gameArea.appendChild(wound);
       currentAttackElements.push(wound);
 
-      // २. प्राकृतिक रूपमा बग्ने रगतका धारा र थोपाहरू
-      const streamCount = Math.floor(Math.random() * 2) + 5; // ५ देखि ६ वटा धाराहरू
+      // २. रगतका धाराहरू
+      const streamCount = Math.floor(Math.random() * 2) + 5;
       for (let i = 0; i < streamCount; i++) {
         const stream = document.createElement('div');
         stream.className = 'blood-drip-stream';
@@ -298,7 +289,7 @@
         gameArea.appendChild(stream);
         currentAttackElements.push(stream);
 
-        // धाराको फेदमा जम्ने थोपा (Node)
+        // थोपा (Node)
         const node = document.createElement('div');
         node.className = 'blood-node';
         const nodeSize = streamWidth * 2.2;
@@ -311,7 +302,7 @@
         currentAttackElements.push(node);
       }
 
-      // ३. रगतका छिटाहरू (Organic Splatters)
+      // ३. रगतका छिटाहरू
       for (let i = 0; i < 8; i++) {
         const dot = document.createElement('div');
         dot.className = 'blood-splatter-dot';
@@ -329,7 +320,7 @@
         currentAttackElements.push(dot);
       }
 
-      // ४. बन्चरो - तपाईंको कोडिङ अनुसार precise hit coordinates मा सेट गरिएको
+      // ४. २६०px बन्चरो - घाउको ठ्याक्कै बीचमा
       const knife = document.createElement('img');
       knife.src = 'knife.png';
       knife.className = 'stuck-knife';
