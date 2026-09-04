@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ultra-Realistic Battle Axe Game</title>
+  <title>Battle Axe Throw Game</title>
   <style>
     * {
       box-sizing: border-box;
@@ -48,7 +48,7 @@
       width: 100%;
       aspect-ratio: 1 / 1;
       border-radius: 8px;
-      overflow: visible;
+      overflow: visible; /* रगत फ्रेम काटेर तलसम्म बग्नका लागि */
       background-color: #000000;
     }
 
@@ -60,7 +60,7 @@
       border-radius: 8px;
     }
 
-    /* बन्चरोको मुख्य धार (Sharp Edge) लाई घाउसँग १००% एलाइन गर्ने CSS */
+    /* तपाईंले मिलाउनुभएको बन्चरोको सटीक CSS */
     .stuck-knife {
       position: absolute;
       width: 260px;
@@ -68,11 +68,15 @@
       pointer-events: none;
       filter: drop-shadow(8px 12px 14px rgba(0,0,0,0.95));
       z-index: 5;
-      /* बन्चरोको तल्लो-मध्यम धार (Blade Edge) रहने वास्तविक कुना */
-      transform-origin: 12% 48%; 
+
+      /* बन्चरोको धार जहाँ छ, त्यही point बाट rotate */
+      transform-origin: 12% 48%;
+
       left: var(--hit-x);
       top: var(--hit-y);
-      animation: knifeImpact 0.12s ease-out forwards, knifeShake 0.12s 0.12s ease-in-out;
+
+      animation: knifeImpact 0.12s ease-out forwards,
+                 knifeShake 0.12s 0.12s ease-in-out;
     }
 
     @keyframes knifeImpact {
@@ -80,6 +84,7 @@
         transform: translate(-12%, -48%) rotate(-35deg) scale(1.35);
         opacity: 0.5;
       }
+
       100% {
         transform: translate(-12%, -48%) rotate(-35deg) scale(1);
         opacity: 1;
@@ -87,12 +92,20 @@
     }
 
     @keyframes knifeShake {
-      0% { transform: translate(-12%, -48%) rotate(-35deg); }
-      50% { transform: translate(-12%, -48%) rotate(-32deg); }
-      100% { transform: translate(-12%, -48%) rotate(-35deg); }
+      0% {
+        transform: translate(-12%, -48%) rotate(-35deg);
+      }
+
+      50% {
+        transform: translate(-12%, -48%) rotate(-32deg);
+      }
+
+      100% {
+        transform: translate(-12%, -48%) rotate(-35deg);
+      }
     }
 
-    /* १. गहिरो घाउ (Realistic Deep Flesh Wound) */
+    /* १. यथार्थपरक गहिरो घाउ (Deep Flesh Wound) */
     .wound-mark {
       position: absolute;
       width: 55px;
@@ -101,7 +114,7 @@
       border-radius: 50%;
       box-shadow: inset 0 0 8px #000000, 0 0 6px rgba(139, 0, 0, 0.8);
       z-index: 2;
-      mix-blend-mode: multiply; /* छालासँग वास्तविक रूपमा मिसिनको लागि */
+      mix-blend-mode: multiply; /* छालाको फोटोसँग प्राकृतिक रूपमा मिसिनका लागि */
       transform: translate(-50%, -50%) rotate(-18deg);
       animation: woundAppear 0.1s ease-out forwards;
     }
@@ -111,7 +124,7 @@
       100% { transform: translate(-50%, -50%) scale(1) rotate(-18deg); opacity: 1; }
     }
 
-    /* २. वास्तविक अर्गानिक रगतको धारा (Organic Blood Drips with Nodes) */
+    /* २. अर्गानिक रगतको धारा (Realistic Blood Drips with Depth) */
     .blood-drip-stream {
       position: absolute;
       width: 3px;
@@ -123,7 +136,7 @@
       animation: dripFlow 2.5s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
     }
 
-    /* रगतको धारामा बन्ने थोपाहरू (Droplets) */
+    /* रगतको धाराको फेदमा बन्ने वास्तविक थोपा (Droplets) */
     .blood-node {
       position: absolute;
       background: radial-gradient(circle at 35% 35%, #ff3333 0%, #800000 60%, #330000 100%);
@@ -143,11 +156,11 @@
       100% { transform: scale(1); }
     }
 
-    /* ३. रगतका यथार्थपरक छिटाहरू (Organic Splatters) */
+    /* ३. असम्मित र प्राकृतिक रगतका छिटाहरू (Organic Splatters) */
     .blood-splatter-dot {
       position: absolute;
       background: radial-gradient(circle, #a00000 30%, #4a0000 80%, transparent 100%);
-      border-radius: 40% 60% 70% 30% / 50% 60% 40% 50%; /* प्राकृतिक असम्मित आकार */
+      border-radius: 40% 60% 70% 30% / 50% 60% 40% 50%;
       pointer-events: none;
       z-index: 2;
       animation: dotSpread 0.25s ease-out forwards;
@@ -259,7 +272,7 @@
 
       const currentAttackElements = [];
 
-      // १. गहिरो घाउ (Dynamic Flesh Wound)
+      // १. गहिरो घाउ (Mix-blend-mode Flesh Wound)
       const wound = document.createElement('div');
       wound.className = 'wound-mark';
       wound.style.left = displayX + 'px';
@@ -268,14 +281,14 @@
       currentAttackElements.push(wound);
 
       // २. प्राकृतिक रूपमा बग्ने रगतका धारा र थोपाहरू
-      const streamCount = Math.floor(Math.random() * 2) + 5; // ५-६ धारा
+      const streamCount = Math.floor(Math.random() * 2) + 5; // ५ देखि ६ वटा धाराहरू
       for (let i = 0; i < streamCount; i++) {
         const stream = document.createElement('div');
         stream.className = 'blood-drip-stream';
         
         const offsetX = (Math.random() - 0.5) * 40; 
         const dripHeight = Math.random() * 120 + 140; 
-        const streamWidth = Math.random() * 2 + 2; // २px देखि ४px बाक्लो
+        const streamWidth = Math.random() * 2 + 2; 
         
         stream.style.width = streamWidth + 'px';
         stream.style.left = (displayX + offsetX) + 'px';
@@ -285,7 +298,7 @@
         gameArea.appendChild(stream);
         currentAttackElements.push(stream);
 
-        // धाराको तलपट्टि थुप्रिने थोपा (Drip Node)
+        // धाराको फेदमा जम्ने थोपा (Node)
         const node = document.createElement('div');
         node.className = 'blood-node';
         const nodeSize = streamWidth * 2.2;
@@ -316,7 +329,7 @@
         currentAttackElements.push(dot);
       }
 
-      // ४. बन्चरो - ठ्याक्कै घाउको बिन्दुमा ठोकिने गरी एलाइन गरिएको
+      // ४. बन्चरो - तपाईंको कोडिङ अनुसार precise hit coordinates मा सेट गरिएको
       const knife = document.createElement('img');
       knife.src = 'knife.png';
       knife.className = 'stuck-knife';
