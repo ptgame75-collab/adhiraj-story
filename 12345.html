@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>अधिराजको खत - गेम</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .game-container {
+            position: relative;
+            width: 100%;
+            max-width: 480px;
+            height: 100vh;
+            background-image: url('parbat.png');
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+        }
+
+        #effect-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('parbat01.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.1s ease-in-out;
+        }
+
+        #knife-img {
+            position: absolute;
+            width: 120px;
+            display: none;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container" id="gameArea">
+        <div id="effect-layer"></div>
+        <img id="knife-img" src="knife.png" alt="Knife">
+    </div>
+
+    <audio id="hitSound" src="khifehit.mp3"></audio>
+
+    <script>
+        const gameArea = document.getElementById('gameArea');
+        const effectLayer = document.getElementById('effect-layer');
+        const knifeImg = document.getElementById('knife-img');
+        const hitSound = document.getElementById('hitSound');
+
+        gameArea.addEventListener('click', function(event) {
+            const rect = gameArea.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            knifeImg.style.left = x + 'px';
+            knifeImg.style.top = y + 'px';
+            knifeImg.style.display = 'block';
+
+            effectLayer.style.opacity = '1';
+
+            hitSound.currentTime = 0;
+            hitSound.play().catch(e => console.log("Audio error:", e));
+
+            setTimeout(() => {
+                effectLayer.style.opacity = '0';
+                knifeImg.style.display = 'none';
+            }, 300);
+        });
+    </script>
+
+</body>
+</html>
