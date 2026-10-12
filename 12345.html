@@ -25,7 +25,7 @@
 
     .game-card {
       width: 100%;
-      max-width: 340px;
+      max-width: 360px;
       background-color: #000000;
       display: flex;
       flex-direction: column;
@@ -46,7 +46,6 @@
     .game-container {
       position: relative;
       width: 100%;
-      aspect-ratio: 1 / 1;
       border-radius: 8px;
       overflow: hidden;
       background-color: #000000;
@@ -54,23 +53,25 @@
 
     canvas {
       width: 100%;
-      height: 100%;
+      height: auto;
       display: block;
       cursor: pointer;
       border-radius: 8px;
     }
 
-    /* बन्चरोको साइज घटाएर १४०px बनाइएको ताकि घाउमा ठ्याक्कै मिलोस् */
+    /* ==========================================
+       नयाँ मिलाइएको बन्चरोको स्टाइल (धार र घाउ मिल्ने गरी)
+       ========================================== */
     .stuck-knife {
       position: absolute;
-      width: 140px; 
+      width: 130px; 
       height: auto;
       pointer-events: none;
       filter: drop-shadow(3px 5px 6px rgba(0, 0, 0, 0.8));
       z-index: 5;
 
-      /* बन्चरोको धारको ओरिजिन मिलान */
-      transform-origin: 12% 48%;
+      /* बन्चरोको धार ठ्याक्कै क्लिक पोइन्टमा पर्ने गरी मिलाइएको */
+      transform-origin: 0% 50%;
 
       left: var(--hit-x);
       top: var(--hit-y);
@@ -81,31 +82,31 @@
 
     @keyframes knifeImpact {
       0% {
-        transform: translate(-12%, -48%) rotate(-35deg) scale(1.35);
+        transform: translate(0px, -50%) rotate(-35deg) scale(1.35);
         opacity: 0.5;
       }
       100% {
-        transform: translate(-12%, -48%) rotate(-35deg) scale(1);
+        transform: translate(0px, -50%) rotate(-35deg) scale(1);
         opacity: 1;
       }
     }
 
     @keyframes knifeShake {
       0% {
-        transform: translate(-12%, -48%) rotate(-35deg);
+        transform: translate(0px, -50%) rotate(-35deg);
       }
       50% {
-        transform: translate(-12%, -48%) rotate(-32deg);
+        transform: translate(0px, -50%) rotate(-32deg);
       }
       100% {
-        transform: translate(-12%, -48%) rotate(-35deg);
+        transform: translate(0px, -50%) rotate(-35deg);
       }
     }
 
-    /* घाउको स्टाइल */
+    /* पुरानै घाउको स्टाइल */
     .wound-mark {
       position: absolute;
-      width: 30px;
+      width: 28px;
       height: 10px;
       background: radial-gradient(ellipse at center, #3a0000 0%, #8b0000 60%, transparent 100%);
       border-radius: 50%;
@@ -120,7 +121,7 @@
       100% { transform: translate(-50%, -50%) scale(1) rotate(-20deg); opacity: 1; }
     }
 
-    /* रगतको धारा */
+    /* पुरानै रगतको धारा */
     .blood-drip {
       position: absolute;
       width: 3px;
@@ -133,10 +134,10 @@
 
     @keyframes dripAnim {
       0% { height: 0px; opacity: 1; }
-      100% { height: var(--drip-height, 90px); opacity: 0.85; }
+      100% { height: var(--drip-height, 45px); opacity: 0.85; }
     }
 
-    /* रगतका छिटाहरू */
+    /* पुरानै रगतका छिटाहरू */
     .blood-splatter {
       position: absolute;
       background-color: #8b0000;
@@ -200,53 +201,30 @@
 
     let imagesLoaded = 0;
 
-    // ब्याकग्राउन्डलाई फ्रेममा पूर्ण रूपमा 'Cover' गरेर फिट गर्ने फंक्सन (Object-fit cover जस्तै)
-    function drawCoverImage(image, targetWidth, targetHeight) {
-      const imgRatio = image.naturalWidth / image.naturalHeight;
-      const targetRatio = targetWidth / targetHeight;
-      let renderWidth, renderHeight, offsetX = 0, offsetY = 0;
-
-      if (imgRatio > targetRatio) {
-        renderHeight = targetHeight;
-        renderWidth = targetHeight * imgRatio;
-        offsetX = (targetWidth - renderWidth) / 2;
-      } else {
-        renderWidth = targetWidth;
-        renderHeight = targetWidth / imgRatio;
-        offsetY = (targetHeight - renderHeight) / 2;
-      }
-      ctx.drawImage(image, offsetX, offsetY, renderWidth, renderHeight);
-    }
-
     const offCanvas = document.createElement('canvas');
     const offCtx = offCanvas.getContext('2d', { willReadFrequently: true });
 
-    function drawGameImages() {
-      const baseWidth = bgImg.naturalWidth || 500;
-      const baseHeight = bgImg.naturalHeight || 500;
+    function initGame() {
+      const w = bgImg.naturalWidth || 500;
+      const h = bgImg.naturalHeight || 500;
 
-      canvas.width = baseWidth;
-      canvas.height = baseHeight;
+      canvas.width = w;
+      canvas.height = h;
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      // १. ब्याकग्राउन्डलाई राम्रोसँग कभर हुने गरी राख्ने
-      drawCoverImage(bgImg, canvas.width, canvas.height);
-      
-      // २. पात्रको फोटोलाई त्यसको साँचो आकारमा राख्ने
-      ctx.drawImage(personImg, 0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, w, h);
+      ctx.drawImage(bgImg, 0, 0, w, h);
+      ctx.drawImage(personImg, 0, 0, w, h);
 
-      // अफस्क्रिन क्यानभास क्लिक डिटेクションको लागि
-      offCanvas.width = baseWidth;
-      offCanvas.height = baseHeight;
-      offCtx.clearRect(0, 0, offCanvas.width, offCanvas.height);
-      offCtx.drawImage(personImg, 0, 0, offCanvas.width, offCanvas.height);
+      offCanvas.width = w;
+      offCanvas.height = h;
+      offCtx.clearRect(0, 0, w, h);
+      offCtx.drawImage(personImg, 0, 0, w, h);
     }
 
     function checkLoaded() {
       imagesLoaded++;
       if (imagesLoaded === 2) {
-        drawGameImages();
+        initGame();
       }
     }
 
@@ -295,8 +273,8 @@
       for (let i = 0; i < dripCount; i++) {
         const drip = document.createElement('div');
         drip.className = 'blood-drip';
-        const offsetX = (Math.random() - 0.5) * 15; 
-        const dripHeight = Math.random() * 50 + 40; 
+        const offsetX = (Math.random() - 0.5) * 12; 
+        const dripHeight = Math.random() * 45 + 35; 
         
         drip.style.left = (displayX + offsetX) + 'px';
         drip.style.top = displayY + 'px';
@@ -310,12 +288,12 @@
       for (let i = 0; i < 5; i++) {
         const splatter = document.createElement('div');
         splatter.className = 'blood-splatter';
-        const size = Math.random() * 5 + 2;
+        const size = Math.random() * 4 + 2;
         splatter.style.width = size + 'px';
         splatter.style.height = size + 'px';
         
-        const offsetX = (Math.random() - 0.5) * 30;
-        const offsetY = (Math.random() - 0.5) * 20;
+        const offsetX = (Math.random() - 0.5) * 25;
+        const offsetY = (Math.random() - 0.5) * 15;
         
         splatter.style.left = (displayX + offsetX) + 'px';
         splatter.style.top = (displayY + offsetY) + 'px';
@@ -323,7 +301,7 @@
         currentAttackElements.push(splatter);
       }
 
-      // ४. बन्चरो (साइज सानो १४०px बनाएकोले अब ठ्याक्कै क्लिक गरेको ठाउँमा बस्छ)
+      // ४. बन्चरो
       const knife = document.createElement('img');
       knife.src = 'knife.png';
       knife.className = 'stuck-knife';
