@@ -73,7 +73,7 @@
       border-radius: 8px;
     }
 
-    /* बन्चरोको स्टाइल (जस्ताको तस्तै पर्फेक्ट) */
+    /* बन्चरोको स्टाइल */
     .stuck-knife {
       position: absolute;
       width: 130px;
@@ -101,7 +101,7 @@
       100% { transform: rotate(-35deg) translateY(0); }
     }
 
-    /* घाउको स्टाइल - दायाँतर्फ ढल्केको */
+    /* घाउको स्टाइल - ठ्याक्कै बन्चरोको धारतिर पर्ने गरी */
     .wound-mark {
       position: absolute;
       width: 35px;
@@ -271,63 +271,7 @@
 
       const currentAttackElements = [];
 
-      // १. घाउ - बन्चरोको धारमा ठ्याक्कै पर्ने गरी थोरै तल र छड्के सारिएको (+10 पिक्सल तल)
-      const wound = document.createElement('div');
-      wound.className = 'wound-mark';
-      wound.style.left = (displayX + 6) + 'px'; 
-      wound.style.top = (displayY + 10) + 'px';
-      gameArea.appendChild(wound);
-      currentAttackElements.push(wound);
-
-      // २. रगतका धाराहरू (घाउको नयाँ स्थानबाटै तल बग्ने गरी मिलाइएको)
-      const streamCount = Math.floor(Math.random() * 2) + 4; 
-      for (let i = 0; i < streamCount; i++) {
-        const stream = document.createElement('div');
-        stream.className = 'blood-drip-stream';
-        
-        const offsetX = (Math.random() - 0.5) * 30; 
-        const dripHeight = Math.random() * 80 + 90; 
-        const streamWidth = Math.random() * 2 + 2; 
-        
-        stream.style.width = streamWidth + 'px';
-        stream.style.left = (displayX + 6 + offsetX) + 'px';
-        stream.style.top = (displayY + 10) + 'px';
-        stream.style.setProperty('--drip-height', dripHeight + 'px');
-        stream.style.animationDelay = (i * 0.06) + 's';
-        gameArea.appendChild(stream);
-        currentAttackElements.push(stream);
-
-        const node = document.createElement('div');
-        node.className = 'blood-node';
-        const nodeSize = streamWidth * 2.2;
-        node.style.width = nodeSize + 'px';
-        node.style.height = nodeSize + 'px';
-        node.style.left = (displayX + 6 + offsetX - (nodeSize / 2) + (streamWidth / 2)) + 'px';
-        node.style.top = (displayY + 10 + dripHeight) + 'px';
-        node.style.animationDelay = (1.8 + (i * 0.05)) + 's';
-        gameArea.appendChild(node);
-        currentAttackElements.push(node);
-      }
-
-      // ३. रगतका छिटाहरू
-      for (let i = 0; i < 6; i++) {
-        const dot = document.createElement('div');
-        dot.className = 'blood-splatter-dot';
-        const size = Math.random() * 5 + 3;
-        dot.style.width = size + 'px';
-        dot.style.height = size + 'px';
-        
-        const offsetX = (Math.random() - 0.5) * 40;
-        const offsetY = (Math.random() - 0.5) * 15;
-        
-        dot.style.left = (displayX + 6 + offsetX) + 'px';
-        dot.style.top = (displayY + 10 + offsetY) + 'px';
-        dot.style.animationDelay = (Math.random() * 0.1) + 's';
-        gameArea.appendChild(dot);
-        currentAttackElements.push(dot);
-      }
-
-      // ४. बन्चरो - साबिककै पर्फेक्ट पोजिसनमा जस्ताको तस्तै
+      // १. पहिले बन्चरो प्रहार हुने (देखिने)
       const knife = document.createElement('img');
       knife.src = 'knife.png';
       knife.className = 'stuck-knife';
@@ -335,6 +279,65 @@
       knife.style.top = (displayY - 65) + 'px';
       gameArea.appendChild(knife);
       currentAttackElements.push(knife);
+
+      // २. बन्चरो प्रहार भएको ठ्याक्कै १.५ मिलिसेकेन्ड (15ms) पछि धारबाटै घाउ र रगत सुरु हुने
+      setTimeout(() => {
+        // घाउको मार्कर (बन्चरोको धारसँग ठ्याक्कै मिल्ने अफसेटसहित)
+        const wound = document.createElement('div');
+        wound.className = 'wound-mark';
+        wound.style.left = (displayX + 2) + 'px';
+        wound.style.top = (displayY + 2) + 'px';
+        gameArea.appendChild(wound);
+        currentAttackElements.push(wound);
+
+        // रगतका धाराहरू
+        const streamCount = Math.floor(Math.random() * 2) + 4; 
+        for (let i = 0; i < streamCount; i++) {
+          const stream = document.createElement('div');
+          stream.className = 'blood-drip-stream';
+          
+          const offsetX = (Math.random() - 0.5) * 30; 
+          const dripHeight = Math.random() * 80 + 90; 
+          const streamWidth = Math.random() * 2 + 2; 
+          
+          stream.style.width = streamWidth + 'px';
+          stream.style.left = (displayX + 2 + offsetX) + 'px';
+          stream.style.top = (displayY + 2) + 'px';
+          stream.style.setProperty('--drip-height', dripHeight + 'px');
+          stream.style.animationDelay = (i * 0.06) + 's';
+          gameArea.appendChild(stream);
+          currentAttackElements.push(stream);
+
+          const node = document.createElement('div');
+          node.className = 'blood-node';
+          const nodeSize = streamWidth * 2.2;
+          node.style.width = nodeSize + 'px';
+          node.style.height = nodeSize + 'px';
+          node.style.left = (displayX + 2 + offsetX - (nodeSize / 2) + (streamWidth / 2)) + 'px';
+          node.style.top = (displayY + 2 + dripHeight) + 'px';
+          node.style.animationDelay = (1.8 + (i * 0.05)) + 's';
+          gameArea.appendChild(node);
+          currentAttackElements.push(node);
+        }
+
+        // रगतका छिटाहरू
+        for (let i = 0; i < 6; i++) {
+          const dot = document.createElement('div');
+          dot.className = 'blood-splatter-dot';
+          const size = Math.random() * 5 + 3;
+          dot.style.width = size + 'px';
+          dot.style.height = size + 'px';
+          
+          const offsetX = (Math.random() - 0.5) * 40;
+          const offsetY = (Math.random() - 0.5) * 15;
+          
+          dot.style.left = (displayX + 2 + offsetX) + 'px';
+          dot.style.top = (displayY + 2 + offsetY) + 'px';
+          dot.style.animationDelay = (Math.random() * 0.1) + 's';
+          gameArea.appendChild(dot);
+          currentAttackElements.push(dot);
+        }
+      }, 15); // १५ मिलिसेकेन्डको डिले
 
       attacks.push({ elements: currentAttackElements });
     });
