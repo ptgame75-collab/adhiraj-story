@@ -73,7 +73,7 @@
       border-radius: 8px;
     }
 
-    /* बन्चरोको स्टाइल */
+    /* बन्चरोको स्टाइल (जस्ताको तस्तै पर्फेक्ट) */
     .stuck-knife {
       position: absolute;
       width: 130px;
@@ -253,9 +253,8 @@
         return; 
       }
 
-      // यहाँ क्याभासको वास्तविक रेसियो मिलाइएको छ ताकि क्लिक गरेको ठाउँमै बन्चरो बस्छ
-      const displayX = (canvasX / offCanvas.width) * rect.width;
-      const displayY = (canvasY / offCanvas.height) * rect.height;
+      const displayX = event.clientX - rect.left;
+      const displayY = event.clientY - rect.top;
 
       hitSound.currentTime = 0;
       hitSound.play().catch(err => console.log("Audio play error:", err));
@@ -272,15 +271,15 @@
 
       const currentAttackElements = [];
 
-      // १. घाउ
+      // १. घाउ - बन्चरोको धारमा ठ्याक्कै पर्ने गरी थोरै तल र छड्के सारिएको (+10 पिक्सल तल)
       const wound = document.createElement('div');
       wound.className = 'wound-mark';
-      wound.style.left = displayX + 'px';
-      wound.style.top = (displayY - 8) + 'px';
+      wound.style.left = (displayX + 6) + 'px'; 
+      wound.style.top = (displayY + 10) + 'px';
       gameArea.appendChild(wound);
       currentAttackElements.push(wound);
 
-      // २. रगतका धाराहरू
+      // २. रगतका धाराहरू (घाउको नयाँ स्थानबाटै तल बग्ने गरी मिलाइएको)
       const streamCount = Math.floor(Math.random() * 2) + 4; 
       for (let i = 0; i < streamCount; i++) {
         const stream = document.createElement('div');
@@ -291,8 +290,8 @@
         const streamWidth = Math.random() * 2 + 2; 
         
         stream.style.width = streamWidth + 'px';
-        stream.style.left = (displayX + offsetX) + 'px';
-        stream.style.top = (displayY - 8) + 'px';
+        stream.style.left = (displayX + 6 + offsetX) + 'px';
+        stream.style.top = (displayY + 10) + 'px';
         stream.style.setProperty('--drip-height', dripHeight + 'px');
         stream.style.animationDelay = (i * 0.06) + 's';
         gameArea.appendChild(stream);
@@ -303,8 +302,8 @@
         const nodeSize = streamWidth * 2.2;
         node.style.width = nodeSize + 'px';
         node.style.height = nodeSize + 'px';
-        node.style.left = (displayX + offsetX - (nodeSize / 2) + (streamWidth / 2)) + 'px';
-        node.style.top = (displayY - 8 + dripHeight) + 'px';
+        node.style.left = (displayX + 6 + offsetX - (nodeSize / 2) + (streamWidth / 2)) + 'px';
+        node.style.top = (displayY + 10 + dripHeight) + 'px';
         node.style.animationDelay = (1.8 + (i * 0.05)) + 's';
         gameArea.appendChild(node);
         currentAttackElements.push(node);
@@ -321,14 +320,14 @@
         const offsetX = (Math.random() - 0.5) * 40;
         const offsetY = (Math.random() - 0.5) * 15;
         
-        dot.style.left = (displayX + offsetX) + 'px';
-        dot.style.top = (displayY - 8 + offsetY) + 'px';
+        dot.style.left = (displayX + 6 + offsetX) + 'px';
+        dot.style.top = (displayY + 10 + offsetY) + 'px';
         dot.style.animationDelay = (Math.random() * 0.1) + 's';
         gameArea.appendChild(dot);
         currentAttackElements.push(dot);
       }
 
-      // ४. बन्चरो - ठ्याक्कै क्लिक गरिएको ठाउँमा बस्ने गरी मिलाइएको
+      // ४. बन्चरो - साबिककै पर्फेक्ट पोजिसनमा जस्ताको तस्तै
       const knife = document.createElement('img');
       knife.src = 'knife.png';
       knife.className = 'stuck-knife';
