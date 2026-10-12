@@ -37,9 +37,23 @@
       padding: 10px;
       margin-bottom: 15px;
       text-align: center;
-      font-size: 14px;
-      font-weight: 500;
+      font-size: 15px;
+      font-weight: bold;
       color: #ffda79;
+      min-height: 40px;
+      transition: all 0.2s ease;
+    }
+
+    /* सरी म्यासेज फ्ल्यास हुने एनिमेशन */
+    .sorry-flash {
+      animation: flashAnim 0.3s ease;
+      color: #ff4757 !important;
+    }
+
+    @keyframes flashAnim {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1); }
     }
 
     .game-container {
@@ -59,7 +73,7 @@
       border-radius: 8px;
     }
 
-    /* बन्चरोको सटीक स्टाइल (पछिल्लो कोडको आधारमा) */
+    /* २. दोस्रो कोडबाट लिएको पर्फेक्ट बन्चरोको स्टाइल र पोजिसन */
     .stuck-knife {
       position: absolute;
       width: 130px;
@@ -87,7 +101,7 @@
       100% { transform: rotate(-35deg) translateY(0); }
     }
 
-    /* १. यथार्थपरक गहिरो घाउ (Deep Flesh Wound) */
+    /* घाउको स्टाइल */
     .wound-mark {
       position: absolute;
       width: 45px;
@@ -106,7 +120,7 @@
       100% { transform: translate(-50%, -50%) scale(1) rotate(-18deg); opacity: 1; }
     }
 
-    /* २. अर्गानिक रगतको बग्ने धारा (Realistic Blood Drips with Depth) */
+    /* १. पहिलो कोडबाट लिएको उत्कृष्ट अर्गानिक रगतको धारा (Blood Drips & Nodes) */
     .blood-drip-stream {
       position: absolute;
       width: 3px;
@@ -118,7 +132,7 @@
       animation: dripFlow 2.2s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
     }
 
-    /* धाराको फेदमा बन्ने वास्तविक थोपा (Droplets) */
+    /* धाराको फेदमा बन्ने थोपा (Node) */
     .blood-node {
       position: absolute;
       background: radial-gradient(circle at 35% 35%, #ff3333 0%, #800000 60%, #330000 100%);
@@ -138,7 +152,7 @@
       100% { transform: scale(1); }
     }
 
-    /* ३. प्राकृतिक रगतका छिटाहरू (Organic Splatters) */
+    /* रगतका छिटाहरू (Organic Splatters) */
     .blood-splatter-dot {
       position: absolute;
       background: radial-gradient(circle, #a00000 30%, #4a0000 80%, transparent 100%);
@@ -187,6 +201,7 @@
     const canvas = document.getElementById('photoCanvas');
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
     const gameArea = document.getElementById('gameArea');
+    const messageArea = document.getElementById('messageArea');
     const hitSound = document.getElementById('hitSound');
     const resetBtn = document.getElementById('resetBtn');
 
@@ -207,9 +222,7 @@
         canvas.width = bgImg.naturalWidth || 500;
         canvas.height = bgImg.naturalHeight || 500;
 
-        // १. पहिले पछाडिको ब्याकग्राउन्ड फोटो तान्ने
         ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
-        // २. त्यसको माथि मान्छेको फोटो तान्ने
         ctx.drawImage(personImg, 0, 0, canvas.width, canvas.height);
       }
     }
@@ -217,7 +230,6 @@
     bgImg.onload = checkLoaded;
     personImg.onload = checkLoaded;
 
-    // अगाडिको मान्छेको फोटोको पिक्सेल मात्र जाँच्नको लागि छुट्टै hidden canvas
     const offCanvas = document.createElement('canvas');
     const offCtx = offCanvas.getContext('2d', { willReadFrequently: true });
 
@@ -237,11 +249,9 @@
       const canvasX = Math.floor((event.clientX - rect.left) * scaleX);
       const canvasY = Math.floor((event.clientY - rect.top) * scaleY);
 
-      // मान्छेको PNG फोटोबाट मात्र पारदर्शी भाग चेकिङ
       const pixel = offCtx.getImageData(canvasX, canvasY, 1, 1).data;
       const alpha = pixel[3]; 
 
-      // पारदर्शी (खाली) भागमा थिच्दा बन्चरो नलाग्ने
       if (alpha < 20) {
         return; 
       }
@@ -252,6 +262,12 @@
       hitSound.currentTime = 0;
       hitSound.play().catch(err => console.log("Audio play error:", err));
 
+      // म्यासेज बक्समा "सरी सरी सरी!" अपडेट गर्ने
+      messageArea.textContent = "सरी सरी सरी!";
+      messageArea.classList.remove('sorry-flash');
+      void messageArea.offsetWidth;
+      messageArea.classList.add('sorry-flash');
+
       if (attacks.length >= MAX_ATTACKS) {
         const oldestAttack = attacks.shift();
         oldestAttack.elements.forEach(el => el.remove());
@@ -259,7 +275,7 @@
 
       const currentAttackElements = [];
 
-      // १. गहिरो घाउ (Wound Mark) ठ्याक्कै क्लिक गरिएको ठाउँमा
+      // १. घाउको मार्कर (पर्फेक्ट पोजिसन)
       const wound = document.createElement('div');
       wound.className = 'wound-mark';
       wound.style.left = displayX + 'px';
@@ -267,8 +283,8 @@
       gameArea.appendChild(wound);
       currentAttackElements.push(wound);
 
-      // २. प्राकृतिक रूपमा बग्ने रगतका धारा र थोपाहरू (पहिलो कोडको उत्कृष्ट स्टाइल)
-      const streamCount = Math.floor(Math.random() * 2) + 4; // ४ देखि ५ वटा धाराहरू
+      // २. पहिलो कोडबाट ल्याइएको आकर्षक रगतको बग्ने धारा र थोपाहरू
+      const streamCount = Math.floor(Math.random() * 2) + 4; 
       for (let i = 0; i < streamCount; i++) {
         const stream = document.createElement('div');
         stream.className = 'blood-drip-stream';
@@ -285,7 +301,6 @@
         gameArea.appendChild(stream);
         currentAttackElements.push(stream);
 
-        // धाराको फेदमा जम्ने थोपा (Node)
         const node = document.createElement('div');
         node.className = 'blood-node';
         const nodeSize = streamWidth * 2.2;
@@ -316,7 +331,7 @@
         currentAttackElements.push(dot);
       }
 
-      // ४. बन्चरो - सटीक धार र पोजिसन मिलान गरिएको
+      // ४. बन्चरो - पर्फेक्ट पोजिसन र धार मिलान गरिएको
       const knife = document.createElement('img');
       knife.src = 'knife.png';
       knife.className = 'stuck-knife';
@@ -333,6 +348,8 @@
         attack.elements.forEach(el => el.remove());
       });
       attacks = [];
+      messageArea.textContent = "म्यासेज लेख्न बाँकी छ...";
+      messageArea.classList.remove('sorry-flash');
     });
   </script>
 
