@@ -60,7 +60,7 @@
     }
 
     /* ==========================================
-       नयाँ मिलाइएको बन्चरोको स्टाइल (धार र घाउ मिल्ने गरी)
+       परिमार्जित बन्चरोको स्टाइल (धार र घाउ ठ्याक्कै मिल्ने गरी)
        ========================================== */
     .stuck-knife {
       position: absolute;
@@ -70,7 +70,7 @@
       filter: drop-shadow(3px 5px 6px rgba(0, 0, 0, 0.8));
       z-index: 5;
 
-      /* बन्चरोको धार ठ्याक्कै क्लिक पोइन्टमा पर्ने गरी मिलाइएको */
+      /* बन्चरोको केन्द्रबिन्दु र धारलाई मिलान गरिएको */
       transform-origin: 0% 50%;
 
       left: var(--hit-x);
@@ -82,28 +82,28 @@
 
     @keyframes knifeImpact {
       0% {
-        transform: translate(0px, -50%) rotate(-35deg) scale(1.35);
+        transform: translate(-5px, -50%) rotate(-35deg) scale(1.35);
         opacity: 0.5;
       }
       100% {
-        transform: translate(0px, -50%) rotate(-35deg) scale(1);
+        transform: translate(-5px, -50%) rotate(-35deg) scale(1);
         opacity: 1;
       }
     }
 
     @keyframes knifeShake {
       0% {
-        transform: translate(0px, -50%) rotate(-35deg);
+        transform: translate(-5px, -50%) rotate(-35deg);
       }
       50% {
-        transform: translate(0px, -50%) rotate(-32deg);
+        transform: translate(-5px, -50%) rotate(-32deg);
       }
       100% {
-        transform: translate(0px, -50%) rotate(-35deg);
+        transform: translate(-5px, -50%) rotate(-35deg);
       }
     }
 
-    /* पुरानै घाउको स्टाइल */
+    /* घाउको स्टाइल */
     .wound-mark {
       position: absolute;
       width: 28px;
@@ -121,7 +121,7 @@
       100% { transform: translate(-50%, -50%) scale(1) rotate(-20deg); opacity: 1; }
     }
 
-    /* पुरानै रगतको धारा */
+    /* रगतको धारा */
     .blood-drip {
       position: absolute;
       width: 3px;
@@ -137,7 +137,7 @@
       100% { height: var(--drip-height, 45px); opacity: 0.85; }
     }
 
-    /* पुरानै रगतका छिटाहरू */
+    /* रगतका छिटाहरू */
     .blood-splatter {
       position: absolute;
       background-color: #8b0000;
@@ -178,7 +178,7 @@
       <canvas id="photoCanvas"></canvas>
     </div>
 
-    <button class="reset-btn" id="resetBtn">रिसेट गर्नुहोस् (Receive)</button>
+    <button class="reset-btn" id="resetBtn">रिसेट गर्नुहोस् (Reset)</button>
   </div>
 
   <audio id="hitSound" src="khifehit.mp3" preload="auto"></audio>
@@ -301,7 +301,7 @@
         currentAttackElements.push(splatter);
       }
 
-      // ४. बन्चरो
+      // ४. बन्चरो (सच्याइएको पोजिसन सहित)
       const knife = document.createElement('img');
       knife.src = 'knife.png';
       knife.className = 'stuck-knife';
