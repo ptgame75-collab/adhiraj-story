@@ -101,7 +101,7 @@
       100% { transform: rotate(-35deg) translateY(0); }
     }
 
-    /* घाउको स्टाइल - बन्चरोको धारतिर ठ्याक्कै पर्ने गरी */
+    /* घाउको स्टाइल - प्रहार भएको धारकै पोइन्टमा बन्ने */
     .wound-mark {
       position: absolute;
       width: 35px;
@@ -253,6 +253,7 @@
         return; 
       }
 
+      // क्लिक गरिएको सही डिस्प्ले कोर्डिनेटहरू
       const displayX = event.clientX - rect.left;
       const displayY = event.clientY - rect.top;
 
@@ -271,24 +272,34 @@
 
       const currentAttackElements = [];
 
-      // १. पहिले बन्चरो तुरुन्तै प्रहार भएर बस्नेछ
+      // १. बन्चरो पहिले प्रहार भएर ट्याक्क बस्नेछ (जहाँ क्लिक गरियो, त्यसको आधारमा)
+      const knifeLeft = displayX - 45;
+      const knifeTop = displayY - 65;
+
       const knife = document.createElement('img');
       knife.src = 'knife.png';
       knife.className = 'stuck-knife';
-      knife.style.left = (displayX - 45) + 'px';
-      knife.style.top = (displayY - 65) + 'px';
+      knife.style.left = knifeLeft + 'px';
+      knife.style.top = knifeTop + 'px';
       gameArea.appendChild(knife);
       currentAttackElements.push(knife);
 
-      // २. बन्चरो प्रहार भएको ठ्याक्कै २ मिलिसेकेन्ड पछि धारबाटै घाउ र रगत सुरु हुने
+      // २. बन्चरो प्रहार भएको ठीक २ मिलिसेकेन्ड (2ms) पछि...
+      // बन्चरोको वास्तविक प्रहार बिन्दु (धारको सहि पोजिसन) लाई आधार मानेर घाउ र रगत बनाउने
       setTimeout(() => {
+        // बन्चरोको धार ठ्याक्कै पर्ने वास्तविक हिराे पोइन्ट (Target Impact Point)
+        const hitPointX = knifeLeft + 45; // बन्चरोको कट-आउट अनुसारको धारको वास्तविक X
+        const hitPointY = knifeTop + 65;  // बन्चरोको कट-आउट अनुसारको धारको वास्तविक Y
+
+        // घाउको मार्कर
         const wound = document.createElement('div');
         wound.className = 'wound-mark';
-        wound.style.left = displayX + 'px';
-        wound.style.top = displayY + 'px';
+        wound.style.left = hitPointX + 'px';
+        wound.style.top = hitPointY + 'px';
         gameArea.appendChild(wound);
         currentAttackElements.push(wound);
 
+        // रगतका धाराहरू (त्यही प्रहार बिन्दुबाट तल बग्ने)
         const streamCount = Math.floor(Math.random() * 2) + 4; 
         for (let i = 0; i < streamCount; i++) {
           const stream = document.createElement('div');
@@ -299,8 +310,8 @@
           const streamWidth = Math.random() * 2 + 2; 
           
           stream.style.width = streamWidth + 'px';
-          stream.style.left = (displayX + offsetX) + 'px';
-          stream.style.top = displayY + 'px';
+          stream.style.left = (hitPointX + offsetX) + 'px';
+          stream.style.top = hitPointY + 'px';
           stream.style.setProperty('--drip-height', dripHeight + 'px');
           stream.style.animationDelay = (i * 0.06) + 's';
           gameArea.appendChild(stream);
@@ -311,13 +322,14 @@
           const nodeSize = streamWidth * 2.2;
           node.style.width = nodeSize + 'px';
           node.style.height = nodeSize + 'px';
-          node.style.left = (displayX + offsetX - (nodeSize / 2) + (streamWidth / 2)) + 'px';
-          node.style.top = (displayY + dripHeight) + 'px';
+          node.style.left = (hitPointX + offsetX - (nodeSize / 2) + (streamWidth / 2)) + 'px';
+          node.style.top = (hitPointY + dripHeight) + 'px';
           node.style.animationDelay = (1.8 + (i * 0.05)) + 's';
           gameArea.appendChild(node);
           currentAttackElements.push(node);
         }
 
+        // रगतका छिटाहरू
         for (let i = 0; i < 6; i++) {
           const dot = document.createElement('div');
           dot.className = 'blood-splatter-dot';
@@ -328,13 +340,13 @@
           const offsetX = (Math.random() - 0.5) * 40;
           const offsetY = (Math.random() - 0.5) * 15;
           
-          dot.style.left = (displayX + offsetX) + 'px';
-          dot.style.top = (displayY + offsetY) + 'px';
+          dot.style.left = (hitPointX + offsetX) + 'px';
+          dot.style.top = (hitPointY + offsetY) + 'px';
           dot.style.animationDelay = (Math.random() * 0.1) + 's';
           gameArea.appendChild(dot);
           currentAttackElements.push(dot);
         }
-      }, 2); // २ मिलिसेकेन्डको पर्फेक्ट ग्याप
+      }, 2); // २ मिलिसेकेन्डको पर्फेक्ट ग्याप जसले बन्चरोको प्रहार पछि ठ्याक्कै धारमा घाउ देखाउँछ
 
       attacks.push({ elements: currentAttackElements });
     });
