@@ -60,7 +60,7 @@
     }
 
     /* ==========================================
-       परिमार्जित बन्चरोको स्टाइल (धार र घाउ ठ्याक्कै मिल्ने गरी)
+       धार र घाउ ठ्याक्कै मिल्ने गरी मिलाइएको बन्चरोको स्टाइल
        ========================================== */
     .stuck-knife {
       position: absolute;
@@ -70,11 +70,10 @@
       filter: drop-shadow(3px 5px 6px rgba(0, 0, 0, 0.8));
       z-index: 5;
 
-      /* बन्चरोको केन्द्रबिन्दु र धारलाई मिलान गरिएको */
-      transform-origin: 0% 50%;
-
-      left: var(--hit-x);
-      top: var(--hit-y);
+      /* बन्चरोको वास्तविक धारको टुप्पो (Tip) बाट नै घुम्ने गरी मिलाइएको */
+      left: calc(var(--hit-x) - var(--tip-x, 15px));
+      top: calc(var(--hit-y) - var(--tip-y, 50px));
+      transform-origin: var(--tip-x, 15px) var(--tip-y, 50px);
 
       animation: knifeImpact 0.12s ease-out forwards,
                  knifeShake 0.12s 0.12s ease-in-out;
@@ -82,24 +81,21 @@
 
     @keyframes knifeImpact {
       0% {
-        transform: translate(-5px, -50%) rotate(-35deg) scale(1.35);
+        transform: rotate(-35deg) scale(1.2);
         opacity: 0.5;
       }
       100% {
-        transform: translate(-5px, -50%) rotate(-35deg) scale(1);
+        transform: rotate(-35deg) scale(1);
         opacity: 1;
       }
     }
 
     @keyframes knifeShake {
-      0% {
-        transform: translate(-5px, -50%) rotate(-35deg);
+      0%, 100% {
+        transform: rotate(-35deg);
       }
       50% {
-        transform: translate(-5px, -50%) rotate(-32deg);
-      }
-      100% {
-        transform: translate(-5px, -50%) rotate(-35deg);
+        transform: rotate(-32deg);
       }
     }
 
@@ -121,7 +117,7 @@
       100% { transform: translate(-50%, -50%) scale(1) rotate(-20deg); opacity: 1; }
     }
 
-    /* रगतको धारा */
+    /* रगतको धारा (दूरी घटाइएको) */
     .blood-drip {
       position: absolute;
       width: 3px;
@@ -134,7 +130,7 @@
 
     @keyframes dripAnim {
       0% { height: 0px; opacity: 1; }
-      100% { height: var(--drip-height, 45px); opacity: 0.85; }
+      100% { height: var(--drip-height, 25px); opacity: 0.85; }
     }
 
     /* रगतका छिटाहरू */
@@ -194,11 +190,7 @@
     const MAX_ATTACKS = 3;
 
     const bgImg = new Image();
-    bgImg.src = 'parbat.png';
-
     const personImg = new Image();
-    personImg.src = 'parbat01.png';
-
     let imagesLoaded = 0;
 
     const offCanvas = document.createElement('canvas');
@@ -228,8 +220,15 @@
       }
     }
 
+    // इमेज इभेन्टहरू पहिले सेट गरिएको
     bgImg.onload = checkLoaded;
     personImg.onload = checkLoaded;
+
+    bgImg.onerror = () => console.error('parbat.png लोड गर्न असफल भयो');
+    personImg.onerror = () => console.error('parbat01.png लोड गर्न असफल भयो');
+
+    bgImg.src = 'parbat.png';
+    personImg.src = 'parbat01.png';
 
     canvas.addEventListener('click', function(event) {
       const rect = canvas.getBoundingClientRect();
@@ -268,16 +267,16 @@
       gameArea.appendChild(wound);
       currentAttackElements.push(wound);
 
-      // २. रगतका धाराहरू
+      // २. रगतका धाराहरू (लम्बाइ र दायरा घटाइएको)
       const dripCount = Math.floor(Math.random() * 3) + 2; 
       for (let i = 0; i < dripCount; i++) {
         const drip = document.createElement('div');
         drip.className = 'blood-drip';
-        const offsetX = (Math.random() - 0.5) * 12; 
-        const dripHeight = Math.random() * 45 + 35; 
+        const offsetX = (Math.random() - 0.5) * 6; 
+        const dripHeight = Math.random() * 20 + 15; // छोटो र यथार्थपरक धारा
         
         drip.style.left = (displayX + offsetX) + 'px';
-        drip.style.top = displayY + 'px';
+        drip.style.top = (displayY + 4) + 'px';
         drip.style.setProperty('--drip-height', dripHeight + 'px');
         drip.style.animationDelay = (i * 0.1) + 's';
         gameArea.appendChild(drip);
@@ -292,8 +291,8 @@
         splatter.style.width = size + 'px';
         splatter.style.height = size + 'px';
         
-        const offsetX = (Math.random() - 0.5) * 25;
-        const offsetY = (Math.random() - 0.5) * 15;
+        const offsetX = (Math.random() - 0.5) * 20;
+        const offsetY = (Math.random() - 0.5) * 10;
         
         splatter.style.left = (displayX + offsetX) + 'px';
         splatter.style.top = (displayY + offsetY) + 'px';
@@ -301,13 +300,16 @@
         currentAttackElements.push(splatter);
       }
 
-      // ४. बन्चरो (सच्याइएको पोजिसन सहित)
+      // ४. बन्चरो (सटीक धार र एंकर पोइन्टसहित)
       const knife = document.createElement('img');
       knife.src = 'knife.png';
       knife.className = 'stuck-knife';
       
       knife.style.setProperty('--hit-x', displayX + 'px');
       knife.style.setProperty('--hit-y', displayY + 'px');
+      // यदि बन्चरोको धारको टुप्पो इमेजको अलि भित्र छ भने यहाँ पिक्सल मान परिवर्तन गर्न सकिन्छ
+      knife.style.setProperty('--tip-x', '15px');
+      knife.style.setProperty('--tip-y', '50px');
       
       gameArea.appendChild(knife);
       currentAttackElements.push(knife);
