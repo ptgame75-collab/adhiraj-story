@@ -61,7 +61,7 @@
       width: 100%;
       aspect-ratio: 1 / 1;
       border-radius: 8px;
-      overflow: visible; /* रगतको धारा फ्रेम बाहिर तलसम्म बग्नका लागि */
+      overflow: visible; 
       background-color: #000000;
     }
 
@@ -101,23 +101,23 @@
       100% { transform: rotate(-35deg) translateY(0); }
     }
 
-    /* बन्चरोको धारलाई ठ्याक्कै छुने/छोपिने गरी मिलाइएको घाउको स्टाइल */
+    /* बन्चरोको धारको एङ्गल (-35deg) संगै ठ्याक्कै मिलाइएको घाउको स्टाइल */
     .wound-mark {
       position: absolute;
-      width: 45px;
-      height: 14px;
+      width: 35px;
+      height: 12px;
       background: radial-gradient(ellipse at center, #110000 0%, #4a0000 45%, #8b0000 70%, transparent 100%);
       border-radius: 50%;
       box-shadow: inset 0 0 6px #000000, 0 0 5px rgba(139, 0, 0, 0.8);
-      z-index: 4; /* बन्चरोको मुनि वा धारको नजिक मिलाउन z-index सेट गरिएको */
+      z-index: 4;
       mix-blend-mode: multiply;
-      transform: translate(-30%, -60%) rotate(-18deg); /* धारतिर अलिकति सारिएको */
+      transform: translate(-50%, -50%) rotate(-35deg); /* बन्चरोको धारकै एङ्गलमा राखिएको */
       animation: woundAppear 0.1s ease-out forwards;
     }
 
     @keyframes woundAppear {
-      0% { transform: translate(-30%, -60%) scale(0.1) rotate(-18deg); opacity: 0; }
-      100% { transform: translate(-30%, -60%) scale(1) rotate(-18deg); opacity: 1; }
+      0% { transform: translate(-50%, -50%) scale(0.1) rotate(-35deg); opacity: 0; }
+      100% { transform: translate(-50%, -50%) scale(1) rotate(-35deg); opacity: 1; }
     }
 
     /* रगतको बग्ने धारा */
@@ -261,7 +261,6 @@
       hitSound.currentTime = 0;
       hitSound.play().catch(err => console.log("Audio play error:", err));
 
-      // म्यासेज बक्समा "सरी सरी सरी!" अपडेट गर्ने
       messageArea.textContent = "सरी सरी सरी!";
       messageArea.classList.remove('sorry-flash');
       void messageArea.offsetWidth;
@@ -274,15 +273,15 @@
 
       const currentAttackElements = [];
 
-      // १. घाउ - बन्चरोको धारसँग ठ्याक्कै जोडिने गरी मिलाइएको पोजिसन
+      // १. घाउ - बन्चरोको धारको एङ्गल (-35deg) सँग ठ्याक्कै मिलाइएको
       const wound = document.createElement('div');
       wound.className = 'wound-mark';
-      wound.style.left = (displayX - 15) + 'px'; // धारतर्फ मिलाइएको अफसेट
-      wound.style.top = (displayY - 10) + 'px';
+      wound.style.left = displayX + 'px';
+      wound.style.top = displayY + 'px';
       gameArea.appendChild(wound);
       currentAttackElements.push(wound);
 
-      // २. बग्ने रगतका धारा र थोपाहरू
+      // २. रगतका धाराहरू
       const streamCount = Math.floor(Math.random() * 2) + 4; 
       for (let i = 0; i < streamCount; i++) {
         const stream = document.createElement('div');
@@ -330,7 +329,7 @@
         currentAttackElements.push(dot);
       }
 
-      // ४. बन्चरो - पर्फेक्ट पोजिसन
+      // ४. बन्चरो
       const knife = document.createElement('img');
       knife.src = 'knife.png';
       knife.className = 'stuck-knife';
