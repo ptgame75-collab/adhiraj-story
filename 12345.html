@@ -73,7 +73,7 @@
       border-radius: 8px;
     }
 
-    /* बन्चरोको स्टाइल जस्ताको तस्तै */
+    /* बन्चरोको स्टाइल */
     .stuck-knife {
       position: absolute;
       width: 130px;
@@ -101,7 +101,7 @@
       100% { transform: rotate(-35deg) translateY(0); }
     }
 
-    /* घाउलाई बायाँको सट्टा दायाँतर्फ ढल्काइएको स्टाइल (+35deg) */
+    /* घाउको स्टाइल - बन्चरोको धारसँग मिल्ने गरी दायाँतर्फ ढल्केको */
     .wound-mark {
       position: absolute;
       width: 35px;
@@ -111,7 +111,7 @@
       box-shadow: inset 0 0 6px #000000, 0 0 5px rgba(139, 0, 0, 0.8);
       z-index: 4;
       mix-blend-mode: multiply;
-      transform: translate(-50%, -50%) rotate(35deg); /* दायाँतर्फ ढल्काइएको एङ्गल */
+      transform: translate(-50%, -50%) rotate(35deg);
       animation: woundAppear 0.1s ease-out forwards;
     }
 
@@ -120,7 +120,7 @@
       100% { transform: translate(-50%, -50%) scale(1) rotate(35deg); opacity: 1; }
     }
 
-    /* रगतको बग्ने धारा जस्ताको तस्तै */
+    /* रगतको बग्ने धारा */
     .blood-drip-stream {
       position: absolute;
       width: 3px;
@@ -132,7 +132,6 @@
       animation: dripFlow 2.2s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
     }
 
-    /* धाराको फेदमा बन्ने थोपा (Node) */
     .blood-node {
       position: absolute;
       background: radial-gradient(circle at 35% 35%, #ff3333 0%, #800000 60%, #330000 100%);
@@ -152,7 +151,6 @@
       100% { transform: scale(1); }
     }
 
-    /* रगतका छिटाहरू जस्ताको तस्तै */
     .blood-splatter-dot {
       position: absolute;
       background: radial-gradient(circle, #a00000 30%, #4a0000 80%, transparent 100%);
@@ -273,15 +271,15 @@
 
       const currentAttackElements = [];
 
-      // १. घाउ - दायाँतर्फ ढल्केको (rotated 35deg)
+      // १. घाउ - बन्चरोको धारसँग ठ्याक्कै मिलाउन थोरै माथि (displayY - 8) सार्न गरिएको
       const wound = document.createElement('div');
       wound.className = 'wound-mark';
       wound.style.left = displayX + 'px';
-      wound.style.top = displayY + 'px';
+      wound.style.top = (displayY - 8) + 'px';
       gameArea.appendChild(wound);
       currentAttackElements.push(wound);
 
-      // २. रगतका धाराहरू
+      // २. रगतका धाराहरू (घाउ सार्दा रगतको उद्गम बिन्दु पनि सँगै मिलाइएको)
       const streamCount = Math.floor(Math.random() * 2) + 4; 
       for (let i = 0; i < streamCount; i++) {
         const stream = document.createElement('div');
@@ -293,7 +291,7 @@
         
         stream.style.width = streamWidth + 'px';
         stream.style.left = (displayX + offsetX) + 'px';
-        stream.style.top = displayY + 'px';
+        stream.style.top = (displayY - 8) + 'px';
         stream.style.setProperty('--drip-height', dripHeight + 'px');
         stream.style.animationDelay = (i * 0.06) + 's';
         gameArea.appendChild(stream);
@@ -305,7 +303,7 @@
         node.style.width = nodeSize + 'px';
         node.style.height = nodeSize + 'px';
         node.style.left = (displayX + offsetX - (nodeSize / 2) + (streamWidth / 2)) + 'px';
-        node.style.top = (displayY + dripHeight) + 'px';
+        node.style.top = (displayY - 8 + dripHeight) + 'px';
         node.style.animationDelay = (1.8 + (i * 0.05)) + 's';
         gameArea.appendChild(node);
         currentAttackElements.push(node);
@@ -323,13 +321,13 @@
         const offsetY = (Math.random() - 0.5) * 15;
         
         dot.style.left = (displayX + offsetX) + 'px';
-        dot.style.top = (displayY + offsetY) + 'px';
+        dot.style.top = (displayY - 8 + offsetY) + 'px';
         dot.style.animationDelay = (Math.random() * 0.1) + 's';
         gameArea.appendChild(dot);
         currentAttackElements.push(dot);
       }
 
-      // ४. बन्चरो
+      // ४. बन्चरो - साबिककै पर्फेक्ट पोजिसनमा
       const knife = document.createElement('img');
       knife.src = 'knife.png';
       knife.className = 'stuck-knife';
