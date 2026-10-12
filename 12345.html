@@ -73,7 +73,7 @@
       border-radius: 8px;
     }
 
-    /* २. दोस्रो कोडबाट लिएको पर्फेक्ट बन्चरोको स्टाइल र पोजिसन */
+    /* बन्चरोको स्टाइल */
     .stuck-knife {
       position: absolute;
       width: 130px;
@@ -101,7 +101,7 @@
       100% { transform: rotate(-35deg) translateY(0); }
     }
 
-    /* घाउको स्टाइल */
+    /* बन्चरोको धारलाई ठ्याक्कै छुने/छोपिने गरी मिलाइएको घाउको स्टाइल */
     .wound-mark {
       position: absolute;
       width: 45px;
@@ -109,18 +109,18 @@
       background: radial-gradient(ellipse at center, #110000 0%, #4a0000 45%, #8b0000 70%, transparent 100%);
       border-radius: 50%;
       box-shadow: inset 0 0 6px #000000, 0 0 5px rgba(139, 0, 0, 0.8);
-      z-index: 2;
+      z-index: 4; /* बन्चरोको मुनि वा धारको नजिक मिलाउन z-index सेट गरिएको */
       mix-blend-mode: multiply;
-      transform: translate(-50%, -50%) rotate(-18deg);
+      transform: translate(-30%, -60%) rotate(-18deg); /* धारतिर अलिकति सारिएको */
       animation: woundAppear 0.1s ease-out forwards;
     }
 
     @keyframes woundAppear {
-      0% { transform: translate(-50%, -50%) scale(0.1) rotate(-18deg); opacity: 0; }
-      100% { transform: translate(-50%, -50%) scale(1) rotate(-18deg); opacity: 1; }
+      0% { transform: translate(-30%, -60%) scale(0.1) rotate(-18deg); opacity: 0; }
+      100% { transform: translate(-30%, -60%) scale(1) rotate(-18deg); opacity: 1; }
     }
 
-    /* १. पहिलो कोडबाट लिएको उत्कृष्ट अर्गानिक रगतको धारा (Blood Drips & Nodes) */
+    /* रगतको बग्ने धारा */
     .blood-drip-stream {
       position: absolute;
       width: 3px;
@@ -152,7 +152,7 @@
       100% { transform: scale(1); }
     }
 
-    /* रगतका छिटाहरू (Organic Splatters) */
+    /* रगतका छिटाहरू */
     .blood-splatter-dot {
       position: absolute;
       background: radial-gradient(circle, #a00000 30%, #4a0000 80%, transparent 100%);
@@ -208,7 +208,6 @@
     let attacks = [];
     const MAX_ATTACKS = 3;
 
-    // ब्याकग्राउन्ड र मान्छेको पारदर्शी कट-आउट फोटोहरू लोड गर्ने
     const bgImg = new Image();
     bgImg.src = 'parbat.png';
 
@@ -275,15 +274,15 @@
 
       const currentAttackElements = [];
 
-      // १. घाउको मार्कर (पर्फेक्ट पोजिसन)
+      // १. घाउ - बन्चरोको धारसँग ठ्याक्कै जोडिने गरी मिलाइएको पोजिसन
       const wound = document.createElement('div');
       wound.className = 'wound-mark';
-      wound.style.left = displayX + 'px';
-      wound.style.top = displayY + 'px';
+      wound.style.left = (displayX - 15) + 'px'; // धारतर्फ मिलाइएको अफसेट
+      wound.style.top = (displayY - 10) + 'px';
       gameArea.appendChild(wound);
       currentAttackElements.push(wound);
 
-      // २. पहिलो कोडबाट ल्याइएको आकर्षक रगतको बग्ने धारा र थोपाहरू
+      // २. बग्ने रगतका धारा र थोपाहरू
       const streamCount = Math.floor(Math.random() * 2) + 4; 
       for (let i = 0; i < streamCount; i++) {
         const stream = document.createElement('div');
@@ -313,7 +312,7 @@
         currentAttackElements.push(node);
       }
 
-      // ३. रगतका छिटाहरू (Organic Splatters)
+      // ३. रगतका छिटाहरू
       for (let i = 0; i < 6; i++) {
         const dot = document.createElement('div');
         dot.className = 'blood-splatter-dot';
@@ -331,7 +330,7 @@
         currentAttackElements.push(dot);
       }
 
-      // ४. बन्चरो - पर्फेक्ट पोजिसन र धार मिलान गरिएको
+      // ४. बन्चरो - पर्फेक्ट पोजिसन
       const knife = document.createElement('img');
       knife.src = 'knife.png';
       knife.className = 'stuck-knife';
