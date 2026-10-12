@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Battle Axe Throw Game</title>
+  <title>Battle Axe Game</title>
   <style>
     * {
       box-sizing: border-box;
@@ -12,7 +12,7 @@
     }
 
     body {
-      background-color: #121212;
+      background-color: #000000;
       color: #ffffff;
       font-family: Arial, sans-serif;
       display: flex;
@@ -25,27 +25,22 @@
 
     .game-card {
       width: 100%;
-      max-width: 340px;
-      background-color: #1e1e1e;
-      border: 2px solid #ff4757;
-      border-radius: 12px;
-      padding: 12px;
+      max-width: 360px;
+      background-color: #000000;
       display: flex;
       flex-direction: column;
       align-items: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+      position: relative;
     }
 
     .message-box {
       width: 100%;
       padding: 10px;
-      margin-bottom: 12px;
-      background-color: #2a2a2a;
-      border-radius: 8px;
+      margin-bottom: 15px;
       text-align: center;
       font-size: 14px;
+      font-weight: 500;
       color: #ffda79;
-      border: 1px dashed #ff4757;
     }
 
     .game-container {
@@ -53,7 +48,7 @@
       width: 100%;
       border-radius: 8px;
       overflow: hidden;
-      background-color: #000;
+      background-color: #000000;
     }
 
     canvas {
@@ -64,61 +59,101 @@
       border-radius: 8px;
     }
 
-    /* बन्चरोको धार ठ्याक्कै क्लिक पोइन्टमा अड्किने गरी मिलाइएको स्टाइल */
+    /* ==========================================
+       परिमार्जित बन्चरोको स्टाइल (धार र घाउ ठ्याक्कै मिल्ने गरी)
+       ========================================== */
     .stuck-knife {
       position: absolute;
-      width: 120px;
+      width: 130px; 
       height: auto;
       pointer-events: none;
-      filter: drop-shadow(3px 5px 8px rgba(0,0,0,0.85));
-      z-index: 3;
-      
-      /* यो लाइनले बन्चरोको धारलाई ठ्याक्कै क्लिक गरेको बिन्दुमा स्थिर राख्छ */
+      filter: drop-shadow(3px 5px 6px rgba(0, 0, 0, 0.8));
+      z-index: 5;
+
+      /* बन्चरोको केन्द्रबिन्दु र धारलाई मिलान गरिएको */
       transform-origin: 0% 50%;
+
       left: var(--hit-x);
       top: var(--hit-y);
 
-      animation: knifeImpact 0.15s ease-out forwards, knifeShake 0.1s 0.15s ease-in-out;
+      animation: knifeImpact 0.12s ease-out forwards,
+                 knifeShake 0.12s 0.12s ease-in-out;
     }
 
     @keyframes knifeImpact {
       0% {
-        transform: translate(0px, -50%) scale(1.8) rotate(-35deg);
+        transform: translate(-5px, -50%) rotate(-35deg) scale(1.35);
         opacity: 0.5;
       }
       100% {
-        transform: translate(0px, -50%) scale(1) rotate(-35deg);
+        transform: translate(-5px, -50%) rotate(-35deg) scale(1);
         opacity: 1;
       }
     }
 
     @keyframes knifeShake {
-      0% { transform: translate(0px, -50%) rotate(-35deg); }
-      50% { transform: translate(0px, -50%) rotate(-32deg); }
-      100% { transform: translate(0px, -50%) rotate(-35deg); }
+      0% {
+        transform: translate(-5px, -50%) rotate(-35deg);
+      }
+      50% {
+        transform: translate(-5px, -50%) rotate(-32deg);
+      }
+      100% {
+        transform: translate(-5px, -50%) rotate(-35deg);
+      }
     }
 
-    /* रगतको छिटा र थोपाहरू */
-    .blood-splatter {
+    /* घाउको स्टाइल */
+    .wound-mark {
       position: absolute;
-      width: 48px;
-      height: 48px;
-      background: radial-gradient(circle, rgba(180,0,0,1) 0%, rgba(110,0,0,0.9) 60%, transparent 80%);
+      width: 28px;
+      height: 10px;
+      background: radial-gradient(ellipse at center, #3a0000 0%, #8b0000 60%, transparent 100%);
       border-radius: 50%;
-      pointer-events: none;
+      box-shadow: inset 0 0 4px #000;
       z-index: 2;
+      transform: translate(-50%, -50%) rotate(-20deg);
+      animation: woundAppear 0.1s ease-out forwards;
     }
 
-    .blood-drop {
+    @keyframes woundAppear {
+      0% { transform: translate(-50%, -50%) scale(0.2) rotate(-20deg); opacity: 0; }
+      100% { transform: translate(-50%, -50%) scale(1) rotate(-20deg); opacity: 1; }
+    }
+
+    /* रगतको धारा */
+    .blood-drip {
+      position: absolute;
+      width: 3px;
+      background: linear-gradient(to bottom, #8b0000, #4a0000, transparent);
+      border-radius: 2px;
+      z-index: 3;
+      transform-origin: top center;
+      animation: dripAnim 2s ease-out forwards;
+    }
+
+    @keyframes dripAnim {
+      0% { height: 0px; opacity: 1; }
+      100% { height: var(--drip-height, 45px); opacity: 0.85; }
+    }
+
+    /* रगतका छिटाहरू */
+    .blood-splatter {
       position: absolute;
       background-color: #8b0000;
       border-radius: 50%;
       pointer-events: none;
       z-index: 2;
+      animation: splatterAnim 0.2s ease-out forwards;
+    }
+
+    @keyframes splatterAnim {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 0.9; }
     }
 
     .reset-btn {
-      margin-top: 12px;
+      margin-top: 25px;
       width: 100%;
       padding: 10px;
       background-color: #ff4757;
@@ -128,6 +163,7 @@
       font-weight: bold;
       font-size: 14px;
       cursor: pointer;
+      z-index: 10;
     }
   </style>
 </head>
@@ -142,7 +178,7 @@
       <canvas id="photoCanvas"></canvas>
     </div>
 
-    <button class="reset-btn" id="resetBtn">रिसेट गर्नुहोस् (Receive)</button>
+    <button class="reset-btn" id="resetBtn">रिसेट गर्नुहोस् (Reset)</button>
   </div>
 
   <audio id="hitSound" src="khifehit.mp3" preload="auto"></audio>
@@ -157,7 +193,6 @@
     let attacks = [];
     const MAX_ATTACKS = 3;
 
-    // सहि गरिएका फाइल नामहरू
     const bgImg = new Image();
     bgImg.src = 'parbat.png';
 
@@ -165,32 +200,36 @@
     personImg.src = 'parbat01.png';
 
     let imagesLoaded = 0;
+
+    const offCanvas = document.createElement('canvas');
+    const offCtx = offCanvas.getContext('2d', { willReadFrequently: true });
+
+    function initGame() {
+      const w = bgImg.naturalWidth || 500;
+      const h = bgImg.naturalHeight || 500;
+
+      canvas.width = w;
+      canvas.height = h;
+
+      ctx.clearRect(0, 0, w, h);
+      ctx.drawImage(bgImg, 0, 0, w, h);
+      ctx.drawImage(personImg, 0, 0, w, h);
+
+      offCanvas.width = w;
+      offCanvas.height = h;
+      offCtx.clearRect(0, 0, w, h);
+      offCtx.drawImage(personImg, 0, 0, w, h);
+    }
+
     function checkLoaded() {
       imagesLoaded++;
       if (imagesLoaded === 2) {
-        const w = bgImg.naturalWidth || 500;
-        const h = bgImg.naturalHeight || 500;
-
-        canvas.width = w;
-        canvas.height = h;
-
-        ctx.drawImage(bgImg, 0, 0, w, h);
-        ctx.drawImage(personImg, 0, 0, w, h);
+        initGame();
       }
     }
 
     bgImg.onload = checkLoaded;
     personImg.onload = checkLoaded;
-
-    const offCanvas = document.createElement('canvas');
-    const offCtx = offCanvas.getContext('2d', { willReadFrequently: true });
-
-    personImg.onload = () => {
-      offCanvas.width = personImg.naturalWidth;
-      offCanvas.height = personImg.naturalHeight;
-      offCtx.drawImage(personImg, 0, 0);
-      checkLoaded();
-    };
 
     canvas.addEventListener('click', function(event) {
       const rect = canvas.getBoundingClientRect();
@@ -221,49 +260,66 @@
 
       const currentAttackElements = [];
 
-      // १. बन्चरो सहि पोजिसनमा राख्ने
+      // १. घाउ
+      const wound = document.createElement('div');
+      wound.className = 'wound-mark';
+      wound.style.left = displayX + 'px';
+      wound.style.top = displayY + 'px';
+      gameArea.appendChild(wound);
+      currentAttackElements.push(wound);
+
+      // २. रगतका धाराहरू
+      const dripCount = Math.floor(Math.random() * 3) + 2; 
+      for (let i = 0; i < dripCount; i++) {
+        const drip = document.createElement('div');
+        drip.className = 'blood-drip';
+        const offsetX = (Math.random() - 0.5) * 12; 
+        const dripHeight = Math.random() * 45 + 35; 
+        
+        drip.style.left = (displayX + offsetX) + 'px';
+        drip.style.top = displayY + 'px';
+        drip.style.setProperty('--drip-height', dripHeight + 'px');
+        drip.style.animationDelay = (i * 0.1) + 's';
+        gameArea.appendChild(drip);
+        currentAttackElements.push(drip);
+      }
+
+      // ३. रगतका छिटाहरू
+      for (let i = 0; i < 5; i++) {
+        const splatter = document.createElement('div');
+        splatter.className = 'blood-splatter';
+        const size = Math.random() * 4 + 2;
+        splatter.style.width = size + 'px';
+        splatter.style.height = size + 'px';
+        
+        const offsetX = (Math.random() - 0.5) * 25;
+        const offsetY = (Math.random() - 0.5) * 15;
+        
+        splatter.style.left = (displayX + offsetX) + 'px';
+        splatter.style.top = (displayY + offsetY) + 'px';
+        gameArea.appendChild(splatter);
+        currentAttackElements.push(splatter);
+      }
+
+      // ४. बन्चरो (सच्याइएको पोजिसन सहित)
       const knife = document.createElement('img');
       knife.src = 'knife.png';
-      knife.className = 'stuck-knife knife-item';
+      knife.className = 'stuck-knife';
+      
       knife.style.setProperty('--hit-x', displayX + 'px');
       knife.style.setProperty('--hit-y', displayY + 'px');
+      
       gameArea.appendChild(knife);
       currentAttackElements.push(knife);
-
-      // २. रगतको छिटा
-      const blood = document.createElement('div');
-      blood.className = 'blood-splatter blood-item';
-      blood.style.left = displayX + 'px';
-      blood.style.top = displayY + 'px';
-      const randomScale = 0.9 + Math.random() * 0.5;
-      blood.style.transform = `translate(-50%, -50%) scale(${randomScale})`;
-      gameArea.appendChild(blood);
-      currentAttackElements.push(blood);
-
-      // ३. रगतका थोपाहरू
-      for (let i = 0; i < 6; i++) {
-        const drop = document.createElement('div');
-        drop.className = 'blood-drop blood-item';
-        const size = Math.random() * 8 + 4;
-        drop.style.width = size + 'px';
-        drop.style.height = size + 'px';
-        
-        const offsetX = (Math.random() - 0.5) * 45;
-        const offsetY = (Math.random() - 0.5) * 45;
-        
-        drop.style.left = (displayX + offsetX) + 'px';
-        drop.style.top = (displayY + offsetY) + 'px';
-        gameArea.appendChild(drop);
-        currentAttackElements.push(drop);
-      }
 
       attacks.push({ elements: currentAttackElements });
     });
 
     resetBtn.addEventListener('click', function() {
-      attacks.attacks = [];
-      document.querySelectorAll('.knife-item').forEach(item => item.remove());
-      document.querySelectorAll('.blood-item').forEach(item => item.remove());
+      attacks.forEach(attack => {
+        attack.elements.forEach(el => el.remove());
+      });
+      attacks = [];
     });
   </script>
 
