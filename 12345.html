@@ -19,16 +19,15 @@
         /* १:१ अनुपातमा मिलाइएको गेम कन्टेनर */
         .game-container {
             position: relative;
-            width: 100360px;
-            height: 360px;
-            max-width: 100%;
+            width: 100%;
+            max-width: 400px;
             aspect-ratio: 1 / 1;
             background-image: url('parbat.png');
             background-size: cover;
             background-position: center;
         }
 
-        /* प्रहार भएपछि मात्र देखिने पारदर्शी प्रभाव */
+        /* प्रहार भएपछि देखिने रगतको पारदर्शी प्रभाव (घाउ भएको इफेक्ट) */
         #effect-layer {
             position: absolute;
             top: 0;
@@ -40,23 +39,23 @@
             background-position: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.1s ease-in-out;
+            transition: opacity 0.2s ease-in-out;
         }
 
-        /* विशेष प्रहार गर्ने लक्षित क्षेत्र (Target Area) - यसमा मात्र क्लिक हुँदा प्रहार हुन्छ */
+        /* विशेष प्रहार गर्ने लक्षित क्षेत्र (Target Area) */
         #target-zone {
             position: absolute;
-            top: 30%;
-            left: 30%;
-            width: 40%;
-            height: 40%;
+            top: 25%;
+            left: 25%;
+            width: 50%;
+            height: 50%;
             cursor: pointer;
         }
 
-        /* चक्कुको ग्राफिक्स */
+        /* प्रहार गरिसकेपछि चक्कु त्यहीं बसिरहने */
         #knife-img {
             position: absolute;
-            width: 80px;
+            width: 90px;
             display: none;
             transform: translate(-50%, -50%);
             pointer-events: none;
@@ -68,7 +67,7 @@
 
     <div class="game-container" id="gameContainer">
         <div id="effect-layer"></div>
-        <!-- टार्गेट एरिया, जहाँ क्लिक गर्दा मात्र प्रहार हुन्छ -->
+        <!-- टार्गेट एरिया, जहाँ क्लिक गर्दा प्रहार हुन्छ -->
         <div id="target-zone"></div>
         <img id="knife-img" src="knife.png" alt="Knife">
     </div>
@@ -82,28 +81,28 @@
         const knifeImg = document.getElementById('knife-img');
         const hitSound = document.getElementById('hitSound');
 
+        let hasHit = false; // एक पटक प्रहार भइसकेपछि फेरि नदोहोर्याउनको लागि
+
         targetZone.addEventListener('click', function(event) {
-            const rect = targetZone.getBoundingClientRect();
+            if (hasHit) return; // यदि पहिले नै चक्कु प्रहार भइसकेको छ भने रोक्ने
+            hasHit = true;
+
             const containerRect = gameContainer.getBoundingClientRect();
             
-            // टार्गेटभित्र क्लिक गरेको ठाउँमा चक्कु देखाउने
+            // क्लिक गरेको ठ्याक्कै ठाउँमा चक्कु बस्ने गरी पोजिसन मिलाउने
             const x = event.clientX - containerRect.left;
             const y = event.clientY - containerRect.top;
 
             knifeImg.style.left = x + 'px';
             knifeImg.style.top = y + 'px';
-            knifeImg.style.display = 'block';
+            knifeImg.style.display = 'block'; // चक्कु देखिने र त्यहीं बस्ने
 
-            // इफेक्ट र साउन्ड बजाउने
+            // रगत/घाउको इफेक्ट (parbat01.png) देखाउने
             effectLayer.style.opacity = '1';
+
+            // साउन्ड बजाउने
             hitSound.currentTime = 0;
             hitSound.play().catch(e => console.log("Audio error:", e));
-
-            // केही समयपछि हटाउने
-            setTimeout(() => {
-                effectLayer.style.opacity = '0';
-                knifeImg.style.display = 'none';
-            }, 300);
         });
     </script>
 
