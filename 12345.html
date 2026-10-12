@@ -101,7 +101,7 @@
       100% { transform: rotate(-35deg) translateY(0); }
     }
 
-    /* घाउको स्टाइल - बन्चरोको धारसँग मिल्ने गरी दायाँतर्फ ढल्केको */
+    /* घाउको स्टाइल - दायाँतर्फ ढल्केको */
     .wound-mark {
       position: absolute;
       width: 35px;
@@ -253,8 +253,9 @@
         return; 
       }
 
-      const displayX = event.clientX - rect.left;
-      const displayY = event.clientY - rect.top;
+      // यहाँ क्याभासको वास्तविक रेसियो मिलाइएको छ ताकि क्लिक गरेको ठाउँमै बन्चरो बस्छ
+      const displayX = (canvasX / offCanvas.width) * rect.width;
+      const displayY = (canvasY / offCanvas.height) * rect.height;
 
       hitSound.currentTime = 0;
       hitSound.play().catch(err => console.log("Audio play error:", err));
@@ -271,7 +272,7 @@
 
       const currentAttackElements = [];
 
-      // १. घाउ - बन्चरोको धारसँग ठ्याक्कै मिलाउन थोरै माथि (displayY - 8) सार्न गरिएको
+      // १. घाउ
       const wound = document.createElement('div');
       wound.className = 'wound-mark';
       wound.style.left = displayX + 'px';
@@ -279,7 +280,7 @@
       gameArea.appendChild(wound);
       currentAttackElements.push(wound);
 
-      // २. रगतका धाराहरू (घाउ सार्दा रगतको उद्गम बिन्दु पनि सँगै मिलाइएको)
+      // २. रगतका धाराहरू
       const streamCount = Math.floor(Math.random() * 2) + 4; 
       for (let i = 0; i < streamCount; i++) {
         const stream = document.createElement('div');
@@ -327,7 +328,7 @@
         currentAttackElements.push(dot);
       }
 
-      // ४. बन्चरो - साबिककै पर्फेक्ट पोजिसनमा
+      // ४. बन्चरो - ठ्याक्कै क्लिक गरिएको ठाउँमा बस्ने गरी मिलाइएको
       const knife = document.createElement('img');
       knife.src = 'knife.png';
       knife.className = 'stuck-knife';
