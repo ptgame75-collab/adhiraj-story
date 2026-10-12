@@ -37,23 +37,9 @@
       padding: 10px;
       margin-bottom: 15px;
       text-align: center;
-      font-size: 15px;
-      font-weight: bold;
+      font-size: 14px;
+      font-weight: 500;
       color: #ffda79;
-      min-height: 40px;
-      transition: all 0.2s ease;
-    }
-
-    /* सरी म्यासेज फ्ल्यास हुने एनिमेशन */
-    .sorry-flash {
-      animation: flashAnim 0.3s ease;
-      color: #ff4757 !important;
-    }
-
-    @keyframes flashAnim {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.15); }
-      100% { transform: scale(1); }
     }
 
     .game-container {
@@ -61,7 +47,7 @@
       width: 100%;
       aspect-ratio: 1 / 1;
       border-radius: 8px;
-      overflow: visible; /* रगत फ्रेम बाहिर बग्नका लागि */
+      overflow: visible; /* रगतको धारा फ्रेम बाहिर तलसम्म बग्नका लागि */
       background-color: #000000;
     }
 
@@ -73,7 +59,7 @@
       border-radius: 8px;
     }
 
-    /* एकदमै एक्ज्याक्ट म्याच हुने बन्चरोको स्टाइल (Exact Alignment) */
+    /* बन्चरोको सटीक स्टाइल (पछिल्लो कोडको आधारमा) */
     .stuck-knife {
       position: absolute;
       width: 130px;
@@ -81,76 +67,90 @@
       pointer-events: none;
       filter: drop-shadow(4px 6px 10px rgba(0,0,0,0.85));
       z-index: 5;
-      transform-origin: 0% 50%;
-      left: var(--hit-x);
-      top: var(--hit-y);
-      animation: knifeImpact 0.12s ease-out forwards, knifeShake 0.12s 0.12s ease-in-out;
+      animation: knifeImpact 0.15s ease-out forwards, knifeShake 0.1s 0.15s ease-in-out;
     }
 
     @keyframes knifeImpact {
       0% {
-        transform: translate(0px, -50%) rotate(-35deg) scale(1.35);
-        opacity: 0.5;
+        transform: scale(1.8) rotate(-35deg);
+        opacity: 0.6;
       }
       100% {
-        transform: translate(0px, -50%) rotate(-35deg) scale(1);
+        transform: scale(1) rotate(-35deg);
         opacity: 1;
       }
     }
 
     @keyframes knifeShake {
-      0% { transform: translate(0px, -50%) rotate(-35deg); }
-      50% { transform: translate(0px, -50%) rotate(-32deg); }
-      100% { transform: translate(0px, -50%) rotate(-35deg); }
+      0% { transform: rotate(-35deg) translateY(0); }
+      50% { transform: rotate(-32deg) translateY(-3px); }
+      100% { transform: rotate(-35deg) translateY(0); }
     }
 
-    /* घाउको स्टाइल */
+    /* १. यथार्थपरक गहिरो घाउ (Deep Flesh Wound) */
     .wound-mark {
       position: absolute;
-      width: 28px;
-      height: 10px;
-      background: radial-gradient(ellipse at center, #3a0000 0%, #8b0000 60%, transparent 100%);
+      width: 45px;
+      height: 14px;
+      background: radial-gradient(ellipse at center, #110000 0%, #4a0000 45%, #8b0000 70%, transparent 100%);
       border-radius: 50%;
-      box-shadow: inset 0 0 4px #000;
+      box-shadow: inset 0 0 6px #000000, 0 0 5px rgba(139, 0, 0, 0.8);
       z-index: 2;
-      transform: translate(-50%, -50%) rotate(-20deg);
+      mix-blend-mode: multiply;
+      transform: translate(-50%, -50%) rotate(-18deg);
       animation: woundAppear 0.1s ease-out forwards;
     }
 
     @keyframes woundAppear {
-      0% { transform: translate(-50%, -50%) scale(0.2) rotate(-20deg); opacity: 0; }
-      100% { transform: translate(-50%, -50%) scale(1) rotate(-20deg); opacity: 1; }
+      0% { transform: translate(-50%, -50%) scale(0.1) rotate(-18deg); opacity: 0; }
+      100% { transform: translate(-50%, -50%) scale(1) rotate(-18deg); opacity: 1; }
     }
 
-    /* हल्का र सफा रगतको धारा (पहिलो कोडको इफेक्ट) */
-    .blood-drip {
+    /* २. अर्गानिक रगतको बग्ने धारा (Realistic Blood Drips with Depth) */
+    .blood-drip-stream {
       position: absolute;
       width: 3px;
-      background: linear-gradient(to bottom, #8b0000, #4a0000, transparent);
-      border-radius: 2px;
+      background: linear-gradient(180deg, #b30000 0%, #660000 50%, #330000 85%, #1a0000 100%);
+      border-radius: 3px;
+      box-shadow: 1px 0 2px rgba(0,0,0,0.8), inset -1px 0 1px rgba(255,255,255,0.3);
       z-index: 3;
       transform-origin: top center;
-      animation: dripAnim 2s ease-out forwards;
+      animation: dripFlow 2.2s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
     }
 
-    @keyframes dripAnim {
-      0% { height: 0px; opacity: 1; }
-      100% { height: var(--drip-height, 45px); opacity: 0.85; }
-    }
-
-    /* रगतका छिटाहरू */
-    .blood-splatter {
+    /* धाराको फेदमा बन्ने वास्तविक थोपा (Droplets) */
+    .blood-node {
       position: absolute;
-      background-color: #8b0000;
+      background: radial-gradient(circle at 35% 35%, #ff3333 0%, #800000 60%, #330000 100%);
       border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.7);
+      z-index: 4;
+      animation: nodeAppear 0.4s ease-out forwards;
+    }
+
+    @keyframes dripFlow {
+      0% { height: 0px; opacity: 1; }
+      100% { height: var(--drip-height, 120px); opacity: 0.9; }
+    }
+
+    @keyframes nodeAppear {
+      0% { transform: scale(0); }
+      100% { transform: scale(1); }
+    }
+
+    /* ३. प्राकृतिक रगतका छिटाहरू (Organic Splatters) */
+    .blood-splatter-dot {
+      position: absolute;
+      background: radial-gradient(circle, #a00000 30%, #4a0000 80%, transparent 100%);
+      border-radius: 40% 60% 70% 30% / 50% 60% 40% 50%;
       pointer-events: none;
       z-index: 2;
-      animation: splatterAnim 0.2s ease-out forwards;
+      animation: dotSpread 0.25s ease-out forwards;
     }
 
-    @keyframes splatterAnim {
-      0% { transform: scale(0); opacity: 0; }
-      100% { transform: scale(1); opacity: 0.9; }
+    @keyframes dotSpread {
+      0% { transform: scale(0) rotate(0deg); opacity: 0; }
+      100% { transform: scale(1) rotate(45deg); opacity: 0.9; }
     }
 
     .reset-btn {
@@ -187,13 +187,13 @@
     const canvas = document.getElementById('photoCanvas');
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
     const gameArea = document.getElementById('gameArea');
-    const messageArea = document.getElementById('messageArea');
     const hitSound = document.getElementById('hitSound');
     const resetBtn = document.getElementById('resetBtn');
 
     let attacks = [];
     const MAX_ATTACKS = 3;
 
+    // ब्याकग्राउन्ड र मान्छेको पारदर्शी कट-आउट फोटोहरू लोड गर्ने
     const bgImg = new Image();
     bgImg.src = 'parbat.png';
 
@@ -207,7 +207,9 @@
         canvas.width = bgImg.naturalWidth || 500;
         canvas.height = bgImg.naturalHeight || 500;
 
+        // १. पहिले पछाडिको ब्याकग्राउन्ड फोटो तान्ने
         ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+        // २. त्यसको माथि मान्छेको फोटो तान्ने
         ctx.drawImage(personImg, 0, 0, canvas.width, canvas.height);
       }
     }
@@ -215,6 +217,7 @@
     bgImg.onload = checkLoaded;
     personImg.onload = checkLoaded;
 
+    // अगाडिको मान्छेको फोटोको पिक्सेल मात्र जाँच्नको लागि छुट्टै hidden canvas
     const offCanvas = document.createElement('canvas');
     const offCtx = offCanvas.getContext('2d', { willReadFrequently: true });
 
@@ -234,9 +237,11 @@
       const canvasX = Math.floor((event.clientX - rect.left) * scaleX);
       const canvasY = Math.floor((event.clientY - rect.top) * scaleY);
 
+      // मान्छेको PNG फोटोबाट मात्र पारदर्शी भाग चेकिङ
       const pixel = offCtx.getImageData(canvasX, canvasY, 1, 1).data;
       const alpha = pixel[3]; 
 
+      // पारदर्शी (खाली) भागमा थिच्दा बन्चरो नलाग्ने
       if (alpha < 20) {
         return; 
       }
@@ -247,12 +252,6 @@
       hitSound.currentTime = 0;
       hitSound.play().catch(err => console.log("Audio play error:", err));
 
-      // म्यासेज बक्समा "सरी सरी सरी!" अपडेट गर्ने
-      messageArea.textContent = "सरी सरी सरी!";
-      messageArea.classList.remove('sorry-flash');
-      void messageArea.offsetWidth;
-      messageArea.classList.add('sorry-flash');
-
       if (attacks.length >= MAX_ATTACKS) {
         const oldestAttack = attacks.shift();
         oldestAttack.elements.forEach(el => el.remove());
@@ -260,7 +259,7 @@
 
       const currentAttackElements = [];
 
-      // १. घाउको मार्कर (एक्ज्याक्ट पोजिसनमा)
+      // १. गहिरो घाउ (Wound Mark) ठ्याक्कै क्लिक गरिएको ठाउँमा
       const wound = document.createElement('div');
       wound.className = 'wound-mark';
       wound.style.left = displayX + 'px';
@@ -268,47 +267,61 @@
       gameArea.appendChild(wound);
       currentAttackElements.push(wound);
 
-      // २. हल्का र सफا रगतको धारा (पहिलो कोडको इफेक्ट)
-      const dripCount = Math.floor(Math.random() * 3) + 2; 
-      for (let i = 0; i < dripCount; i++) {
-        const drip = document.createElement('div');
-        drip.className = 'blood-drip';
-        const offsetX = (Math.random() - 0.5) * 12; 
-        const dripHeight = Math.random() * 45 + 35; 
+      // २. प्राकृतिक रूपमा बग्ने रगतका धारा र थोपाहरू (पहिलो कोडको उत्कृष्ट स्टाइल)
+      const streamCount = Math.floor(Math.random() * 2) + 4; // ४ देखि ५ वटा धाराहरू
+      for (let i = 0; i < streamCount; i++) {
+        const stream = document.createElement('div');
+        stream.className = 'blood-drip-stream';
         
-        drip.style.left = (displayX + offsetX) + 'px';
-        drip.style.top = displayY + 'px';
-        drip.style.setProperty('--drip-height', dripHeight + 'px');
-        drip.style.animationDelay = (i * 0.1) + 's';
-        gameArea.appendChild(drip);
-        currentAttackElements.push(drip);
+        const offsetX = (Math.random() - 0.5) * 30; 
+        const dripHeight = Math.random() * 80 + 90; 
+        const streamWidth = Math.random() * 2 + 2; 
+        
+        stream.style.width = streamWidth + 'px';
+        stream.style.left = (displayX + offsetX) + 'px';
+        stream.style.top = displayY + 'px';
+        stream.style.setProperty('--drip-height', dripHeight + 'px');
+        stream.style.animationDelay = (i * 0.06) + 's';
+        gameArea.appendChild(stream);
+        currentAttackElements.push(stream);
+
+        // धाराको फेदमा जम्ने थोपा (Node)
+        const node = document.createElement('div');
+        node.className = 'blood-node';
+        const nodeSize = streamWidth * 2.2;
+        node.style.width = nodeSize + 'px';
+        node.style.height = nodeSize + 'px';
+        node.style.left = (displayX + offsetX - (nodeSize / 2) + (streamWidth / 2)) + 'px';
+        node.style.top = (displayY + dripHeight) + 'px';
+        node.style.animationDelay = (1.8 + (i * 0.05)) + 's';
+        gameArea.appendChild(node);
+        currentAttackElements.push(node);
       }
 
-      // ३. रगतका छिटाहरू
-      for (let i = 0; i < 5; i++) {
-        const splatter = document.createElement('div');
-        splatter.className = 'blood-splatter';
-        const size = Math.random() * 4 + 2;
-        splatter.style.width = size + 'px';
-        splatter.style.height = size + 'px';
+      // ३. रगतका छिटाहरू (Organic Splatters)
+      for (let i = 0; i < 6; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'blood-splatter-dot';
+        const size = Math.random() * 5 + 3;
+        dot.style.width = size + 'px';
+        dot.style.height = size + 'px';
         
-        const offsetX = (Math.random() - 0.5) * 25;
+        const offsetX = (Math.random() - 0.5) * 40;
         const offsetY = (Math.random() - 0.5) * 15;
         
-        splatter.style.left = (displayX + offsetX) + 'px';
-        splatter.style.top = (displayY + offsetY) + 'px';
-        gameArea.appendChild(splatter);
-        currentAttackElements.push(splatter);
+        dot.style.left = (displayX + offsetX) + 'px';
+        dot.style.top = (displayY + offsetY) + 'px';
+        dot.style.animationDelay = (Math.random() * 0.1) + 's';
+        gameArea.appendChild(dot);
+        currentAttackElements.push(dot);
       }
 
-      // ४. बन्चरो (एक्ज्याक्ट अलाइनमेन्ट र सही धार)
+      // ४. बन्चरो - सटीक धार र पोजिसन मिलान गरिएको
       const knife = document.createElement('img');
       knife.src = 'knife.png';
       knife.className = 'stuck-knife';
-      
-      knife.style.setProperty('--hit-x', displayX + 'px');
-      knife.style.setProperty('--hit-y', displayY + 'px');
-      
+      knife.style.left = (displayX - 45) + 'px';
+      knife.style.top = (displayY - 65) + 'px';
       gameArea.appendChild(knife);
       currentAttackElements.push(knife);
 
@@ -320,8 +333,6 @@
         attack.elements.forEach(el => el.remove());
       });
       attacks = [];
-      messageArea.textContent = "म्यासेज लेख्न बाँकी छ...";
-      messageArea.classList.remove('sorry-flash');
     });
   </script>
 
