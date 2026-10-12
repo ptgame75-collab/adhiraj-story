@@ -73,7 +73,7 @@
       border-radius: 8px;
     }
 
-    /* बन्चरोको स्टाइल */
+    /* बन्चरोको स्टाइल जस्ताको तस्तै */
     .stuck-knife {
       position: absolute;
       width: 130px;
@@ -101,7 +101,7 @@
       100% { transform: rotate(-35deg) translateY(0); }
     }
 
-    /* बन्चरोको धारको एङ्गल (-35deg) संगै ठ्याक्कै मिलाइएको घाउको स्टाइल */
+    /* घाउलाई बायाँको सट्टा दायाँतर्फ ढल्काइएको स्टाइल (+35deg) */
     .wound-mark {
       position: absolute;
       width: 35px;
@@ -111,16 +111,16 @@
       box-shadow: inset 0 0 6px #000000, 0 0 5px rgba(139, 0, 0, 0.8);
       z-index: 4;
       mix-blend-mode: multiply;
-      transform: translate(-50%, -50%) rotate(-35deg); /* बन्चरोको धारकै एङ्गलमा राखिएको */
+      transform: translate(-50%, -50%) rotate(35deg); /* दायाँतर्फ ढल्काइएको एङ्गल */
       animation: woundAppear 0.1s ease-out forwards;
     }
 
     @keyframes woundAppear {
-      0% { transform: translate(-50%, -50%) scale(0.1) rotate(-35deg); opacity: 0; }
-      100% { transform: translate(-50%, -50%) scale(1) rotate(-35deg); opacity: 1; }
+      0% { transform: translate(-50%, -50%) scale(0.1) rotate(35deg); opacity: 0; }
+      100% { transform: translate(-50%, -50%) scale(1) rotate(35deg); opacity: 1; }
     }
 
-    /* रगतको बग्ने धारा */
+    /* रगतको बग्ने धारा जस्ताको तस्तै */
     .blood-drip-stream {
       position: absolute;
       width: 3px;
@@ -152,7 +152,7 @@
       100% { transform: scale(1); }
     }
 
-    /* रगतका छिटाहरू */
+    /* रगतका छिटाहरू जस्ताको तस्तै */
     .blood-splatter-dot {
       position: absolute;
       background: radial-gradient(circle, #a00000 30%, #4a0000 80%, transparent 100%);
@@ -273,7 +273,7 @@
 
       const currentAttackElements = [];
 
-      // १. घाउ - बन्चरोको धारको एङ्गल (-35deg) सँग ठ्याक्कै मिलाइएको
+      // १. घाउ - दायाँतर्फ ढल्केको (rotated 35deg)
       const wound = document.createElement('div');
       wound.className = 'wound-mark';
       wound.style.left = displayX + 'px';
