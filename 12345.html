@@ -73,7 +73,7 @@
       border-radius: 8px;
     }
 
-    /* बन्चरोको स्टाइल */
+    /* बन्चरोको स्टाइल र इम्प्याक्ट एनिमेशन */
     .stuck-knife {
       position: absolute;
       width: 130px;
@@ -101,7 +101,7 @@
       100% { transform: rotate(-35deg) translateY(0); }
     }
 
-    /* घाउको स्टाइल - प्रहार भएको धारकै पोइन्टमा बन्ने */
+    /* घाउको स्टाइल - बन्चरोको धारमा मात्र देखिने */
     .wound-mark {
       position: absolute;
       width: 35px;
@@ -253,7 +253,6 @@
         return; 
       }
 
-      // क्लिक गरिएको सही डिस्प्ले कोर्डिनेटहरू
       const displayX = event.clientX - rect.left;
       const displayY = event.clientY - rect.top;
 
@@ -272,7 +271,7 @@
 
       const currentAttackElements = [];
 
-      // १. बन्चरो पहिले प्रहार भएर ट्याक्क बस्नेछ (जहाँ क्लिक गरियो, त्यसको आधारमा)
+      // १. पहिलो चरण: क्लिक गर्नेबित्तिकै बन्चरो (Knife) तुरुन्तै प्रहार भएर बस्नेछ
       const knifeLeft = displayX - 45;
       const knifeTop = displayY - 65;
 
@@ -284,12 +283,11 @@
       gameArea.appendChild(knife);
       currentAttackElements.push(knife);
 
-      // २. बन्चरो प्रहार भएको ठीक २ मिलिसेकेन्ड (2ms) पछि...
-      // बन्चरोको वास्तविक प्रहार बिन्दु (धारको सहि पोजिसन) लाई आधार मानेर घाउ र रगत बनाउने
+      // २. दोस्रो चरण: बन्चरो प्रहार भएको ठ्याक्कै २ मिलिसेकेन्ड (2ms) पछि,
+      // बन्चरोको इम्प्याक्ट बिन्दु (धार) लाई ठ्याक्कै आधार बनाएर घाउ र रगत देखाउने
       setTimeout(() => {
-        // बन्चरोको धार ठ्याक्कै पर्ने वास्तविक हिराे पोइन्ट (Target Impact Point)
-        const hitPointX = knifeLeft + 45; // बन्चरोको कट-आउट अनुसारको धारको वास्तविक X
-        const hitPointY = knifeTop + 65;  // बन्चरोको कट-आउट अनुसारको धारको वास्तविक Y
+        const hitPointX = displayX;
+        const hitPointY = displayY;
 
         // घाउको मार्कर
         const wound = document.createElement('div');
@@ -299,7 +297,7 @@
         gameArea.appendChild(wound);
         currentAttackElements.push(wound);
 
-        // रगतका धाराहरू (त्यही प्रहार बिन्दुबाट तल बग्ने)
+        // रगतको बग्ने धाराहरू
         const streamCount = Math.floor(Math.random() * 2) + 4; 
         for (let i = 0; i < streamCount; i++) {
           const stream = document.createElement('div');
@@ -346,7 +344,7 @@
           gameArea.appendChild(dot);
           currentAttackElements.push(dot);
         }
-      }, 2); // २ मिलिसेकेन्डको पर्फेक्ट ग्याप जसले बन्चरोको प्रहार पछि ठ्याक्कै धारमा घाउ देखाउँछ
+      }, 2); // २ मिलिसेकेन्डको पर्फेक्ट ग्याप
 
       attacks.push({ elements: currentAttackElements });
     });
