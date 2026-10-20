@@ -8,7 +8,7 @@
     <!-- Manifest setup -->
     <link rel="manifest" href="manifest.json">
 
-    <!-- Mobile App Home Screen Icon (एपको बाहिर देखिने नयाँ लोगो) -->
+    <!-- Mobile App Home Screen Icon -->
     <link rel="icon" type="image/png" sizes="192x192" href="app-logo.png">
     <link rel="apple-touch-icon" href="app-logo.png">
 
@@ -31,7 +31,7 @@
             to { opacity: 1; }
         }
 
-        /* Header लाई Sticky बनाउन थपिएको CSS */
+        /* Header CSS */
         .header { 
             position: sticky;
             top: 0;
@@ -39,14 +39,14 @@
             background: #fcfbf7;
             width: 100%;
             padding-top: 20px;
-            padding-bottom: 15px;
+            padding-bottom: 10px;
             text-align: center; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03); /* Scroll गर्दा हल्का छाया देखिन */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03); 
         }
         
         .header img { 
-            width: 120px; 
-            height: 120px; 
+            width: 110px; 
+            height: 110px; 
             border-radius: 50%; 
             border: 3px solid #fff; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
@@ -55,21 +55,65 @@
         
         .header h1 { 
             color: #4a3728; 
-            font-size: 24px; 
-            margin-top: 10px; 
+            font-size: 22px; 
+            margin-top: 8px; 
             margin-bottom: 0;
             font-weight: bold; 
+        }
+
+        /* Side Switcher Navigation Buttons */
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            width: 90%;
+            max-width: 400px;
+            margin-top: 15px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+            font-family: 'Georgia', serif;
+            color: #4a3728;
+            background: #eef0f2;
+            border: 2px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .tab-btn.active {
+            background: #d32f2f;
+            color: white;
+            border-color: #d32f2f;
+            box-shadow: 0 4px 10px rgba(211, 47, 47, 0.3);
         }
 
         .main-content { 
             width: 90%; 
             max-width: 400px; 
-            margin-top: 20px; 
+            margin-top: 15px; 
             display: flex; 
             flex-direction: column; 
             gap: 15px; 
         }
         
+        /* Hide content sections by default */
+        .side-content {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .side-content.active {
+            display: flex;
+        }
+
         .diary-card { 
             position: relative;
             background: white; 
@@ -86,7 +130,6 @@
         .diary-card h2 { color: #2c3e50; font-size: 16px; margin: 0; } 
         .diary-card p { color: #d32f2f; font-size: 11px; margin-top: 5px; font-weight: bold; }
 
-        /* भिडियो, फोटो र गेम बटनको लागि छुट्टै बोर्डर कलर */
         .video-btn {
             border-left: 4px solid #4a3728;
         }
@@ -94,7 +137,7 @@
             color: #4a3728;
         }
 
-        /* Update / NEW Badge को CSS */
+        /* Update / NEW Badge CSS */
         .update-badge {
             position: absolute;
             top: -6px;
@@ -121,69 +164,90 @@
 <body oncontextmenu="return false;">
 
     <div class="header">
-        <!-- एप भित्र देखिने प्रोफाइल फोटो (4870.png) -->
         <img src="4870.png" alt="Logo">
         <h1>मनको भावना</h1>
     </div>
 
+    <!-- Side Switcher Tab Buttons -->
+    <div class="tab-container">
+        <button class="tab-btn active" onclick="switchSide('side-a', this)">A-Side (पुराना)</button>
+        <button class="tab-btn" onclick="switchSide('side-b', this)">B-Side (नयाँ)</button>
+    </div>
+
     <div class="main-content">
-        <a href="anusthan.html" class="diary-card">
-            <h2>169 अनुष्ठान लेख</h2>
-            <p>Tap here to read.</p>
-        </a>
         
-        <a href="youy.html" class="diary-card">
-            <h2>photo folder</h2>
-            <p>YouTube thumbnail.</p>
-        </a>
+        <!-- A-Side Section (पुराना फोल्डरहरू) -->
+        <div id="side-a" class="side-content active">
+            <a href="anusthan.html" class="diary-card">
+                <h2>169 अनुष्ठान लेख</h2>
+                <p>Tap here to read.</p>
+            </a>
 
-        <a href="adhura.html" class="diary-card">
-            <h2>मेरो अधुरा शब्दहरू</h2>
-            <p>Tap here to read.</p>
-        </a>
+            <a href="adhura.html" class="diary-card">
+                <h2>मेरो अधुरा शब्दहरू</h2>
+                <p>Tap here to read.</p>
+            </a>
 
-        <!-- Sorry Suzu Folders with One-Time Badge -->
-        <a href="yui.html" class="diary-card" id="suzu-folder" onclick="markSuzuSeen()">
-            <span class="update-badge" id="suzu-badge" style="display: none;">NEW</span>
-            <h2>folder</h2>
-            <p>Sorry Suzu.</p>
-        </a>
+            <a href="bayan.html" class="diary-card">
+                <h2>तिम्रो बयान</h2>
+                <p>Tap here to read.</p>
+            </a>
+            
+            <a href="birthday.html" class="diary-card">
+                <h2>Happy Birthday</h2>
+                <p>Tap here to read.</p>
+            </a>
 
-        <a href="bayan.html" class="diary-card">
-            <h2>तिम्रो बयान</h2>
-            <p>Tap here to read.</p>
-        </a>
-        
-        <a href="birthday.html" class="diary-card">
-            <h2>Happy Birthday</h2>
-            <p>Tap here to read.</p>
-        </a>
+            <a href="photo.html" class="diary-card video-btn">
+                <h2>fav pic</h2>
+                <p>Tap here to view.</p>
+            </a>
 
-        <a href="photo.html" class="diary-card video-btn">
-            <h2>fav pic</h2>
-            <p>Tap here to view.</p>
-        </a>
+            <a href="video.html" class="diary-card video-btn">
+                <h2> video section </h2>
+                <p>Tap here to view.</p>
+            </a>
+        </div>
 
-        <a href="video.html" class="diary-card video-btn">
-            <h2> video section </h2>
-            <p>Tap here to view.</p>
-        </a>
+        <!-- B-Side Section (नयाँ फोल्डरहरू) -->
+        <div id="side-b" class="side-content">
+            <a href="youy.html" class="diary-card">
+                <h2>photo folder</h2>
+                <p>YouTube thumbnail.</p>
+            </a>
 
-        <!-- नयाँ गेम सेक्सन थपियो -->
-        <a href="12345.html" class="diary-card video-btn">
-            <span class="update-badge">NEW</span>
-            <h2>चक्कु गेम</h2>
-            <p>Tap here to play.</p>
-        </a>
-        <a href="sujanadon.html" class="diary-card">
-            <h2>मेरो अधुरा शब्दहरू</h2>
-            <p>Tap here to read.</p>
-        </a>
+            <!-- Sorry Suzu Folders with One-Time Badge -->
+            <a href="yui.html" class="diary-card" id="suzu-folder" onclick="markSuzuSeen()">
+                <span class="update-badge" id="suzu-badge" style="display: none;">NEW</span>
+                <h2>फेरि अर्को new update आको छ</h2>
+                <p>new updated</p>
+            </a>
+
+            <!-- नयाँ गेम सेक्सन -->
+            <a href="12345.html" class="diary-card video-btn">
+                <span class="update-badge">NEW</span>
+                <h2>चक्कु गेम</h2>
+                <p>Tap here to play.</p>
+            </a>
+        </div>
+
     </div> 
 
     <div class="footer">2026 अधिराज | सुजना श्रेष्ठको लागि</div>
 
     <script>
+        // Side Switch Functionality
+        function switchSide(sideId, btnElement) {
+            // Hide all side contents
+            document.querySelectorAll('.side-content').forEach(el => el.classList.remove('active'));
+            // Remove active class from buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+            // Show selected side and set active button
+            document.getElementById(sideId).classList.add('active');
+            btnElement.classList.add('active');
+        }
+
         // LocalStorage चेक गर्ने र One-Time Badge नियन्त्रण गर्ने JavaScript
         document.addEventListener("DOMContentLoaded", function () {
             const isSeen = localStorage.getItem("suzu_folder_seen");
