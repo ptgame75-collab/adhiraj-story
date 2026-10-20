@@ -62,57 +62,78 @@
             font-weight: bold; 
         }
 
-        /* Swipeable Container Layout */
-        .swipe-container {
-            display: flex;
-            width: 100%;
-            max-width: 400px;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            margin-top: 15px;
-            padding-bottom: 15px;
-        }
-
-        .swipe-container::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* प्रत्येक साइडको प्यानल */
-        .side-panel {
-            flex: 0 0 100%;
-            width: 100%;
-            box-sizing: border-box;
-            padding: 0 5%;
-            scroll-snap-align: start;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        /* स्वाइप इन्डिकेटर वा डट्स (Dots) */
-        .pagination-dots {
+        /* भिडियोमा जस्तै माथि ट्याबSwitching सेक्सन (हिन्दी/नेपाली कथा शैली) */
+        .tab-container {
             display: flex;
             justify-content: center;
-            gap: 8px;
-            margin-top: 5px;
-            margin-bottom: 10px;
+            gap: 20px;
+            width: 100%;
+            max-width: 400px;
+            margin-top: 15px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
         }
 
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #d1c7bd;
-            transition: 0.3s;
+        .tab-btn {
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
+            font-family: 'Georgia', serif;
+            color: #888;
+            cursor: pointer;
+            padding: 5px 10px;
+            position: relative;
+            transition: color 0.3s ease;
         }
 
-        .dot.active {
-            background: #d32f2f;
-            width: 20px;
-            border-radius: 4px;
+        /* भिडियोमा जस्तै एक्टिभ हुँदा रातो अन्डरलाइन र रङ आउने एनिमेसन */
+        .tab-btn.active {
+            color: #d32f2f;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #d32f2f;
+            border-radius: 2px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { width: 0; opacity: 0; }
+            to { width: 100%; opacity: 1; }
+        }
+
+        .main-content { 
+            width: 90%; 
+            max-width: 400px; 
+            margin-top: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+        }
+        
+        /* Side Panels */
+        .side-panel {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            animation: fadeInContent 0.4s ease-in-out;
+        }
+
+        .side-panel.active {
+            display: flex;
+        }
+
+        @keyframes fadeInContent {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .diary-card { 
@@ -169,40 +190,16 @@
         <h1>मनको भावना</h1>
     </div>
 
-    <!-- कुन साइडमा छौँ भनेर देखाउने डट्स -->
-    <div class="pagination-dots">
-        <span class="dot active" id="dot-0"></span>
-        <span class="dot" id="dot-1"></span>
+    <!-- भिडियोको जस्तै ट्याब स्विच गर्ने बटनहरू (A-Side र B-Side) -->
+    <div class="tab-container">
+        <button class="tab-btn active" id="btn-a" onclick="switchTab('side-a', 'btn-a')">A-Side (पुराना)</button>
+        <button class="tab-btn" id="btn-b" onclick="switchTab('side-b', 'btn-b')">B-Side (नयाँ)</button>
     </div>
 
-    <!-- बायाँ-दायाँ स्वाइप गर्न मिल्ने मुख्य कन्टेनर -->
-    <div class="swipe-container" id="swipeContainer">
+    <div class="main-content">
         
-        <!-- B-Side (नयाँ फोल्डरहरू - मिलाइएको सही क्रम) -->
-        <div class="side-panel" id="panel-0">
-            <!-- १. पहिलो: new update आएको छ -->
-            <a href="yui.html" class="diary-card" id="suzu-folder" onclick="markSuzuSeen()">
-                <span class="update-badge" id="suzu-badge" style="display: none;">NEW</span>
-                <h2>फेरि अर्को new update आको छ</h2>
-                <p>new updated</p>
-            </a>
-
-            <!-- २. दोस्रो: photo folder -->
-            <a href="youy.html" class="diary-card">
-                <h2>photo folder</h2>
-                <p>YouTube thumbnail.</p>
-            </a>
-
-            <!-- ३. तेस्रो: चक्कु गेम -->
-            <a href="12345.html" class="diary-card video-btn">
-                <span class="update-badge">NEW</span>
-                <h2>चक्कु गेम</h2>
-                <p>Tap here to play.</p>
-            </a>
-        </div>
-
         <!-- A-Side (पुराना फोल्डरहरू) -->
-        <div class="side-panel" id="panel-1">
+        <div class="side-panel active" id="side-a">
             <a href="anusthan.html" class="diary-card">
                 <h2>169 अनुष्ठान लेख</h2>
                 <p>Tap here to read.</p>
@@ -234,21 +231,49 @@
             </a>
         </div>
 
+        <!-- B-Side (नयाँ फोल्डरहरू - तपाईंले भन्नुभएको सहि क्रम अनुसार) -->
+        <div class="side-panel" id="side-b">
+            <!-- १. पहिलो: फेरि अर्को new update आको छ -->
+            <a href="yui.html" class="diary-card" id="suzu-folder" onclick="markSuzuSeen()">
+                <span class="update-badge" id="suzu-badge" style="display: none;">NEW</span>
+                <h2>फेरि अर्को new update आको छ</h2>
+                <p>new updated</p>
+            </a>
+
+            <!-- २. दोस्रो: photo folder -->
+            <a href="youy.html" class="diary-card">
+                <h2>photo folder</h2>
+                <p>YouTube thumbnail.</p>
+            </a>
+
+            <!-- ३. तेस्रो: चक्कु गेम -->
+            <a href="12345.html" class="diary-card video-btn">
+                <span class="update-badge">NEW</span>
+                <h2>चक्कु गेम</h2>
+                <p>Tap here to play.</p>
+            </a>
+        </div>
+
     </div> 
 
     <div class="footer">2026 अधिराज | सुजना श्रेष्ठको लागि</div>
 
     <script>
-        // स्क्रोल गर्दा डट्सहरू अटोमेटिक अपडेट हुने JavaScript
-        const container = document.getElementById('swipeContainer');
-        const dots = document.querySelectorAll('.dot');
-
-        container.addEventListener('scroll', () => {
-            const index = Math.round(container.scrollLeft / container.clientWidth);
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === index);
+        // ट्याब स्विच गर्ने र एनिमेसन मिलाउने JavaScript 
+        function switchTab(panelId, btnId) {
+            // सबै प्यानलहरूको 'active' क्लास हटाउने
+            document.querySelectorAll('.side-panel').forEach(panel => {
+                panel.classList.remove('active');
             });
-        });
+            // सबै बटनहरूको 'active' क्लास हटाउने
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // छनोट गरिएको प्यानल र बटनलाई मात्र 'active' बनाउने
+            document.getElementById(panelId).classList.add('active');
+            document.getElementById(btnId).classList.add('active');
+        }
 
         // LocalStorage चेक गर्ने र One-Time Badge नियन्त्रण गर्ने JavaScript
         document.addEventListener("DOMContentLoaded", function () {
