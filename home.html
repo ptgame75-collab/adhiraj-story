@@ -45,7 +45,7 @@
             box-shadow: 0 4px 15px rgba(183, 28, 28, 0.08);
         }
 
-        /* Header CSS - दशैँ स्पेशल बर्डर र इफेक्ट */
+        /* Header CSS - लाइटिंग हटाएर नर्मल र सफा बनाइएको */
         .header { 
             width: 100%;
             padding-top: 15px;
@@ -57,16 +57,10 @@
             width: 105px; 
             height: 105px; 
             border-radius: 50%; 
-            border: 3px solid #d32f2f; /* दशैँको रातो टिकाको झल्को दिने बोर्डर */
-            box-shadow: 0 5px 20px rgba(211, 47, 47, 0.25); 
+            border: 3px solid #d32f2f; /* दशैँको रातो टिकाको झल्को दिने स्थिर बोर्डर */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
             object-fit: cover; 
-            animation: pulseLogo 2s infinite;
-        }
-
-        @keyframes pulseLogo {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.03); box-shadow: 0 5px 25px rgba(211, 47, 47, 0.4); }
-            100% { transform: scale(1); }
+            /* बढी चम्किने/झिम्किने एनिमेसन (pulseLogo) पूर्ण रूपमा हटाइयो */
         }
         
         .header h1 { 
@@ -157,7 +151,7 @@
             gap: 15px;
         }
 
-        /* दशैँ स्पेशल कार्ड डिजाइन (हल्का रातो साइड बोर्डर र ग्लो इफ़ेक्ट) */
+        /* कार्ड डिजाइन */
         .diary-card { 
             position: relative;
             background: white; 
@@ -166,7 +160,7 @@
             text-decoration: none; 
             display: block; 
             border-left: 5px solid #d32f2f; 
-            box-shadow: 0 6px 15px rgba(183, 28, 28, 0.06); 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04); 
             text-align: center; 
             transition: all 0.25s ease; 
         }
@@ -181,7 +175,7 @@
             color: #8b4513;
         }
 
-        /* दशैँ स्पेशल जमरा वा टिका थिम झल्काउने Badge */
+        /* अपडेट ब्याच - यसलाई पनि झिम्किने नगरिबिन शान्त र स्थिर बनाइएको छ */
         .update-badge {
             position: absolute;
             top: -6px;
@@ -192,14 +186,7 @@
             font-weight: bold;
             padding: 3px 9px;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(211, 47, 47, 0.5);
-            animation: pulseBadge 1.5s infinite;
-        }
-
-        @keyframes pulseBadge {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.12); }
-            100% { transform: scale(1); }
+            box-shadow: 0 2px 5px rgba(211, 47, 47, 0.3);
         }
 
         .footer { margin-top: auto; padding: 20px; color: #888; font-size: 12px; text-align: center; }
