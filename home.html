@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>अधिराजको खत</title>
+    <title>अधिराजको खत - विजया दशैँ विशेष</title>
 
     <!-- Manifest setup -->
     <link rel="manifest" href="manifest.json">
@@ -14,7 +14,7 @@
 
     <style>
         body { 
-            background: #fcfbf7; 
+            background: #fff8f0; /* दशैँको लागि न्यानो र उत्सवमय ब्याकग्राउन्ड टोन */
             font-family: 'Georgia', serif; 
             margin: 0; 
             display: flex; 
@@ -32,20 +32,20 @@
             to { opacity: 1; }
         }
 
-        /* स्टिकी कन्टेनर (प्रोफाइल र ट्याबहरू सधैं माथि स्थिर रहने) */
+        /* स्टिकी कन्टेनर */
         .sticky-wrapper {
             position: sticky;
             top: 0;
             z-index: 1000;
-            background: #fcfbf7;
+            background: #fff8f0;
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            box-shadow: 0 4px 15px rgba(183, 28, 28, 0.08);
         }
 
-        /* Header CSS */
+        /* Header CSS - दशैँ स्पेशल बर्डर र इफेक्ट */
         .header { 
             width: 100%;
             padding-top: 15px;
@@ -54,20 +54,36 @@
         }
         
         .header img { 
-            width: 100px; 
-            height: 100px; 
+            width: 105px; 
+            height: 105px; 
             border-radius: 50%; 
-            border: 3px solid #fff; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+            border: 3px solid #d32f2f; /* दशैँको रातो टिकाको झल्को दिने बोर्डर */
+            box-shadow: 0 5px 20px rgba(211, 47, 47, 0.25); 
             object-fit: cover; 
+            animation: pulseLogo 2s infinite;
+        }
+
+        @keyframes pulseLogo {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); box-shadow: 0 5px 25px rgba(211, 47, 47, 0.4); }
+            100% { transform: scale(1); }
         }
         
         .header h1 { 
-            color: #4a3728; 
-            font-size: 20px; 
+            color: #8b0000; /* गाढा रातो दशैँ स्पेशल रङ */
+            font-size: 21px; 
             margin-top: 6px; 
-            margin-bottom: 0;
+            margin-bottom: 2px;
             font-weight: bold; 
+        }
+
+        /* दशैँ शुभकामना सानो टेक्स्ट */
+        .dashain-wish {
+            font-size: 11px;
+            color: #b71c1c;
+            margin-bottom: 5px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
         }
 
         /* ट्याब स्विच गर्ने सेक्सन */
@@ -77,10 +93,10 @@
             gap: 30px;
             width: 100%;
             max-width: 400px;
-            margin-top: 10px;
-            border-bottom: 2px solid #eee;
+            margin-top: 5px;
+            border-bottom: 2px solid #f3d6d6;
             padding-bottom: 8px;
-            background: #fcfbf7;
+            background: #fff8f0;
         }
 
         .tab-btn {
@@ -97,7 +113,7 @@
         }
 
         .tab-btn.active {
-            color: #d32f2f;
+            color: #b71c1c;
         }
 
         .tab-btn.active::after {
@@ -107,11 +123,11 @@
             left: 0;
             width: 100%;
             height: 3px;
-            background-color: #d32f2f;
+            background-color: #b71c1c;
             border-radius: 2px;
         }
 
-        /* तेर्सो स्वाइप (Horizontal Swipe) गर्ने मुख्य कन्टेनर */
+        /* तेर्सो स्वाइप कन्टेनर */
         .swipe-container {
             display: flex;
             width: 100%;
@@ -129,7 +145,7 @@
             display: none;
         }
 
-        /* प्रत्येक साइडको प्यानल (फ्रेम भित्र रहने) */
+        /* प्यानल */
         .side-panel {
             flex: 0 0 100%;
             width: 100%;
@@ -141,60 +157,62 @@
             gap: 15px;
         }
 
+        /* दशैँ स्पेशल कार्ड डिजाइन (हल्का रातो साइड बोर्डर र ग्लो इफ़ेक्ट) */
         .diary-card { 
             position: relative;
             background: white; 
             padding: 15px 10px; 
-            border-radius: 10px; 
+            border-radius: 12px; 
             text-decoration: none; 
             display: block; 
-            border-left: 4px solid #d32f2f; 
-            box-shadow: 0 5px 12px rgba(0,0,0,0.05); 
+            border-left: 5px solid #d32f2f; 
+            box-shadow: 0 6px 15px rgba(183, 28, 28, 0.06); 
             text-align: center; 
-            transition: 0.2s; 
+            transition: all 0.25s ease; 
         }
-        .diary-card:active { transform: scale(0.98); }
-        .diary-card h2 { color: #2c3e50; font-size: 16px; margin: 0; } 
+        .diary-card:active { transform: scale(0.97); }
+        .diary-card h2 { color: #4a2e2b; font-size: 16px; margin: 0; } 
         .diary-card p { color: #d32f2f; font-size: 11px; margin-top: 5px; font-weight: bold; }
 
         .video-btn {
-            border-left: 4px solid #4a3728;
+            border-left: 5px solid #8b4513;
         }
         .video-btn p {
-            color: #4a3728;
+            color: #8b4513;
         }
 
-        /* Update / NEW Badge CSS */
+        /* दशैँ स्पेशल जमरा वा टिका थिम झल्काउने Badge */
         .update-badge {
             position: absolute;
             top: -6px;
             right: -6px;
-            background-color: #e74c3c;
+            background-color: #d32f2f;
             color: white;
             font-size: 10px;
             font-weight: bold;
-            padding: 3px 8px;
+            padding: 3px 9px;
             border-radius: 12px;
-            box-shadow: 0 2px 6px rgba(231, 76, 60, 0.4);
-            animation: pulse 1.5s infinite;
+            box-shadow: 0 2px 8px rgba(211, 47, 47, 0.5);
+            animation: pulseBadge 1.5s infinite;
         }
 
-        @keyframes pulse {
+        @keyframes pulseBadge {
             0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            50% { transform: scale(1.12); }
             100% { transform: scale(1); }
         }
 
-        .footer { margin-top: auto; padding: 20px; color: #999; font-size: 12px; text-align: center; }
+        .footer { margin-top: auto; padding: 20px; color: #888; font-size: 12px; text-align: center; }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-    <!-- स्टिकी हुने भाग (प्रोफाइल र ट्याब बटनहरू) -->
+    <!-- स्टिकी हुने भाग -->
     <div class="sticky-wrapper">
         <div class="header">
             <img src="4870.png" alt="Logo">
             <h1>मनको भावना</h1>
+            <div class="dashain-wish">✨ विजया दशैँको हार्दिक मङ्गलमय शुभकामना! ✨</div>
         </div>
 
         <div class="tab-container">
@@ -203,7 +221,7 @@
         </div>
     </div>
 
-    <!-- बायाँ-दायाँ स्वाइप गर्न र स्क्रोल गर्न मिल्ने कन्टेनर -->
+    <!-- स्वाइप कन्टेनर -->
     <div class="swipe-container" id="swipeContainer">
         
         <!-- A-Side (पुराना फोल्डरहरू) -->
@@ -239,22 +257,19 @@
             </a>
         </div>
 
-        <!-- B-Side (नयाँ फोल्डरहरू - मिलाइएको क्रम अनुसार) -->
+        <!-- B-Side (नयाँ फोल्डरहरू) -->
         <div class="side-panel" id="panel-b">
-            <!-- १. पहिलो: new update आएको छ -->
             <a href="yui.html" class="diary-card" id="suzu-folder" onclick="markSuzuSeen()">
                 <span class="update-badge" id="suzu-badge" style="display: none;">NEW</span>
                 <h2>फेरि अर्को new update आको छ</h2>
                 <p>new updated</p>
             </a>
 
-            <!-- २. दोस्रो: photo folder -->
             <a href="youy.html" class="diary-card">
                 <h2>photo folder</h2>
                 <p>YouTube thumbnail.</p>
             </a>
 
-            <!-- ३. तेस्रो: चक्कु गेम -->
             <a href="12345.html" class="diary-card video-btn">
                 <span class="update-badge">NEW</span>
                 <h2>चक्कु गेम</h2>
@@ -264,14 +279,13 @@
 
     </div> 
 
-    <div class="footer">2026 अधिराज | सुजना श्रेष्ठको लागि</div>
+    <div class="footer">2026 अधिराज | सुजना श्रेष्ठको लागि (दशैँ विशेष)</div>
 
     <script>
         const container = document.getElementById('swipeContainer');
         const btnA = document.getElementById('btn-a');
         const btnB = document.getElementById('btn-b');
 
-        // ट्याब क्लिक गर्दा सम्बन्धित साइडमा स्मूथ स्क्रोल हुने
         function scrollToPanel(index) {
             const panelWidth = container.clientWidth;
             container.scrollTo({
@@ -280,7 +294,6 @@
             });
         }
 
-        // स्क्रोल वा स्वाइप गर्दा ट्याबको बटनहरू अटोमेटिक अपडेट हुने
         container.addEventListener('scroll', () => {
             const scrollPosition = container.scrollLeft;
             const panelWidth = container.clientWidth;
@@ -295,7 +308,6 @@
             }
         });
 
-        // LocalStorage चेक गर्ने र One-Time Badge नियन्त्रण गर्ने JavaScript
         document.addEventListener("DOMContentLoaded", function () {
             const isSeen = localStorage.getItem("suzu_folder_seen");
             if (!isSeen) {
