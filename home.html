@@ -21,6 +21,7 @@
             flex-direction: column; 
             align-items: center; 
             min-height: 100vh; 
+            overflow-x: hidden;
             -webkit-user-select: none; 
             user-select: none; 
             animation: fadeInPage 0.8s ease-in; 
@@ -61,57 +62,57 @@
             font-weight: bold; 
         }
 
-        /* Side Switcher Navigation Buttons */
-        .tab-container {
+        /* Swipeable Container Layout */
+        .swipe-container {
             display: flex;
-            justify-content: center;
-            gap: 10px;
-            width: 90%;
+            width: 100%;
             max-width: 400px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
             margin-top: 15px;
+            padding-bottom: 15px;
         }
 
-        .tab-btn {
-            flex: 1;
-            padding: 10px 15px;
-            font-size: 14px;
-            font-weight: bold;
-            font-family: 'Georgia', serif;
-            color: #4a3728;
-            background: #eef0f2;
-            border: 2px solid #ddd;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-
-        .tab-btn.active {
-            background: #d32f2f;
-            color: white;
-            border-color: #d32f2f;
-            box-shadow: 0 4px 10px rgba(211, 47, 47, 0.3);
-        }
-
-        .main-content { 
-            width: 90%; 
-            max-width: 400px; 
-            margin-top: 15px; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 15px; 
-        }
-        
-        /* Hide content sections by default */
-        .side-content {
+        .swipe-container::-webkit-scrollbar {
             display: none;
+        }
+
+        /* प्रत्येक साइडको प्यानल */
+        .side-panel {
+            flex: 0 0 100%;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0 5%;
+            scroll-snap-align: start;
+            display: flex;
             flex-direction: column;
             gap: 15px;
-            width: 100%;
         }
 
-        .side-content.active {
+        /* स्वाइप इन्डिकेटर वा डट्स (Dots) */
+        .pagination-dots {
             display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #d1c7bd;
+            transition: 0.3s;
+        }
+
+        .dot.active {
+            background: #d32f2f;
+            width: 20px;
+            border-radius: 4px;
         }
 
         .diary-card { 
@@ -158,7 +159,7 @@
             100% { transform: scale(1); }
         }
 
-        .footer { margin-top: auto; padding: 30px; color: #999; font-size: 12px; text-align: center; }
+        .footer { margin-top: auto; padding: 20px; color: #999; font-size: 12px; text-align: center; }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -168,16 +169,40 @@
         <h1>मनको भावना</h1>
     </div>
 
-    <!-- Side Switcher Tab Buttons -->
-    <div class="tab-container">
-        <button class="tab-btn active" onclick="switchSide('side-a', this)">A-Side (पुराना)</button>
-        <button class="tab-btn" onclick="switchSide('side-b', this)">B-Side (नयाँ)</button>
+    <!-- कुन साइडमा छौँ भनेर देखाउने डट्स -->
+    <div class="pagination-dots">
+        <span class="dot active" id="dot-0"></span>
+        <span class="dot" id="dot-1"></span>
     </div>
 
-    <div class="main-content">
+    <!-- बायाँ-दायाँ स्वाइप गर्न मिल्ने मुख्य कन्टेनर -->
+    <div class="swipe-container" id="swipeContainer">
         
-        <!-- A-Side Section (पुराना फोल्डरहरू) -->
-        <div id="side-a" class="side-content active">
+        <!-- B-Side (नयाँ फोल्डरहरू - मिलाइएको सही क्रम) -->
+        <div class="side-panel" id="panel-0">
+            <!-- १. पहिलो: new update आएको छ -->
+            <a href="yui.html" class="diary-card" id="suzu-folder" onclick="markSuzuSeen()">
+                <span class="update-badge" id="suzu-badge" style="display: none;">NEW</span>
+                <h2>फेरि अर्को new update आको छ</h2>
+                <p>new updated</p>
+            </a>
+
+            <!-- २. दोस्रो: photo folder -->
+            <a href="youy.html" class="diary-card">
+                <h2>photo folder</h2>
+                <p>YouTube thumbnail.</p>
+            </a>
+
+            <!-- ३. तेस्रो: चक्कु गेम -->
+            <a href="12345.html" class="diary-card video-btn">
+                <span class="update-badge">NEW</span>
+                <h2>चक्कु गेम</h2>
+                <p>Tap here to play.</p>
+            </a>
+        </div>
+
+        <!-- A-Side (पुराना फोल्डरहरू) -->
+        <div class="side-panel" id="panel-1">
             <a href="anusthan.html" class="diary-card">
                 <h2>169 अनुष्ठान लेख</h2>
                 <p>Tap here to read.</p>
@@ -204,30 +229,8 @@
             </a>
 
             <a href="video.html" class="diary-card video-btn">
-                <h2> video section </h2>
+                <h2>video section</h2>
                 <p>Tap here to view.</p>
-            </a>
-        </div>
-
-        <!-- B-Side Section (नयाँ फोल्डरहरू) -->
-        <div id="side-b" class="side-content">
-            <a href="youy.html" class="diary-card">
-                <h2>photo folder</h2>
-                <p>YouTube thumbnail.</p>
-            </a>
-
-            <!-- Sorry Suzu Folders with One-Time Badge -->
-            <a href="yui.html" class="diary-card" id="suzu-folder" onclick="markSuzuSeen()">
-                <span class="update-badge" id="suzu-badge" style="display: none;">NEW</span>
-                <h2>फेरि अर्को new update आको छ</h2>
-                <p>new updated</p>
-            </a>
-
-            <!-- नयाँ गेम सेक्सन -->
-            <a href="12345.html" class="diary-card video-btn">
-                <span class="update-badge">NEW</span>
-                <h2>चक्कु गेम</h2>
-                <p>Tap here to play.</p>
             </a>
         </div>
 
@@ -236,17 +239,16 @@
     <div class="footer">2026 अधिराज | सुजना श्रेष्ठको लागि</div>
 
     <script>
-        // Side Switch Functionality
-        function switchSide(sideId, btnElement) {
-            // Hide all side contents
-            document.querySelectorAll('.side-content').forEach(el => el.classList.remove('active'));
-            // Remove active class from buttons
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        // स्क्रोल गर्दा डट्सहरू अटोमेटिक अपडेट हुने JavaScript
+        const container = document.getElementById('swipeContainer');
+        const dots = document.querySelectorAll('.dot');
 
-            // Show selected side and set active button
-            document.getElementById(sideId).classList.add('active');
-            btnElement.classList.add('active');
-        }
+        container.addEventListener('scroll', () => {
+            const index = Math.round(container.scrollLeft / container.clientWidth);
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        });
 
         // LocalStorage चेक गर्ने र One-Time Badge नियन्त्रण गर्ने JavaScript
         document.addEventListener("DOMContentLoaded", function () {
