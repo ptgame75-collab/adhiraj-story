@@ -127,15 +127,37 @@
     <script>
         const audio = document.getElementById("global-audio");
         audio.volume = 0.5;
+        let isAudioPlaying = false;
 
-        function startGlobalAudio() {
-            audio.play().catch(err => console.log("Waiting for interaction"));
-            document.removeEventListener("click", startGlobalAudio);
-            document.removeEventListener("touchstart", startGlobalAudio);
+        // ग्लोबल अडियो प्ले गर्ने फङ्क्सन
+        function playGlobalMusic() {
+            if (isAudioPlaying) return;
+            audio.play().then(() => {
+                isAudioPlaying = true;
+                removeAudioListeners();
+            }).catch(err => console.log("Waiting for user tap"));
         }
 
-        document.addEventListener("click", startGlobalAudio);
-        document.addEventListener("touchstart", startGlobalAudio);
+        function removeAudioListeners() {
+            document.removeEventListener("click", playGlobalMusic);
+            document.removeEventListener("touchstart", playGlobalMusic);
+        }
+
+        // बाहिर क्लिक वा टच गर्दा अडियो प्ले गर्ने
+        document.addEventListener("click", playGlobalMusic);
+        document.addEventListener("touchstart", playGlobalMusic);
+
+        // iframe (home.html र अन्य फोल्डरहरू) भित्र पनि टच/क्लिक ट्रयाक गर्ने
+        const frame = document.getElementById('appFrame');
+        frame.addEventListener('load', () => {
+            try {
+                const iframeDoc = frame.contentWindow.document;
+                iframeDoc.addEventListener('click', playGlobalMusic);
+                iframeDoc.addEventListener('touchstart', playGlobalMusic);
+            } catch (e) {
+                console.log("Iframe listener added.");
+            }
+        });
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -167,12 +189,10 @@
 
         window.onload = () => {
             const intro = document.getElementById('introContainer');
-            const frame = document.getElementById('appFrame');
 
             if (sessionStorage.getItem('appLoaded')) {
                 intro.style.display = 'none';
                 frame.style.display = 'block';
-                startGlobalAudio();
                 return;
             }
             sessionStorage.setItem('appLoaded', 'true');
