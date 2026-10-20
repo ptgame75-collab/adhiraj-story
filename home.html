@@ -32,22 +32,30 @@
             to { opacity: 1; }
         }
 
-        /* Header CSS */
-        .header { 
+        /* स्टिकी कन्टेनर (प्रोफाइल र ट्याबहरू सधैं माथि स्थिर रहने) */
+        .sticky-wrapper {
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
             background: #fcfbf7;
             width: 100%;
-            padding-top: 20px;
-            padding-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+
+        /* Header CSS */
+        .header { 
+            width: 100%;
+            padding-top: 15px;
+            padding-bottom: 5px;
             text-align: center; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03); 
         }
         
         .header img { 
-            width: 110px; 
-            height: 110px; 
+            width: 100px; 
+            height: 100px; 
             border-radius: 50%; 
             border: 3px solid #fff; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
@@ -56,28 +64,29 @@
         
         .header h1 { 
             color: #4a3728; 
-            font-size: 22px; 
-            margin-top: 8px; 
+            font-size: 20px; 
+            margin-top: 6px; 
             margin-bottom: 0;
             font-weight: bold; 
         }
 
-        /* भिडियोमा जस्तै माथि ट्याबSwitching सेक्सन (हिन्दी/नेपाली कथा शैली) */
+        /* ट्याब स्विच गर्ने सेक्सन */
         .tab-container {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 30px;
             width: 100%;
             max-width: 400px;
-            margin-top: 15px;
+            margin-top: 10px;
             border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
+            padding-bottom: 8px;
+            background: #fcfbf7;
         }
 
         .tab-btn {
             background: none;
             border: none;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             font-family: 'Georgia', serif;
             color: #888;
@@ -87,7 +96,6 @@
             transition: color 0.3s ease;
         }
 
-        /* भिडियोमा जस्तै एक्टिभ हुँदा रातो अन्डरलाइन र रङ आउने एनिमेसन */
         .tab-btn.active {
             color: #d32f2f;
         }
@@ -95,45 +103,42 @@
         .tab-btn.active::after {
             content: '';
             position: absolute;
-            bottom: -12px;
+            bottom: -10px;
             left: 0;
             width: 100%;
             height: 3px;
             background-color: #d32f2f;
             border-radius: 2px;
-            animation: slideIn 0.3s ease;
         }
 
-        @keyframes slideIn {
-            from { width: 0; opacity: 0; }
-            to { width: 100%; opacity: 1; }
+        /* तेर्सो स्वाइप (Horizontal Swipe) गर्ने मुख्य कन्टेनर */
+        .swipe-container {
+            display: flex;
+            width: 100%;
+            max-width: 400px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            margin-top: 15px;
+            padding-bottom: 20px;
         }
 
-        .main-content { 
-            width: 90%; 
-            max-width: 400px; 
-            margin-top: 20px; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 15px; 
-        }
-        
-        /* Side Panels */
-        .side-panel {
+        .swipe-container::-webkit-scrollbar {
             display: none;
+        }
+
+        /* प्रत्येक साइडको प्यानल (फ्रेम भित्र रहने) */
+        .side-panel {
+            flex: 0 0 100%;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0 5%;
+            scroll-snap-align: start;
+            display: flex;
             flex-direction: column;
             gap: 15px;
-            width: 100%;
-            animation: fadeInContent 0.4s ease-in-out;
-        }
-
-        .side-panel.active {
-            display: flex;
-        }
-
-        @keyframes fadeInContent {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .diary-card { 
@@ -185,21 +190,24 @@
 </head>
 <body oncontextmenu="return false;">
 
-    <div class="header">
-        <img src="4870.png" alt="Logo">
-        <h1>मनको भावना</h1>
+    <!-- स्टिकी हुने भाग (प्रोफाइल र ट्याब बटनहरू) -->
+    <div class="sticky-wrapper">
+        <div class="header">
+            <img src="4870.png" alt="Logo">
+            <h1>मनको भावना</h1>
+        </div>
+
+        <div class="tab-container">
+            <button class="tab-btn active" id="btn-a" onclick="scrollToPanel(0)">A-Side (पुरानो)</button>
+            <button class="tab-btn" id="btn-b" onclick="scrollToPanel(1)">B-Side (नयाँ)</button>
+        </div>
     </div>
 
-    <!-- भिडियोको जस्तै ट्याब स्विच गर्ने बटनहरू (A-Side र B-Side) -->
-    <div class="tab-container">
-        <button class="tab-btn active" id="btn-a" onclick="switchTab('side-a', 'btn-a')">A-Side (पुराना)</button>
-        <button class="tab-btn" id="btn-b" onclick="switchTab('side-b', 'btn-b')">B-Side (नयाँ)</button>
-    </div>
-
-    <div class="main-content">
+    <!-- बायाँ-दायाँ स्वाइप गर्न र स्क्रोल गर्न मिल्ने कन्टेनर -->
+    <div class="swipe-container" id="swipeContainer">
         
         <!-- A-Side (पुराना फोल्डरहरू) -->
-        <div class="side-panel active" id="side-a">
+        <div class="side-panel" id="panel-a">
             <a href="anusthan.html" class="diary-card">
                 <h2>169 अनुष्ठान लेख</h2>
                 <p>Tap here to read.</p>
@@ -231,9 +239,9 @@
             </a>
         </div>
 
-        <!-- B-Side (नयाँ फोल्डरहरू - तपाईंले भन्नुभएको सहि क्रम अनुसार) -->
-        <div class="side-panel" id="side-b">
-            <!-- १. पहिलो: फेरि अर्को new update आको छ -->
+        <!-- B-Side (नयाँ फोल्डरहरू - मिलाइएको क्रम अनुसार) -->
+        <div class="side-panel" id="panel-b">
+            <!-- १. पहिलो: new update आएको छ -->
             <a href="yui.html" class="diary-card" id="suzu-folder" onclick="markSuzuSeen()">
                 <span class="update-badge" id="suzu-badge" style="display: none;">NEW</span>
                 <h2>फेरि अर्को new update आको छ</h2>
@@ -259,21 +267,33 @@
     <div class="footer">2026 अधिराज | सुजना श्रेष्ठको लागि</div>
 
     <script>
-        // ट्याब स्विच गर्ने र एनिमेसन मिलाउने JavaScript 
-        function switchTab(panelId, btnId) {
-            // सबै प्यानलहरूको 'active' क्लास हटाउने
-            document.querySelectorAll('.side-panel').forEach(panel => {
-                panel.classList.remove('active');
-            });
-            // सबै बटनहरूको 'active' क्लास हटाउने
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
+        const container = document.getElementById('swipeContainer');
+        const btnA = document.getElementById('btn-a');
+        const btnB = document.getElementById('btn-b');
 
-            // छनोट गरिएको प्यानल र बटनलाई मात्र 'active' बनाउने
-            document.getElementById(panelId).classList.add('active');
-            document.getElementById(btnId).classList.add('active');
+        // ट्याब क्लिक गर्दा सम्बन्धित साइडमा स्मूथ स्क्रोल हुने
+        function scrollToPanel(index) {
+            const panelWidth = container.clientWidth;
+            container.scrollTo({
+                left: index * panelWidth,
+                behavior: 'smooth'
+            });
         }
+
+        // स्क्रोल वा स्वाइप गर्दा ट्याबको बटनहरू अटोमेटिक अपडेट हुने
+        container.addEventListener('scroll', () => {
+            const scrollPosition = container.scrollLeft;
+            const panelWidth = container.clientWidth;
+            const currentIndex = Math.round(scrollPosition / panelWidth);
+
+            if (currentIndex === 0) {
+                btnA.classList.add('active');
+                btnB.classList.remove('active');
+            } else {
+                btnB.classList.add('active');
+                btnA.classList.remove('active');
+            }
+        });
 
         // LocalStorage चेक गर्ने र One-Time Badge नियन्त्रण गर्ने JavaScript
         document.addEventListener("DOMContentLoaded", function () {
