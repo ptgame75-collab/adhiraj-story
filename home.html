@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>अधिराजको खत</title>
+    <title>अधिराजको खत - विजया दशैँ विशेष</title>
 
     <!-- Manifest setup -->
     <link rel="manifest" href="manifest.json">
@@ -14,7 +14,7 @@
 
     <style>
         body { 
-            background: #fcfbf7; /* पहिलेकै जस्तो सादा र सफा ब्याकग्राउन्ड टोन */
+            background: #fff8f0; /* दशैँको लागि न्यानो र उत्सवमय ब्याकग्राउन्ड टोन */
             font-family: 'Georgia', serif; 
             margin: 0; 
             display: flex; 
@@ -37,15 +37,15 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            background: #fcfbf7;
+            background: #fff8f0;
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            box-shadow: 0 4px 15px rgba(183, 28, 28, 0.08);
         }
 
-        /* Header CSS - पहिलेकै सादा रूप */
+        /* Header CSS - लाइटिंग हटाएर नर्मल र सफा बनाइएको */
         .header { 
             width: 100%;
             padding-top: 15px;
@@ -57,23 +57,24 @@
             width: 105px; 
             height: 105px; 
             border-radius: 50%; 
-            border: 3px solid #fff; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+            border: 3px solid #d32f2f; /* दशैँको रातो टिकाको झल्को दिने स्थिर बोर्डर */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
             object-fit: cover; 
+            /* बढी चम्किने/झिम्किने एनिमेसन (pulseLogo) पूर्ण रूपमा हटाइयो */
         }
         
         .header h1 { 
-            color: #4a3728; 
+            color: #8b0000; /* गाढा रातो दशैँ स्पेशल रङ */
             font-size: 21px; 
             margin-top: 6px; 
             margin-bottom: 2px;
             font-weight: bold; 
         }
 
-        /* सानो अक्षरमा दशैँको शुभकामना म्यासेज */
+        /* दशैँ शुभकामना सानो टेक्स्ट */
         .dashain-wish {
             font-size: 11px;
-            color: #d32f2f;
+            color: #b71c1c;
             margin-bottom: 5px;
             font-weight: bold;
             letter-spacing: 0.5px;
@@ -87,9 +88,9 @@
             width: 100%;
             max-width: 400px;
             margin-top: 5px;
-            border-bottom: 2px solid #eee;
+            border-bottom: 2px solid #f3d6d6;
             padding-bottom: 8px;
-            background: #fcfbf7;
+            background: #fff8f0;
         }
 
         .tab-btn {
@@ -106,7 +107,7 @@
         }
 
         .tab-btn.active {
-            color: #d32f2f;
+            color: #b71c1c;
         }
 
         .tab-btn.active::after {
@@ -116,7 +117,7 @@
             left: 0;
             width: 100%;
             height: 3px;
-            background-color: #d32f2f;
+            background-color: #b71c1c;
             border-radius: 2px;
         }
 
@@ -150,59 +151,55 @@
             gap: 15px;
         }
 
+        /* कार्ड डिजाइन */
         .diary-card { 
             position: relative;
             background: white; 
             padding: 15px 10px; 
-            border-radius: 10px; 
+            border-radius: 12px; 
             text-decoration: none; 
             display: block; 
-            border-left: 4px solid #d32f2f; 
-            box-shadow: 0 5px 12px rgba(0,0,0,0.05); 
+            border-left: 5px solid #d32f2f; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04); 
             text-align: center; 
-            transition: 0.2s; 
+            transition: all 0.25s ease; 
         }
-        .diary-card:active { transform: scale(0.98); }
-        .diary-card h2 { color: #2c3e50; font-size: 16px; margin: 0; } 
+        .diary-card:active { transform: scale(0.97); }
+        .diary-card h2 { color: #4a2e2b; font-size: 16px; margin: 0; } 
         .diary-card p { color: #d32f2f; font-size: 11px; margin-top: 5px; font-weight: bold; }
 
         .video-btn {
-            border-left: 4px solid #4a3728;
+            border-left: 5px solid #8b4513;
         }
         .video-btn p {
-            color: #4a3728;
+            color: #8b4513;
         }
 
-        /* Update / NEW Badge CSS */
+        /* अपडेट ब्याच - यसलाई पनि झिम्किने नगरिबिन शान्त र स्थिर बनाइएको छ */
         .update-badge {
             position: absolute;
             top: -6px;
             right: -6px;
-            background-color: #e74c3c;
+            background-color: #d32f2f;
             color: white;
             font-size: 10px;
             font-weight: bold;
-            padding: 3px 8px;
+            padding: 3px 9px;
             border-radius: 12px;
-            box-shadow: 0 2px 6px rgba(231, 76, 60, 0.4);
+            box-shadow: 0 2px 5px rgba(211, 47, 47, 0.3);
         }
 
-        .footer { margin-top: auto; padding: 20px; color: #999; font-size: 12px; text-align: center; }
+        .footer { margin-top: auto; padding: 20px; color: #888; font-size: 12px; text-align: center; }
     </style>
 </head>
 <body oncontextmenu="return false;">
-
-    <!-- ब्याकग्राउन्ड म्युजिक (dasai.mp3 लगातार loop मा बज्ने) -->
-    <audio id="bg-audio" loop preload="auto">
-        <source src="dasai.mp3" type="audio/mpeg">
-    </audio>
 
     <!-- स्टिकी हुने भाग -->
     <div class="sticky-wrapper">
         <div class="header">
             <img src="4870.png" alt="Logo">
             <h1>मनको भावना</h1>
-            <div class="dashain-wish">विजया दशैँको हार्दिक मङ्गलमय शुभकामना!</div>
+            <div class="dashain-wish">✨ विजया दशैँको हार्दिक मङ्गलमय शुभकामना! ✨</div>
         </div>
 
         <div class="tab-container">
@@ -269,7 +266,7 @@
 
     </div> 
 
-    <div class="footer">2026 अधिराज | सुजना श्रेष्ठको लागि</div>
+    <div class="footer">2026 अधिराज | सुजना श्रेष्ठको लागि (दशैँ विशेष)</div>
 
     <script>
         const container = document.getElementById('swipeContainer');
@@ -298,23 +295,7 @@
             }
         });
 
-        // अडियो प्ले र भोल्युम नियन्त्रण (मधुरो स्वरमा ३०% भोल्युम)
         document.addEventListener("DOMContentLoaded", function () {
-            const audio = document.getElementById("bg-audio");
-            audio.volume = 0.3; 
-
-            function playAudio() {
-                audio.play().catch(error => {
-                    console.log("Autoplay restricted.");
-                });
-                document.removeEventListener("click", playAudio);
-                document.removeEventListener("touchstart", playAudio);
-            }
-
-            document.addEventListener("click", playAudio);
-            document.addEventListener("touchstart", playAudio);
-
-            // Badge check
             const isSeen = localStorage.getItem("suzu_folder_seen");
             if (!isSeen) {
                 document.getElementById("suzu-badge").style.display = "inline-block";
