@@ -17,6 +17,7 @@
             background: #fcfbf7; 
             font-family: 'Georgia', serif; 
             margin: 0; 
+            padding: 20px 10px; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
@@ -32,30 +33,16 @@
             to { opacity: 1; }
         }
 
-        /* स्टिकी कन्टेनर */
-        .sticky-wrapper {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background: #fcfbf7;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-        }
-
         /* Header CSS */
         .header { 
-            width: 100%;
-            padding-top: 15px;
-            padding-bottom: 5px;
             text-align: center; 
+            margin-bottom: 25px; 
+            width: 100%;
         }
         
         .header img { 
-            width: 105px; 
-            height: 105px; 
+            width: 110px; 
+            height: 110px; 
             border-radius: 50%; 
             border: 3px solid #fff; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
@@ -64,96 +51,25 @@
         
         .header h1 { 
             color: #4a3728; 
-            font-size: 21px; 
-            margin-top: 6px; 
-            margin-bottom: 2px;
+            font-size: 22px; 
+            margin-top: 10px; 
+            margin-bottom: 5px;
             font-weight: bold; 
         }
 
-        /* सानो अक्षरमा दशैँको शुभकामना म्यासेज */
-        .dashain-wish {
-            font-size: 11px;
-            color: #d32f2f;
-            margin-bottom: 5px;
-            font-weight: bold;
-            letter-spacing: 0.5px;
+        /* Diary List Wrapper CSS */
+        .diary-list { 
+            width: 100%; 
+            max-width: 400px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
         }
-
-        /* ट्याब स्विच गर्ने सेक्सन */
-        .tab-container {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            width: 100%;
-            max-width: 400px;
-            margin-top: 5px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 8px;
-            background: #fcfbf7;
-        }
-
-        .tab-btn {
-            background: none;
-            border: none;
-            font-size: 15px;
-            font-weight: bold;
-            font-family: 'Georgia', serif;
-            color: #888;
-            cursor: pointer;
-            padding: 5px 10px;
-            position: relative;
-            transition: color 0.3s ease;
-        }
-
-        .tab-btn.active {
-            color: #d32f2f;
-        }
-
-        .tab-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background-color: #d32f2f;
-            border-radius: 2px;
-        }
-
-        /* तेर्सो स्वाइप कन्टेनर */
-        .swipe-container {
-            display: flex;
-            width: 100%;
-            max-width: 400px;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            margin-top: 15px;
-            padding-bottom: 20px;
-        }
-
-        .swipe-container::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* प्यानल */
-        .side-panel {
-            flex: 0 0 100%;
-            width: 100%;
-            box-sizing: border-box;
-            padding: 0 5%;
-            scroll-snap-align: start;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
+        
         .diary-card { 
             position: relative;
             background: white; 
-            padding: 15px 10px; 
+            padding: 18px 15px; 
             border-radius: 10px; 
             text-decoration: none; 
             display: block; 
@@ -162,13 +78,28 @@
             text-align: center; 
             transition: 0.2s; 
         }
-        .diary-card:active { transform: scale(0.98); }
-        .diary-card h2 { color: #2c3e50; font-size: 16px; margin: 0; } 
-        .diary-card p { color: #d32f2f; font-size: 11px; margin-top: 5px; font-weight: bold; }
+        
+        .diary-card:active { 
+            transform: scale(0.98); 
+        }
+        
+        .diary-card h2 { 
+            color: #2c3e50; 
+            font-size: 16px; 
+            margin: 0; 
+        }
+        
+        .diary-card p { 
+            color: #d32f2f; 
+            font-size: 11px; 
+            margin-top: 5px; 
+            font-weight: bold; 
+        }
 
         .video-btn {
             border-left: 4px solid #4a3728;
         }
+
         .video-btn p {
             color: #4a3728;
         }
@@ -187,135 +118,80 @@
             box-shadow: 0 2px 6px rgba(231, 76, 60, 0.4);
         }
 
-        .footer { margin-top: auto; padding: 20px; color: #999; font-size: 12px; text-align: center; }
+        .footer { 
+            margin-top: auto; 
+            padding-top: 25px; 
+            color: #999; 
+            font-size: 12px; 
+            text-align: center; 
+        }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-    <!-- स्टिकी हुने भाग -->
-    <div class="sticky-wrapper">
-        <div class="header">
-            <img src="4870.png" alt="Logo">
-            <h1>मनको भावना</h1>
-            <div class="dashain-wish">विजया दशमी हार्दिक मङ्गलमय शुभकामना!</div>
-        </div>
-
-        <div class="tab-container">
-            <button class="tab-btn active" id="btn-a" onclick="scrollToPanel(0)">A-Side (पुरानो)</button>
-            <button class="tab-btn" id="btn-b" onclick="scrollToPanel(1)">B-Side (नयाँ)</button>
-        </div>
+    <div class="header">
+        <img src="4870.png" alt="Logo">
+        <h1>मनको भावना</h1>
     </div>
 
-    <!-- स्वाइप कन्टेनर -->
-    <div class="swipe-container" id="swipeContainer">
+    <div class="diary-list">
         
-        <!-- A-Side (पुराना फोल्डरहरू) -->
-        <div class="side-panel" id="panel-a">
-            <a href="anusthan.html" class="diary-card">
-                <h2>169 अनुष्ठान लेख</h2>
-                <p>Tap here to read.</p>
-            </a>
+        <a href="yui.html" class="diary-card" id="suzu-folder" onclick="markSuzuSeen()">
+            <span class="update-badge" id="suzu-badge" style="display: none;">NEW</span>
+            <h2>फेरि अर्को new update आको छ</h2>
+            <p>new updated</p>
+        </a>
 
-            <a href="adhura.html" class="diary-card">
-                <h2>मेरो अधुरा शब्दहरू</h2>
-                <p>Tap here to read.</p>
-            </a>
+        <a href="youy.html" class="diary-card">
+            <h2>photo folder</h2>
+            <p>YouTube thumbnail.</p>
+        </a>
 
-            <a href="bayan.html" class="diary-card">
-                <h2>तिम्रो बयान</h2>
-                <p>Tap here to read.</p>
-            </a>
-            
-            <a href="birthday.html" class="diary-card">
-                <h2>Happy Birthday</h2>
-                <p>Tap here to read.</p>
-            </a>
+        <a href="anusthan.html" class="diary-card">
+            <h2>169 अनुष्ठान लेख</h2>
+            <p>Tap here to read.</p>
+        </a>
 
-            <a href="photo.html" class="diary-card video-btn">
-                <h2>fav pic</h2>
-                <p>Tap here to view.</p>
-            </a>
+        <a href="adhura.html" class="diary-card">
+            <h2>मेरो अधुरा शब्दहरू</h2>
+            <p>Tap here to read.</p>
+        </a>
 
-            <a href="video.html" class="diary-card video-btn">
-                <h2>video section</h2>
-                <p>Tap here to view.</p>
-            </a>
-        </div>
+        <a href="bayan.html" class="diary-card">
+            <h2>तिम्रो बयान</h2>
+            <p>Tap here to read.</p>
+        </a>
 
-        <!-- B-Side (नयाँ फोल्डरहरू) -->
-        <div class="side-panel" id="panel-b">
-            <!-- नयाँ थपिएको फोल्डर (सबैभन्दा माथि) -->
-            <a href="dashain.html" class="diary-card">
-                <span class="update-badge">NEW</span>
-                <h2>दशैँको शुभकामना</h2>
-                <p>Tap here to read.</p>
-            </a>
+        <a href="birthday.html" class="diary-card">
+            <h2>Happy Birthday</h2>
+            <p>Tap here to read.</p>
+        </a>
 
-            <!-- बाँकी पुराना तीन वटा फोल्डरहरू -->
-            <a href="yui.html" class="diary-card" id="suzu-folder" onclick="markSuzuSeen()">
-                <span class="update-badge" id="suzu-badge" style="display: none;">NEW</span>
-                <h2>फेरि अर्को new update आको छ</h2>
-                <p>new updated</p>
-            </a>
+        <a href="photo.html" class="diary-card video-btn">
+            <h2>fav pic</h2>
+            <p>Tap here to view.</p>
+        </a>
 
-            <a href="youy.html" class="diary-card">
-                <h2>photo folder</h2>
-                <p>YouTube thumbnail.</p>
-            </a>
+        <a href="video.html" class="diary-card video-btn">
+            <h2>video section</h2>
+            <p>Tap here to view.</p>
+        </a>
 
-            <a href="12345.html" class="diary-card video-btn">
-                <span class="update-badge">NEW</span>
-                <h2>चक्कु गेम</h2>
-                <p>Tap here to play.</p>
-            </a>
-        </div>
+        <a href="12345.html" class="diary-card video-btn">
+            <span class="update-badge">NEW</span>
+            <h2>चक्कु गेम</h2>
+            <p>Tap here to play.</p>
+        </a>
 
-    </div> 
+    </div>
 
     <div class="footer">2026 अधिराज | सुजना श्रेष्ठको लागि</div>
 
     <script>
-        const container = document.getElementById('swipeContainer');
-        const btnA = document.getElementById('btn-a');
-        const btnB = document.getElementById('btn-b');
-
-        function scrollToPanel(index) {
-            const panelWidth = container.clientWidth;
-            container.scrollTo({
-                left: index * panelWidth,
-                behavior: 'smooth'
-            });
-            sessionStorage.setItem('active_tab', index);
-        }
-
-        container.addEventListener('scroll', () => {
-            const scrollPosition = container.scrollLeft;
-            const panelWidth = container.clientWidth;
-            const currentIndex = Math.round(scrollPosition / panelWidth);
-
-            if (currentIndex === 0) {
-                btnA.classList.add('active');
-                btnB.classList.remove('active');
-                sessionStorage.setItem('active_tab', 0);
-            } else {
-                btnB.classList.add('active');
-                btnA.classList.remove('active');
-                sessionStorage.setItem('active_tab', 1);
-            }
-        });
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedTab = sessionStorage.getItem('active_tab');
-            if (savedTab !== null) {
-                setTimeout(() => {
-                    scrollToPanel(parseInt(savedTab));
-                }, 100);
-            }
-
+        document.addEventListener("DOMContentLoaded", function () {
             const isSeen = localStorage.getItem("suzu_folder_seen");
             if (!isSeen) {
-                const badge = document.getElementById("suzu-badge");
-                if (badge) badge.style.display = "inline-block";
+                document.getElementById("suzu-badge").style.display = "inline-block";
             }
         });
 
@@ -323,5 +199,6 @@
             localStorage.setItem("suzu_folder_seen", "true");
         }
     </script>
+
 </body>
 </html>
