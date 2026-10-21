@@ -14,7 +14,7 @@
 
     <style>
         body { 
-            background: #fcfbf7; /* पहिलेकै जस्तो सादा र सफा ब्याकग्राउन्ड टोन */
+            background: #fcfbf7; 
             font-family: 'Georgia', serif; 
             margin: 0; 
             display: flex; 
@@ -45,7 +45,7 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.03);
         }
 
-        /* Header CSS - पहिलेकै सादा रूप */
+        /* Header CSS */
         .header { 
             width: 100%;
             padding-top: 15px;
@@ -192,17 +192,12 @@
 </head>
 <body oncontextmenu="return false;">
 
-    <!-- ब्याकग्राउन्ड म्युजिक (dasai.mp3 लगातार loop मा बज्ने) -->
-    <audio id="bg-audio" loop preload="auto">
-        <source src="dasai.mp3" type="audio/mpeg">
-    </audio>
-
     <!-- स्टिकी हुने भाग -->
     <div class="sticky-wrapper">
         <div class="header">
             <img src="4870.png" alt="Logo">
             <h1>मनको भावना</h1>
-            <div class="dashain-wish">विजया दशैँको हार्दिक मङ्गलमय शुभकामना!</div>
+            <div class="dashain-wish">विजया दशमी हार्दिक मङ्गलमय शुभकामना!</div>
         </div>
 
         <div class="tab-container">
@@ -249,6 +244,14 @@
 
         <!-- B-Side (नयाँ फोल्डरहरू) -->
         <div class="side-panel" id="panel-b">
+            <!-- नयाँ थपिएको फोल्डर (सबैभन्दा माथि) -->
+            <a href="dashain.html" class="diary-card">
+                <span class="update-badge">NEW</span>
+                <h2>दशैँको शुभकामना</h2>
+                <p>Tap here to read.</p>
+            </a>
+
+            <!-- बाँकी पुराना तीन वटा फोल्डरहरू -->
             <a href="yui.html" class="diary-card" id="suzu-folder" onclick="markSuzuSeen()">
                 <span class="update-badge" id="suzu-badge" style="display: none;">NEW</span>
                 <h2>फेरि अर्को new update आको छ</h2>
@@ -282,6 +285,7 @@
                 left: index * panelWidth,
                 behavior: 'smooth'
             });
+            sessionStorage.setItem('active_tab', index);
         }
 
         container.addEventListener('scroll', () => {
@@ -292,32 +296,26 @@
             if (currentIndex === 0) {
                 btnA.classList.add('active');
                 btnB.classList.remove('active');
+                sessionStorage.setItem('active_tab', 0);
             } else {
                 btnB.classList.add('active');
                 btnA.classList.remove('active');
+                sessionStorage.setItem('active_tab', 1);
             }
         });
 
-        // अडियो प्ले र भोल्युम नियन्त्रण (मधुरो स्वरमा ३०% भोल्युम)
-        document.addEventListener("DOMContentLoaded", function () {
-            const audio = document.getElementById("bg-audio");
-            audio.volume = 0.3; 
-
-            function playAudio() {
-                audio.play().catch(error => {
-                    console.log("Autoplay restricted.");
-                });
-                document.removeEventListener("click", playAudio);
-                document.removeEventListener("touchstart", playAudio);
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTab = sessionStorage.getItem('active_tab');
+            if (savedTab !== null) {
+                setTimeout(() => {
+                    scrollToPanel(parseInt(savedTab));
+                }, 100);
             }
 
-            document.addEventListener("click", playAudio);
-            document.addEventListener("touchstart", playAudio);
-
-            // Badge check
             const isSeen = localStorage.getItem("suzu_folder_seen");
             if (!isSeen) {
-                document.getElementById("suzu-badge").style.display = "inline-block";
+                const badge = document.getElementById("suzu-badge");
+                if (badge) badge.style.display = "inline-block";
             }
         });
 
