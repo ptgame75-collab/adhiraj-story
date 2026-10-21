@@ -122,42 +122,71 @@
     </div>
 
     <!-- मुख्य एप चल्ने फ्रेम -->
-    <iframe src="home.html" id="appFrame"></iframe>
+    <iframe src="home.html" id="appFrame" name="appFrame"></iframe>
 
     <script>
         const audio = document.getElementById("global-audio");
         audio.volume = 0.5;
         let isAudioPlaying = false;
 
-        // ग्लोबल अडियो प्ले गर्ने फङ्क्सन
-        function playGlobalMusic() {
-            if (isAudioPlaying) return;
+        function playAudio() {
             audio.play().then(() => {
                 isAudioPlaying = true;
-                removeAudioListeners();
-            }).catch(err => console.log("Waiting for user tap"));
+            }).catch(err => console.log("User interaction required"));
         }
 
-        function removeAudioListeners() {
-            document.removeEventListener("click", playGlobalMusic);
-            document.removeEventListener("touchstart", playGlobalMusic);
+        function stopAudio() {
+            audio.pause();
         }
 
-        // बाहिर क्लिक वा टच गर्दा अडियो प्ले गर्ने
-        document.addEventListener("click", playGlobalMusic);
-        document.addEventListener("touchstart", playGlobalMusic);
+        function handleUserInteraction() {
+            playAudio();
+            document.removeEventListener("click", handleUserInteraction);
+            document.removeEventListener("touchstart", handleUserInteraction);
+        }
 
-        // iframe (home.html र अन्य फोल्डरहरू) भित्र पनि टच/क्लिक ट्रयाक गर्ने
+        document.addEventListener("click", handleUserInteraction);
+        document.addEventListener("touchstart", handleUserInteraction);
+
         const frame = document.getElementById('appFrame');
         frame.addEventListener('load', () => {
             try {
-                const iframeDoc = frame.contentWindow.document;
-                iframeDoc.addEventListener('click', playGlobalMusic);
-                iframeDoc.addEventListener('touchstart', playGlobalMusic);
-            } catch (e) {
-                console.log("Iframe listener added.");
+                const iframeWin = frame.contentWindow;
+                const iframeDoc = iframeWin.document;
+
+                // भित्री पेज कुन हो सम्झिने
+                const currentFile = iframeWin.location.pathname.split('/').pop();
+                if (currentFile) {
+                    sessionStorage.setItem('current_page', currentFile);
+                }
+
+                iframeDoc.addEventListener('click', handleUserInteraction);
+                iframeDoc.addEventListener('touchstart', handleUserInteraction);
+            } catch (e) {}
+        });
+
+        function onAppHide() {
+            stopAudio();
+        }
+
+        function onAppShow() {
+            if (isAudioPlaying) {
+                playAudio();
+            }
+        }
+
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                onAppHide();
+            } else {
+                onAppShow();
             }
         });
+
+        window.addEventListener("pagehide", onAppHide);
+        window.addEventListener("blur", onAppHide);
+        window.addEventListener("pageshow", onAppShow);
+        window.addEventListener("focus", onAppShow);
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -189,6 +218,12 @@
 
         window.onload = () => {
             const intro = document.getElementById('introContainer');
+
+            // रिफ्रेस गर्दा अन्तिम पटक खुलेको फोल्डर मै जाने
+            const lastPage = sessionStorage.getItem('current_page');
+            if (lastPage && lastPage !== 'index.html') {
+                frame.src = lastPage;
+            }
 
             if (sessionStorage.getItem('appLoaded')) {
                 intro.style.display = 'none';
