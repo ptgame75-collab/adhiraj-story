@@ -1,4 +1,4 @@
-const cacheName = 'aadhiraj-v1';
+const cacheName = 'aadhiraj-v2';
 const assets = ['./', './index.html', './manifest.json', './logo.png'];
 
 self.addEventListener('install', (e) => {
