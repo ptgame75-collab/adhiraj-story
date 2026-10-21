@@ -14,7 +14,16 @@
 
     <style>
         * { box-sizing: border-box; }
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: #000; overflow: hidden; font-family: 'Georgia', serif; }
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: #000; 
+            overflow: hidden; 
+            font-family: 'Georgia', serif; 
+            overscroll-behavior-y: contain; /* Pull down refresh रोक्न */
+        }
         
         #bgPhoto { 
             position: fixed; 
@@ -122,7 +131,7 @@
     </div>
 
     <!-- मुख्य एप चल्ने फ्रेम -->
-    <iframe src="home.html" id="appFrame" name="appFrame"></iframe>
+    <iframe id="appFrame" name="appFrame"></iframe>
 
     <script>
         const audio = document.getElementById("global-audio");
@@ -149,15 +158,16 @@
         document.addEventListener("touchstart", handleUserInteraction);
 
         const frame = document.getElementById('appFrame');
+
+        // iframe भित्र नयाँ पेज खुल्दा त्यसको ठेगाना सेभ गर्ने
         frame.addEventListener('load', () => {
             try {
                 const iframeWin = frame.contentWindow;
                 const iframeDoc = iframeWin.document;
-
-                // भित्री पेज कुन हो सम्झिने
-                const currentFile = iframeWin.location.pathname.split('/').pop();
-                if (currentFile) {
-                    sessionStorage.setItem('current_page', currentFile);
+                
+                const currentPath = iframeWin.location.pathname.split('/').pop();
+                if (currentPath && currentPath !== 'index.html') {
+                    sessionStorage.setItem('active_pwa_page', currentPath);
                 }
 
                 iframeDoc.addEventListener('click', handleUserInteraction);
@@ -219,11 +229,9 @@
         window.onload = () => {
             const intro = document.getElementById('introContainer');
 
-            // रिफ्रेस गर्दा अन्तिम पटक खुलेको फोल्डर मै जाने
-            const lastPage = sessionStorage.getItem('current_page');
-            if (lastPage && lastPage !== 'index.html') {
-                frame.src = lastPage;
-            }
+            // अन्तिम पटक खोलिएको फोल्डर/पेज तानेर iframe मा लोड गर्ने
+            const savedPage = sessionStorage.getItem('active_pwa_page') || 'home.html';
+            frame.src = savedPage;
 
             if (sessionStorage.getItem('appLoaded')) {
                 intro.style.display = 'none';
