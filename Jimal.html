@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Jimal - विगत र प्रतिज्ञा</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Mukta', 'Arial', sans-serif; 
+            line-height: 1.9; 
+            color: #333; 
+            background: #fcfbf7; 
+            padding: 75px 20px 140px 20px; 
+            transition: 0.3s; 
+            -webkit-user-select: none; 
+            user-select: none; 
+        }
+        
+        .toolbar { 
+            position: fixed; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 20px; background: rgba(252, 251, 247, 0.95); border-bottom: 1px solid #ddd; 
+            z-index: 1000; backdrop-filter: blur(5px); height: 45px; 
+        }
+        .btn { text-decoration: none; color: #333; border: 1px solid #ccc; padding: 6px 15px; border-radius: 5px; font-weight: bold; background: #fff; cursor: pointer; font-family: 'Mukta', sans-serif; white-space: nowrap; }
+
+        .bold-feeling p { 
+            font-size: 19px; margin-bottom: 25px; font-weight: 600; text-align: justify; 
+            transition: background-color 0.3s; cursor: pointer; padding: 8px; border-radius: 6px;
+            scroll-margin-top: 140px; -webkit-touch-callout: none;
+        }
+        .bold-feeling p.highlighted { background-color: rgba(255, 235, 59, 0.6) !important; color: #000 !important; }
+        
+        .main-title { font-size: 26px; font-weight: 800; display: block; margin-top: 10px; color: #d32f2f; text-align: center; }
+        .sub-title { font-size: 20px; font-weight: 700; display: block; margin-top: 25px; color: #5D4037; text-align: center; }
+        .straight-line { width: 100%; max-width: 600px; height: 1px; background: #ddd; border: none; margin: 15px auto 25px auto; }
+        
+        .bottom-action-container {
+            position: fixed; bottom: -150px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 450px; display: flex; flex-direction: column; gap: 12px; align-items: center;
+            z-index: 2000; transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .bottom-action-container.show { bottom: 25px; }
+
+        .pencil-btn {
+            width: 52px; height: 52px; border-radius: 50%; background: #5D4037; color: white; font-size: 22px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.25); cursor: pointer; transition: transform 0.2s, background 0.3s;
+        }
+        .pencil-btn.active { background: #2e7d32; transform: scale(1.05); }
+
+        .action-row { display: flex; width: 100%; gap: 10px; }
+        .clear-btn, .jump-btn {
+            flex: 1; border: none; padding: 12px; border-radius: 25px; font-weight: bold; cursor: pointer; display: none; font-family: 'Mukta', sans-serif;
+        }
+        .clear-btn { background: #c62828; color: white; }
+        .jump-btn { background: #d84315; color: white; }
+
+        .toast-notification {
+            position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%);
+            background-color: #323232; color: #fff; padding: 10px 20px; border-radius: 25px;
+            font-family: 'Mukta', sans-serif; z-index: 3000; transition: bottom 0.3s ease-in-out;
+        }
+        .toast-notification.show { bottom: 100px; }
+
+        .dark-mode { background-color: #121212; color: #e0e0e0; }
+        .dark-mode .toolbar { background: rgba(18, 18, 18, 0.95); border-color: #333; }
+        .dark-mode .btn { background: #1e1e1e; border-color: #333; color: #e0e0e0; }
+        .dark-mode .bold-feeling p.highlighted { background-color: rgba(255, 193, 7, 0.5) !important; color: #000 !important; }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+    <div class="toolbar">
+        <a href="home.html" class="btn">← back</a>
+        <button class="btn" onclick="toggleNightMode()" id="nightBtn">🌙 | नाइट मोड</button>
+    </div>
+
+    <div id="toastBox" class="toast-notification"></div>
+
+    <div class="bottom-action-container" id="actionContainer">
+        <button class="pencil-btn" id="pencilBtn" onclick="toggleHighlightMode()">✏️</button>
+        <div class="action-row">
+            <button class="clear-btn" id="clearBtn" onclick="clearBookmark()">🗑️ Clear</button>
+            <button class="jump-btn" id="jumpBtn" onclick="jumpToBookmark()">📍 Continue</button>
+        </div>
+    </div>
+    
+    <div class="bold-feeling">
+        <span class="main-title">विगत र प्रतिज्ञा</span>
+        <hr class="straight-line">
+
+        <p>Sorry sujana जब म तिमीसँग contact मा हुन्छु म आफूले आफूलाई सम्हाल्नै सक्दिन। मलाई लाग्छ मेरो हर खुसी तिमीसँग share गरु. तिम्रो हरेक update पाइराखु । थाहा छैन कस्तो दोसाझ हो। कस्तो दोबाटो हो जुन बाटो छुट्टिएर छाडेर जानु पनि मन छैन। नगैकन पनि हुँदैन। आजबाट म अलग्गै बाटो हिँड्दैछु। तिमीलाई पिछा गर्ने दोबाटो म छाड्नेछु।</p>
+
+        <p>तिमीसँग बोलेको दुई वर्ष भयो होला। तर त्योभन्दा पहिला पनि म बाँचिरहेको थिएँ। तिम्रो विवाह भएको खबर सुन्दा धेरै नराम्रो त लागेको थियो। तर पनि म आफै बाँच्न सिकिरहेको थिएँ। झुटै हाँसो हाँस्दै । तर त्यो सानो एउटा भिडियो क्लिपले मेरो जिन्दगी झन् डामा डोल बनाइदियो । यदि त्यो दिन त्यो भिडियो म भाटासम्म नआएको भए आज म के गर्दै हुने थिएँ होला । यो प्रश्नको उत्तर आज मसँग पनि छैन।</p>
+
+        <p>तिमी यादमै ठिक थियौ, सुजु। टाढाबाट तिम्रो एउटा धमिलो तस्बिर मात्र देख्दा कम्तीमा यो मनलाई सम्झाउन सजिलो हुन्थ्यो—कि तिमी मेरो संसारमा छैनौ, र मैले आफ्नो बाटो एक्लै तय गर्नुपर्छ। बाहिरबाट हेर्दा त्यो दूरी एउटा शान्तिको पर्दा जस्तो लाग्थ्यो, जहाँ सम्झनाहरू पनि कुनै पीडाबिना आफ्नै गतिमा बग्थे। तर विडम्बना, जब अचानक तिनै यादहरू नजिक आएजस्तो अनुभव हुन्छ, वा तिम्रो उपस्थिति फेरि जीवनको कुनै छेउमा ठोक्किन पुग्छ, तब महसुस हुँदो रहेछ—टाढाबाट हेर्दा जति सुन्दर र मोहनी लाग्ने आकाश हुन्छ त्यसलाई छुने जाँदा त्यही आकाशले मुटुलाई थिचेर कति धेरै पोल्दो रहेछ। टाढा हुँदा कम्तीमा आफ्नै कल्पनामा तिमीसँग खुसी हुन सकिन्थ्यो, तर नजिकिँदा त केवल वास्तविकताको तीखो काँडाले छातीमा घोच्छ, र फेरि त्यही पुरानो जलन र छटपटी दोहोरिन्छ। अझै पनि यो मनले बुझ्न मान्दैन कि केही मानिसहरूलाई जीवनमा केवल टाढैबाट सम्झेर बाँच्नुपर्ने पो रहेछ, तिनलाई छुन वा नजिक ल्याउन खोज्नु भनेको त आफ्नै हातले आगोमा हात हाल्नु जस्तै मात्र हुँदो रहेछ...</p>
+
+        <span class="sub-title">कसम र बाचा</span>
+        <p>र अर्को कुरो जब सुजता (सना ) सँग break upभयो। तब नै मैले एउटा प्रतिज्ञा गरिसकेको छु। तिमी बाहेक यो नेपालमा जति पनि केटीहरू छन् ती सबै मेरो दिदीबहिनी अरु हुन् भनेर । अनि म जीवनभर तिम्रो नै प्रतिक्षा गरिरहन्छु। त्यही मेरो प्रतिज्ञा र तिम्लाई गर्ने प्रतिक्षाको कारण त्यो कथाको नाम "प्रतिज्ञा कि प्रतिक्षा" राखेको थिएँ। अनि जसरी कथामा समृद्धिको प्रतिक्षा गर्दै अधिराज मरेको थियो। म पनि त्यसैगरी मर्न चाहन्छु। मलाई मृत्युसँग डर छैन। मात्र अहिले मेरो काँधमा केही अधुरो जिम्मेवारीहरू छन् जसलाई मैले पूरा गर्नुपर्नेछ। त्यति पूरा भएपछि । यो दुनियाबाट एकदमै सुनसान ठाउँमा गएर । बस्न मन छ । जहाँ कसैको कचकच नहोस् । कसैको suggestion नहोस्। कसैले मेरो बारे नसोधोस् । त्यस्तो जिन्दगी बिताउन मन छ। जहाँ म तिम्रो यादहरु होस् ।</p>
+
+        <p>अनि सुजु यो मेरो last Update हो । र मैले तिमीलाई सायद कसम दिएको थिएँ। App uninstall नगर भनेर आज त्यो कसमबाट पनि म तिमीलाई मुक्त गर्दछु।। अब तिमी यो application uninstall गर्न सक्छौ। र म कोसिस गर्नेछु। तिमीबाट टाढा बस्न । र म अधिराज यो कसम खाई भन्छु । भो मलाई थाहा छ मैले आफ्नो वचन पूरा गर्न ज्यान पनि दिन सक्ने व्यक्तिको रूपमा चिनिए पनि यो कुराको वचन पूरा गर्न सक्दिन। तर तिमी यति बुझ दोहोराएर पनि म तिमीलाई म्यासेज गरे भने । मेरो माया झुटो रहेछ। सायद यो वचनले मलाई message गर्नबाट आफूले आफूलाई रोक्छ होला। अरुको कसम खाँदिन। तर यदि दोहोर्याएर पनि म तिमीलाई message गर्छु भने मेरो माया सबै झुटो होस् ।</p>
+
+        <p>अब तेस्रो कुरो । म तिम्रो फोटोहरू पनि सबै मेरो gallery बाट delete गर्दिन्छु। भिडियो सेक्सनको तल भएको रातो बटममा click गरेर एउटा भिडियो हेर्न नछुटाउ ।‌ तिम्रै याद आउँदा हेर्न मसँग एउटा धुलाइएको फोटो छ। जुन फोटो सायद मैले कथामा पनि बयान छ। त्यही एउटा फोटो म र चुरोट भए मेरो दिन मजाले बित्छ। तिम्रो फोटो र भिडियोहरू पनि अब social media राख्दिन</p>
+
+        <p>म खुसी नै छु। तिम्रो खुसी हेरेर ‌। तिमी कदापि दुःखी नहुनु । र यदि तिमीलाई कसैले दुःख दिन्छ भने मलाई भन्नu म सारा दुनिया जलाइदिन्छु। तिम्रो एक शब्दको आज्ञाले म अरुको त के आफ्नै शिर पनि काटी तिम्रो पाउमा अर्पण गर्दिन्छु।</p>
+
+        <p>म भन्न नै सक्दिन कि । म कसरी भनु कति माया गर्छु भनेर । भन्छन् जब जुनसुकै कुराको नि धेरै मात्रा हुन्छ त्यसले आफैलाई असर गर्छ। प्रेम पनि त्यस्तै रहेछ।। सायद मलाई त प्रेमी पनि होइन भक्त भन्न सुहाउँछ। किनभने म मनबाट भन्दैछु। आफ्नै कसम खाएर म तिमीलाई मेरो आफ्नो बनाउन चाहन्न। म त बस तिमीलाई खुसी हेर्न चाहन्छु। र सधैँ तिमीलाई नै चाहन्छु ।</p>
+
+        <p>अनि अर्को कुरा आफ्नो बनाउने भनेको के हो । यस समाजको शब्दमा विवाह । अनि विवाह के हो । एउटा सम्झौता जीवनभरि साथ दिन्छु भन्ने बाचा । र सधैँ तिम्रो खुसी र तिम्रो सुख दुःखमा साथ दिन्छु भन्ने वाचा । मैले त्यो त तिम्रो यादहरूसँग गरिदिए । Directly भन्नुपर्दा त्यो सबै बाचा कसम मैले तिम्रा यादहरुलाई गरिसकेँ। अब तिम्रो याद नै मेरो जीवन साथी हो ।</p>
+
+        <span class="sub-title">अन्तिम बाचा</span>
+        <p>तिमीले यहाँसम्म पढेको भए । यो मेरो बाचा भयो म तिम्रो ६० जन्मदिनमा म तिमीलाई भेट्न आउनेछु। यदि बाँचे भने । र मलाई लाग्छ मेरो आयु जम्मा ६६ वर्ष छ। मैले देखेको धेरै सपनाहरू पूरा भएको छ। र मैले यो पनि धेरै पहिला सपना देखेको थिएँ। जसको कारणले मलाई प्रतिज्ञा कि प्रतीक्षा भन्ने कथा लेख्ने दिमागमा आएको थियो। ‌ तिमीले त्यो कथा पढेको भए त्यो कथामा जस्तो सिन छ जस्तो घटना छ त्यो ट्याक्कै मैले सपनामा देखेको लेखेको हो। म आशा गर्छु मेरो सपना पूरा हुनेछ।</p>
+    </div>
+
+    <script>
+        function toggleNightMode() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            document.getElementById('nightBtn').innerHTML = body.classList.contains('dark-mode') ? "☀️ डे मोड" : "🌙 नाइट मोड";
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toastBox');
+            toast.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 2000);
+        }
+
+        let isHighlightMode = false;
+        let lastTapTime = 0;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.bold-feeling p').forEach((p, i) => p.setAttribute('data-id', 'p_' + (i + 1)));
+            loadSavedBookmark();
+            setupInteractions();
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target.closest('#actionContainer') || e.target.closest('.toolbar')) return;
+            let now = new Date().getTime();
+            if (now - lastTapTime < 300) document.getElementById('actionContainer').classList.toggle('show');
+            lastTapTime = now;
+        });
+
+        function toggleHighlightMode() {
+            isHighlightMode = !isHighlightMode;
+            document.getElementById('pencilBtn').classList.toggle('active');
+            if (isHighlightMode) showToast("बुकमार्क मोड अन। प्रेस गर्नुहोस्।");
+        }
+
+        function setupInteractions() {
+            document.querySelectorAll('.bold-feeling p').forEach(p => {
+                let timer;
+                const start = () => { if(isHighlightMode) timer = setTimeout(() => saveBookmark(p), 1000); };
+                p.addEventListener('touchstart', start);
+                p.addEventListener('mousedown', start);
+                p.addEventListener('touchend', () => clearTimeout(timer));
+                p.addEventListener('mouseup', () => clearTimeout(timer));
+            });
+        }
+
+        function saveBookmark(p) {
+            localStorage.setItem('diary_bookmark_id', p.getAttribute('data-id'));
+            isHighlightMode = false;
+            document.getElementById('pencilBtn').classList.remove('active');
+            loadSavedBookmark();
+            showToast("बुकमार्क सुरक्षित भयो!");
+        }
+
+        function loadSavedBookmark() {
+            const id = localStorage.getItem('diary_bookmark_id');
+            const btns = [document.getElementById('jumpBtn'), document.getElementById('clearBtn')];
+            document.querySelectorAll('.bold-feeling p').forEach(p => p.classList.toggle('highlighted', p.getAttribute('data-id') === id));
+            btns.forEach(b => b.style.display = id ? 'block' : 'none');
+        }
+
+        function jumpToBookmark() {
+            const id = localStorage.getItem('diary_bookmark_id');
+            document.querySelector(`p[data-id="${id}"]`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function clearBookmark() {
+            localStorage.removeItem('diary_bookmark_id');
+            loadSavedBookmark();
+            showToast("बुकमार्क हटाइयो!");
+        }
+    </script>
+</body>
+</html>
