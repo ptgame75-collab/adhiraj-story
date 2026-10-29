@@ -16,17 +16,17 @@
         * { box-sizing: border-box; }
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: #000; overflow: hidden; font-family: 'Georgia', serif; }
         
-        #bgPhoto { 
+        #bgVideo { 
             position: fixed; 
             top: 0; 
             left: 0; 
             width: 100%; 
             height: 100%; 
-            background: url('a.0063.jpg') no-repeat center center; 
-            background-size: cover; 
+            object-fit: cover;
             filter: brightness(0.4) blur(2px); 
             opacity: 0; 
             animation: fadeInBg 2s forwards; 
+            z-index: 1;
         }
 
         @keyframes fadeInBg { to { opacity: 1; } }
@@ -82,13 +82,17 @@
             width: 0%; 
             height: 100%; 
             background: #d32f2f; 
-            transition: width 3.5s linear; 
+            /* भिडियोको सही समयअनुसार प्रोग्रेस बारको गति मिलाइएको छ */
+            transition: width 4.9s linear; 
         }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-    <div id="bgPhoto"></div>
+    <!-- भिडियो फाइल (a.0063.mp4) ब्याकग्राउन्डमा राखिएको छ -->
+    <video autoplay muted loop playsinline id="bgVideo">
+        <source src="a.0063.mp4" type="video/mp4">
+    </video>
 
     <div id="introContainer">
         <div>
@@ -140,13 +144,14 @@
                 fill.style.width = '100%';
             }, 500);
 
+            // जम्मा समय ५.४ सेकेन्ड मिलाइएको छ (४९०० मिलिसेकेन्ड + ५०० मिलिसेकेन्ड फेड आउट)
             setTimeout(() => {
-                document.body.style.transition = 'opacity 1s ease';
+                document.body.style.transition = 'opacity 0.5s ease';
                 document.body.style.opacity = '0';
                 setTimeout(() => {
                     window.location.replace("home.html");
-                }, 1000);
-            }, 4500);
+                }, 500);
+            }, 4900);
         };
     </script>
 </body>
