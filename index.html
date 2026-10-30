@@ -36,36 +36,11 @@
             height: 100%; 
             display: flex; 
             flex-direction: column; 
-            justify-content: center; 
+            justify-content: flex-end; /* प्रोग्रेस बारलाई तलतिर राख्न */
             align-items: center; 
             z-index: 10; 
-            padding: 20px; 
+            padding-bottom: 50px; 
             text-align: center; 
-        }
-
-        .typing-text { 
-            color: #fff; 
-            font-size: 24px; 
-            font-weight: bold; 
-            letter-spacing: 2px; 
-            min-height: 1.5em; 
-            text-shadow: 0 4px 10px rgba(0,0,0,0.5); 
-            display: inline-block;
-        }
-
-        .cursor {
-            display: inline-block;
-            width: 2px;
-            height: 24px;
-            background-color: #d32f2f;
-            margin-left: 4px;
-            vertical-align: middle;
-            animation: blink 0.7s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
         }
 
         .progress-bar { 
@@ -74,7 +49,6 @@
             height: 3px; 
             background: rgba(255,255,255,0.2); 
             border-radius: 10px; 
-            margin-top: 30px; 
             overflow: hidden; 
         }
 
@@ -82,22 +56,20 @@
             width: 0%; 
             height: 100%; 
             background: #d32f2f; 
-            /* भिडियोको सही समयअनुसार प्रोग्रेस बारको गति मिलाइएको छ */
+            /* भिडियोको ५.४ सेकेन्डको समयअनुसार बार १००% भरिनेछ */
             transition: width 4.9s linear; 
         }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-    <!-- भिडियो फाइल (a.0063.mp4) ब्याकग्राउन्डमा राखिएको छ -->
+    <!-- ब्याकग्राउन्ड भिडियो -->
     <video autoplay muted loop playsinline id="bgVideo">
         <source src="a.0063.mp4" type="video/mp4">
     </video>
 
     <div id="introContainer">
-        <div>
-            <span id="typewriter" class="typing-text"></span><span id="cursor" class="cursor"></span>
-        </div>
+        <!-- लोडिङ बार जसले १००% भरेको देखाउँछ -->
         <div class="progress-bar">
             <div id="pFill" class="progress-fill"></div>
         </div>
@@ -116,21 +88,7 @@
             });
         }
 
-        const text = "अधुरा शब्दहरूको दस्ताबेज";
-        const typewriterElement = document.getElementById('typewriter');
-        const cursorElement = document.getElementById('cursor');
         const fill = document.getElementById('pFill');
-        let index = 0;
-
-        function typeWriter() {
-            if (index < text.length) {
-                typewriterElement.innerHTML += text.charAt(index);
-                index++;
-                setTimeout(typeWriter, 120);
-            } else {
-                cursorElement.style.display = 'none';
-            }
-        }
 
         window.onload = () => {
             if (sessionStorage.getItem('appLoaded')) {
@@ -139,12 +97,12 @@
             }
             sessionStorage.setItem('appLoaded', 'true');
 
+            // ५०० मिलिसेकेन्ड पछि प्रोग्रेस बार १००% तर्फ बढ्न सुरु हुन्छ
             setTimeout(() => {
-                typeWriter();
                 fill.style.width = '100%';
             }, 500);
 
-            // जम्मा समय ५.४ सेकेन्ड मिलाइएको छ (४९०० मिलिसेकेन्ड + ५०० मिलिसेकेन्ड फेड आउट)
+            // जम्मा ५.४ सेकेन्ड पूरा भएपछि home.html मा जाने
             setTimeout(() => {
                 document.body.style.transition = 'opacity 0.5s ease';
                 document.body.style.opacity = '0';
