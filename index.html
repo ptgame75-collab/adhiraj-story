@@ -23,7 +23,6 @@
             width: 100%; 
             height: 100%; 
             object-fit: cover;
-            /* भिडियो धेरै धमिलो नहोस् भनेर blur हटाइएको छ र brightness बढाइएको छ */
             filter: brightness(0.8); 
             opacity: 0; 
             animation: fadeInBg 2s forwards; 
@@ -37,7 +36,7 @@
             height: 100%; 
             display: flex; 
             flex-direction: column; 
-            justify-content: center; /* प्रोग्रेस बारलाई पहिलाकै जस्तो ठ्याक्कै बीचमा राखिएको छ */
+            justify-content: center; 
             align-items: center; 
             z-index: 10; 
             padding: 20px; 
@@ -50,7 +49,8 @@
             height: 3px; 
             background: rgba(255,255,255,0.2); 
             border-radius: 10px; 
-            margin-top: 30px; /* पहिलेकै जस्तो स्पेसिङ */
+            /* 'g' अक्षरलाई नछोओस् भनेर ४५px मा थोरै तल सारिएको छ */
+            margin-top: 45px; 
             overflow: hidden; 
         }
 
@@ -58,7 +58,6 @@
             width: 0%; 
             height: 100%; 
             background: #d32f2f; 
-            /* भिडियोको ५.४ सेकेन्डको समयअनुसार बार १००% भरिने गति */
             transition: width 4.9s linear; 
         }
     </style>
@@ -71,7 +70,6 @@
     </video>
 
     <div id="introContainer">
-        <!-- टाइपिङ टेक्स्ट हटाइएको छ तर प्रोग्रेस बार यथावत बीचमै राखिएको छ -->
         <div class="progress-bar">
             <div id="pFill" class="progress-fill"></div>
         </div>
@@ -99,12 +97,10 @@
             }
             sessionStorage.setItem('appLoaded', 'true');
 
-            // ५०० मिलिसेकेन्ड पछि प्रोग्रेस बार बढ्न सुरु हुन्छ
             setTimeout(() => {
                 fill.style.width = '100%';
             }, 500);
 
-            // भिडियोको ५.४ सेकेन्ड समय पूरा भएपछि home.html मा जाने
             setTimeout(() => {
                 document.body.style.transition = 'opacity 0.5s ease';
                 document.body.style.opacity = '0';
